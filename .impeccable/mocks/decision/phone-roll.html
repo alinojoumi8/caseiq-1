@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Case IQ - The Phone Roll</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<style>
+:root{--g:#F2F2F5;--ink:#111;--mut:#4F4F57;--rx:#E5E5EA;--tx:#0A84FF;--ind:#2438A8;--vio:#7A47B0;--slate:#F1F4F8;--rule:#7C8AA0;--mono:'JetBrains Mono',ui-monospace,monospace;--serif:'Source Serif 4',Georgia,serif}
+*{box-sizing:border-box}
+html,body{width:1440px;height:900px;overflow:hidden;margin:0}
+body{background:var(--g);color:var(--ink);font:400 17px/1.45 'Bricolage Grotesque',system-ui,sans-serif;position:relative}
+::selection{background:var(--ind);color:#fff}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ind);outline-offset:3px}
+h1,p{margin:0}
+/* phone status bar: safety + nav */
+.safe{position:absolute;inset:0 0 auto 0;height:34px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:var(--rx);font-size:13.5px;font-weight:500}
+.safe i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ink);margin-right:10px}
+.qx{height:24px;padding:0 13px;border-radius:12px;border:1.5px solid var(--ind);background:#fff;color:var(--ind);font-size:12.5px;font-weight:700}
+nav{position:absolute;top:34px;left:0;right:0;height:56px;padding:0 48px;display:flex;align-items:center;border-bottom:1px solid #D6D6DC}
+.logo{display:flex;align-items:center;gap:9px;margin-right:56px;font-size:27px;font-weight:800;font-stretch:78%;letter-spacing:-.02em}
+nav a.l{font-size:15px;font-weight:500;margin-right:32px}
+.nb{margin-left:auto;height:38px;padding:0 20px;border-radius:19px;border:1.5px solid var(--ind);background:#fff;color:var(--ind);font-weight:700;font-size:14.5px}
+/* bubbles */
+.b{position:relative;border-radius:26px;background:var(--rx);padding:12px 18px}
+.t:before,.t:after{content:"";position:absolute;bottom:0}
+.t:before{left:-9px;width:22px;height:20px;background:var(--rx);border-bottom-right-radius:18px 16px}
+.t:after{left:-11px;width:11px;height:20px;background:var(--g);border-bottom-right-radius:10px}
+.t.s:before{left:auto;right:-9px;background:var(--tx);border-radius:0 0 0 18px/0 0 16px 0}
+.t.s:after{left:auto;right:-11px;border-radius:0 0 0 10px}
+.L{position:absolute;left:48px;top:110px;width:830px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.h{width:808px;padding:20px 44px 26px;border-radius:52px;font-size:80px;line-height:.98;font-weight:800;font-stretch:78%;letter-spacing:-.025em;text-wrap:balance}
+.pin{position:absolute;top:-14px;right:36px;width:40px;height:40px;border-radius:50%;background:var(--ink);display:grid;place-items:center;box-shadow:0 3px 8px rgba(0,0,0,.22)}
+.st{font:500 12px var(--mono);color:var(--mut);margin:-4px 0 4px 22px}
+.row{display:flex;gap:28px;align-items:flex-start}
+.sub{width:560px;font-size:17px;line-height:1.5;padding:15px 20px}
+.cap{font:500 11.5px var(--mono);color:var(--mut);margin-top:6px}
+.roll{display:grid;grid:repeat(3,52px)/repeat(4,52px);gap:4px}
+.roll i{display:block;border-radius:8px;border:1px solid #D1D1D6;background:#fff}
+.roll i:nth-child(1){grid-area:span 2/span 2;background:linear-gradient(var(--rx),var(--rx)) 8px 10px/58px 14px,linear-gradient(var(--tx),var(--tx)) 40px 32px/60px 14px,linear-gradient(var(--rx),var(--rx)) 8px 54px/46px 14px,linear-gradient(var(--tx),var(--tx)) 52px 76px/46px 14px,#fff}
+.roll i:nth-child(2){background:linear-gradient(#34345a,#34345a) 6px 10px/32px 2px,linear-gradient(#34345a,#34345a) 6px 20px/22px 2px,linear-gradient(#34345a,#34345a) 6px 30px/36px 2px,#FBFAF2}
+.roll i:nth-child(3){background:linear-gradient(#111,#111) 7px 7px/30px 4px,linear-gradient(#9a9aa2,#9a9aa2) 7px 17px/36px 2px,linear-gradient(#9a9aa2,#9a9aa2) 7px 25px/36px 2px,linear-gradient(#9a9aa2,#9a9aa2) 7px 33px/26px 2px,#fff}
+.roll i:nth-child(4){background:linear-gradient(var(--rule),var(--rule)) 6px 7px/38px 7px,linear-gradient(#c9cdd6,#c9cdd6) 6px 20px/36px 2px,linear-gradient(#c9cdd6,#c9cdd6) 6px 28px/28px 2px,var(--slate)}
+.roll i:nth-child(5){background:linear-gradient(#6b6b73,#6b6b73) 12px 8px/26px 2px,linear-gradient(#b0b0b8,#b0b0b8) 12px 16px/26px 2px,linear-gradient(#b0b0b8,#b0b0b8) 12px 24px/26px 2px,linear-gradient(#111,#111) 12px 34px/26px 3px,#fff}
+.roll i:nth-child(6){grid-column:span 2;background:linear-gradient(165deg,#aab2c0,#586175 70%,#2f3646)}
+.roll i:nth-child(7){background:linear-gradient(200deg,#d9d6cf,#8d887c)}
+.roll i:nth-child(8){background:linear-gradient(var(--rx),var(--rx)) 6px 9px/34px 10px,linear-gradient(var(--tx),var(--tx)) 14px 24px/32px 10px,#fff}
+.roll i:nth-child(n){background-repeat:no-repeat}
+/* example thread, right */
+.a{position:absolute}
+.sent{right:170px;top:120px;background:var(--tx);color:#fff;font-size:20px;font-weight:600;padding:11px 22px}
+.dl{right:170px;top:170px;font:500 12px var(--mono);color:var(--mut)}
+.pill{left:890px;top:204px;width:380px;text-align:center}
+.pill span{display:inline-block;padding:3px 13px;border-radius:13px;background:var(--rx);font-size:13px;font-weight:600;color:var(--mut)}
+.shot{left:890px;top:240px;width:380px;padding:12px 14px 14px;border-radius:18px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08),0 8px 20px rgba(0,0,0,.06)}
+.ref{font:600 11.5px var(--mono);color:var(--ind);text-decoration:underline;text-underline-offset:3px}
+.q{margin:9px 0 0;padding:10px 14px;background:var(--slate);border-left:3px solid var(--rule);font:400 19px/1.35 var(--serif)}
+.lift{left:890px;top:404px;width:326px;font-size:18px;transform:rotate(-1.4deg);box-shadow:0 2px 4px rgba(0,0,0,.12),0 16px 30px rgba(0,0,0,.2);z-index:2}
+.lift .ref{position:absolute;top:-15px;left:14px;padding:3px 10px;border-radius:12px;background:#fff;border:1px solid #C5CAE6;text-decoration:none;box-shadow:0 2px 5px rgba(0,0,0,.1);white-space:nowrap}
+.ld{left:1218px;top:442px;width:86px;height:1px;background:var(--ink)}
+.ld:before{content:"";position:absolute;left:-3px;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--ink)}
+.rail{left:1304px;top:262px;height:380px;width:1px;background:#8E8E96}
+.nd{width:13px;height:13px;left:1298px;border-radius:50%;background:var(--ink);border:2px solid var(--g)}
+.nd.ng{background:var(--g);border:1.5px dashed var(--ink)}
+.rl{left:1322px;font:500 12px/1.35 var(--mono);color:var(--mut)}
+.rl b{color:var(--ink);font-weight:600}
+.mine{right:170px;top:500px;background:#fff;border:1px solid #D1D1D6;font-size:19px;font-weight:500;font-style:italic;color:var(--vio);padding:10px 20px}
+.gap{left:890px;top:568px;width:330px;background:transparent;border:1.5px dashed #55555C;border-radius:22px;padding:11px 16px;font-size:15px;line-height:1.45}
+/* quick replies + reply bar */
+.qr{position:absolute;left:48px;top:696px;display:flex;align-items:center;gap:10px}
+.qr b{margin-right:10px;font-size:15px;font-weight:600}
+.c{height:40px;padding:0 18px;border-radius:20px;border:1.5px solid var(--ind);background:#fff;color:var(--ind);font-size:16px;font-weight:600}
+.c.on{background:var(--ind);color:#fff}
+.bar{position:absolute;left:48px;right:48px;top:748px;height:70px;padding:0 9px 0 12px;display:flex;align-items:center;gap:14px;border-radius:35px;background:#fff;border:1px solid #CFCFD6;box-shadow:0 8px 24px rgba(17,17,17,.08)}
+.plus{width:44px;height:44px;border-radius:50%;background:var(--rx);display:grid;place-items:center}
+.bar p{flex:1;color:var(--mut);font-size:17px}
+.go{height:54px;padding:0 9px 0 28px;border-radius:27px;border:0;background:var(--ind);color:#fff;font-size:19px;font-weight:700;display:flex;align-items:center;gap:16px;box-shadow:0 6px 14px rgba(36,56,168,.35)}
+.go span{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.re{position:absolute;left:76px;top:828px;font-size:15px;font-weight:500;color:#2B2B31}
+.fp{position:absolute;left:76px;top:856px;font-size:13px;color:var(--mut)}
+</style></head><body>
+<div class="safe"><span><i></i>Now helping people in Ontario, a few at a time</span><button class="qx">Quick exit</button></div>
+<nav><a class="logo" href="#"><svg width="30" height="26" viewBox="0 0 30 26"><path d="M6 1h18a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5H13l-7 5v-5a5 5 0 0 1-5-5V6a5 5 0 0 1 5-5z" fill="#111"/><path d="M8 8h14M8 13h9" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Case IQ</a>
+<a class="l" href="#">How it works</a><a class="l" href="#">What you get</a><a class="l" href="#">Privacy</a><a class="l" href="#">Questions</a><button class="nb">Get my case in order</button></nav>
+
+<div class="L">
+ <h1 class="b t h">You know what happened. Let’s find the page that shows it.<span class="pin"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5M9 3h6l-1 6 3 4H7l3-4z"/></svg></span></h1>
+ <div class="st">Pinned · Case IQ</div>
+ <div class="row">
+  <p class="b sub">For people in Ontario handling a court or tribunal case. Case IQ puts your emails, texts, photos, handwritten notes and court papers into one timeline. Every fact links to the page it came from, and if your papers don’t show something, we tell you.</p>
+  <div><div class="roll"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="cap">Photos · notes · papers</div></div>
+ </div>
+ <p class="b" style="font-size:17px;padding:12px 20px">Our software reads every page. A person on our team checks every fact.</p>
+</div>
+
+<div class="a b t s sent">Job or workplace</div><div class="a dl">Delivered</div>
+<div class="a pill"><span>Example, not a real case</span></div>
+<div class="a shot"><a class="ref" href="#">Email from your manager · 12 Jan 2025 · page 1</a><p class="q">“Your role is not affected by the restructuring.”</p></div>
+<div class="a rail"></div>
+<div class="a" style="left:1298px;top:238px;font:600 12px var(--mono)">Timeline</div>
+<div class="a nd" style="top:296px"></div><div class="a rl" style="top:288px"><b>12 Jan</b><br>page 1</div>
+<div class="a b lift">They posted your old job online today<a class="ref" href="#">Text · 3 Feb 2025 · page 4</a></div>
+<div class="a ld"></div>
+<div class="a nd" style="top:436px"></div><div class="a rl" style="top:428px"><b>3 Feb</b><br>page 4</div>
+<div class="a b mine">My manager said my job was safe.</div>
+<div class="a b gap"><b>Not in your papers yet:</b> anything about the restructuring the email mentions.</div>
+<div class="a nd ng" style="top:608px"></div><div class="a rl" style="top:600px"><b>Gap</b><br>no page</div>
+
+<div class="qr"><b>Show me with a case like mine</b><button class="c on">Job or workplace</button><button class="c">Housing</button><button class="c">Money owed</button><button class="c">Family &amp; separation</button></div>
+<div class="bar"><span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><p>6 quick questions · A person replies within one business day</p>
+ <button class="go">Get my case in order<span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2438A8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></button></div>
+<div class="re">Free first conversation · Flat price, never hourly · No documents needed to start</div>
+<div class="fp">Case IQ isn’t a law firm and doesn’t give legal advice. We organize your papers so you can take them to a lawyer, a legal clinic or your hearing.</div>
+</body></html>

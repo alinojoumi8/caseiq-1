@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Case IQ - Category standard</title>
+<meta name="viewport" content="width=1440">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0F172A;--ind:#2F3FA8;--surf:#F1F5F9;--body:#334155;--mute:#475569;--line:#E2E8F0;--vio:#7A47B0;--sans:'Schibsted Grotesk',system-ui,sans-serif;--serif:'Source Serif 4',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+html,body{width:1440px;height:900px;overflow:hidden;margin:0}
+*{box-sizing:border-box}
+body{background:#fff;color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+::selection{background:#D5DAF5;color:var(--ink)}
+a,button{font-family:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:3px solid #8E9AE0;outline-offset:3px;border-radius:8px}
+svg{display:block;flex:none}
+.page{height:900px;display:flex;flex-direction:column}
+/* safety bar */
+.safe{height:36px;background:var(--ink);color:#E2E8F0;display:flex;align-items:center;justify-content:space-between;padding:0 80px;font-size:14px}
+.safe b{font-weight:500;display:flex;align-items:center;gap:10px}
+.safe b i{width:8px;height:8px;border-radius:50%;background:#A5B4FC}
+.exit{display:flex;align-items:center;gap:8px;height:24px;padding:0 10px;border:1px solid #64748B;border-radius:6px;background:transparent;color:#fff;font-size:13px;font-weight:600}
+.exit:hover{background:#fff;color:var(--ink)}
+/* nav */
+nav{height:68px;display:flex;align-items:center;padding:0 80px;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;letter-spacing:-.02em;margin-right:auto;color:var(--ink);text-decoration:none}
+nav a.l{font-size:15px;font-weight:500;color:var(--body);text-decoration:none;margin-right:32px}
+nav a.l:hover{color:var(--ind)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ind);color:#fff;border:0;font-weight:600;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 2px rgba(15,23,42,.2)}
+.btn:hover{background:#26348E}
+.btn.sm{height:40px;padding:0 18px;border-radius:10px;font-size:15px}
+.btn.lg{height:54px;padding:0 26px;border-radius:12px;font-size:17px;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 20px -8px rgba(47,63,168,.55),0 2px 4px rgba(15,23,42,.12)}
+/* hero */
+.hero{flex:1;display:grid;grid-template-columns:620px 1fr;gap:60px;align-items:center;padding:0 80px}
+.eyebrow{font-size:16px;font-weight:600;color:var(--ind);margin:0 0 18px}
+h1{font-size:57px;line-height:1.05;letter-spacing:-.03em;font-weight:700;margin:0 0 22px;text-wrap:balance;max-width:600px}
+.sub{font-size:18px;line-height:1.6;color:var(--body);margin:0 0 28px;max-width:580px}
+.cl{font-size:14px;font-weight:600;color:var(--body);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px;max-width:600px}
+.chip{height:36px;padding:0 15px;border-radius:999px;border:1px solid #CBD5E1;background:#fff;color:#1E293B;font-size:14px;font-weight:500}
+.chip:hover{border-color:var(--ind);color:var(--ind)}
+.chip.on{background:var(--ind);border-color:var(--ind);color:#fff}
+.cta{display:flex;align-items:center;gap:28px;margin-bottom:18px}
+.lnk{font-size:16px;font-weight:600;color:var(--ind);text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.lnk:hover{color:#26348E}
+.fine{font-size:14px;color:var(--mute);margin:0}
+/* preview */
+.stage{background:var(--surf);border-radius:24px;padding:28px}
+.win{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 28px 48px -20px rgba(15,23,42,.28),0 4px 10px rgba(15,23,42,.06)}
+.wh{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 20px;border-bottom:1px solid var(--line)}
+.wh strong{font-size:16px;letter-spacing:-.01em}
+.ex{font-size:12.5px;font-weight:600;color:var(--mute);background:var(--surf);border-radius:999px;padding:4px 11px}
+.tl{padding:22px 20px 6px}
+.ev{display:grid;grid-template-columns:92px 1fr;padding-bottom:20px}
+.d{font-size:13px;font-weight:600;color:var(--body);padding-top:2px;font-variant-numeric:tabular-nums}
+.c{position:relative;padding-left:24px}
+.c:before{content:"";position:absolute;left:0;top:10px;bottom:-30px;width:2px;background:var(--line)}
+.c:after{content:"";position:absolute;left:-5px;top:5px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--ind)}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top span.t{font-size:14.5px;font-weight:600;flex:1}
+.ch{font:500 12px/1 var(--mono);color:var(--body);background:var(--surf);border:1px solid var(--line);padding:5px 8px;border-radius:6px;white-space:nowrap}
+.q{font:400 16px/1.45 var(--serif);background:#F1F4F8;border-left:3px solid #7C8AA0;padding:9px 14px;border-radius:0 8px 8px 0;margin:0}
+.own{font:italic 500 16px/1.4 var(--sans);color:var(--vio);margin:0}
+.rd{display:inline-block;font-size:12.5px;font-weight:500;color:var(--mute);border:1px solid #CBD5E1;border-radius:999px;padding:3px 10px;margin-top:9px}
+.open{margin-left:-14px;padding:14px;border:1px solid var(--ind);border-radius:12px;box-shadow:0 0 0 4px rgba(47,63,168,.12),0 8px 16px -8px rgba(15,23,42,.2)}
+.open .q{font-size:17px;font-weight:600}
+.pg{display:flex;align-items:center;gap:14px;margin-top:12px}
+.paper{width:150px;height:70px;background:#fff;border:1px solid #CBD5E1;border-radius:4px;padding:10px 12px;display:grid;gap:6px;align-content:center;box-shadow:0 2px 6px rgba(15,23,42,.08)}
+.paper i{height:6px;border-radius:2px;background:#E2E8F0}
+.paper i.h{height:10px;background:rgba(47,63,168,.28)}
+.pg p{margin:0 0 4px;font-size:13px;color:var(--mute);line-height:1.4}
+.pg a{font-size:14px;font-weight:600;color:var(--ind);text-decoration:underline;text-underline-offset:4px}
+.gap .c:before{bottom:auto;height:0}
+.gap .c:after{border:2px dashed #94A3B8}
+.gap p{margin:0;border:1.5px dashed #94A3B8;border-radius:10px;padding:11px 14px;font-size:14px;line-height:1.45;color:var(--body);background:#F8FAFC}
+.gap{padding-bottom:22px}
+/* trust */
+.trust{height:92px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);align-items:center;gap:24px;padding:0 80px;background:#fff}
+.tr{display:flex;align-items:center;gap:14px;font-size:15.5px;font-weight:600;letter-spacing:-.005em}
+.tr span{width:40px;height:40px;border-radius:50%;background:#E8EBF8;display:grid;place-items:center;color:var(--ind)}
+</style></head>
+<body><div class="page">
+<div class="safe"><b><i></i>Now welcoming founding clients in Ontario</b>
+<button class="exit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Quick exit</button></div>
+<nav><a class="logo" href="#"><svg width="30" height="30" viewBox="0 0 30 30"><rect width="30" height="30" rx="8" fill="#2F3FA8"/><path d="M9 8.5h8.5L21 12v9.5H9z" fill="#fff"/><path d="M12 15h6M12 18h4" stroke="#2F3FA8" stroke-width="1.6" stroke-linecap="round"/></svg>Case IQ</a>
+<a class="l" href="#">How it works</a><a class="l" href="#">What you get</a><a class="l" href="#">Privacy</a><a class="l" href="#" style="margin-right:36px">Questions</a>
+<a class="btn sm" href="#">Get my case in order</a></nav>
+<main class="hero">
+<section>
+<p class="eyebrow">For people representing themselves in Ontario</p>
+<h1>You know what happened. Let's find the page that shows it.</h1>
+<p class="sub">Case IQ turns your emails, texts, photos, handwritten notes and court papers into one clear timeline. Every fact links to the exact page it came from. If your papers don't show something, we tell you.</p>
+<div class="cl">Show me with a case like mine</div>
+<div class="chips"><button class="chip on">Job or workplace</button><button class="chip">Housing</button><button class="chip">Money owed</button><button class="chip">Family &amp; separation</button><button class="chip">Being sued</button><button class="chip">Something else</button></div>
+<div class="cta"><a class="btn lg" href="#">Get my case in order<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="lnk" href="#">See how it works</a></div>
+<p class="fine">Free first conversation · Private · No documents needed to start</p>
+</section>
+<section class="stage"><div class="win">
+<div class="wh"><strong>Timeline</strong><span class="ex">Example, not a real case</span></div>
+<div class="tl">
+<div class="ev"><div class="d">12 Jan 2025</div><div class="c"><div class="top"><span class="t">Email from J. Patel</span><span class="ch">Email · page 1</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><p class="q">“Your role is not affected by the restructuring.”</p></div></div>
+<div class="ev"><div class="d">20 Jan 2025</div><div class="c"><div class="top"><span class="t">Your meeting notes</span><span class="ch">Your notes · page 1</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div><p class="own">“J.P. said no more cuts this year”</p><span class="rd">Read by computer, check the original</span></div></div>
+<div class="ev"><div class="d">28 Jan 2025</div><div class="c"><div class="open"><div class="top"><span class="t">Letter</span><span class="ch">Letter · page 1</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></div><p class="q">“Your position has been eliminated, effective today.”</p>
+<div class="pg"><div class="paper"><i style="width:90%"></i><i class="h"></i><i style="width:62%"></i></div><div><p>This line, on the original letter.</p><a href="#">Open page 1</a></div></div></div></div></div>
+<div class="ev gap"><div class="d"></div><div class="c"><p>Not in your papers yet: a written reason for ending your job.</p></div></div>
+</div></div></section>
+</main>
+<div class="trust">
+<div class="tr"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>Not a law firm. No legal advice.</div>
+<div class="tr"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></span>Every fact linked to its page</div>
+<div class="tr"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg></span>Free first conversation</div>
+<div class="tr"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Built for Ontario</div>
+</div>
+</div></body></html>

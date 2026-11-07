@@ -1,0 +1,760 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-07T12:00:00+00:00",
+  "title": "Design System: Case IQ",
+  "extensions": {
+    "provenance": {
+      "world": "The Phone Roll",
+      "seed": "seed:bf4a77bc9c96e780",
+      "source": "apps/site/src/app/*.css, apps/site/src/components, apps/site/src/lib/motion, apps/site/src/content/roll.ts, apps/site/scripts/roll-assets.mjs",
+      "finishReview": "site upgrade pass 2, round 3: design 8/8/8/8, accessibility and safety 9/9/9/9, target visitor 8/8/8/8, code 9/9/9/9; no blockers",
+      "previousFinishReview": "ship (craft 8, signature 8, mobile 8)"
+    },
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Phone Ground",
+        "canonical": "#f2f2f5",
+        "oklch": "oklch(96.2% 0.004 286.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262627",
+          "#454546",
+          "#666668",
+          "#89898b",
+          "#aeaeaf",
+          "#d1d1d2",
+          "#eeeeef"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#111111",
+        "oklch": "oklch(17.8% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "body-2": {
+        "role": "neutral",
+        "displayName": "Body Ink",
+        "canonical": "#2b2b31",
+        "oklch": "oklch(29.2% 0.011 285.7)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262629",
+          "#444449",
+          "#65656c",
+          "#88888f",
+          "#adadb2",
+          "#d0d0d4",
+          "#eeeef0"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#4f4f57",
+        "oklch": "oklch(43.1% 0.013 285.8)",
+        "tonalRamp": [
+          "#0b0b0d",
+          "#262629",
+          "#44444a",
+          "#65656d",
+          "#888890",
+          "#adadb3",
+          "#d0d0d5",
+          "#eeeef1"
+        ]
+      },
+      "received": {
+        "role": "secondary",
+        "displayName": "Received Grey",
+        "canonical": "#e5e5ea",
+        "oklch": "oklch(92.3% 0.007 286.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262628",
+          "#454547",
+          "#66666a",
+          "#89898c",
+          "#adadb0",
+          "#d1d1d3",
+          "#eeeef0"
+        ]
+      },
+      "received-hover": {
+        "role": "secondary",
+        "displayName": "Received Grey, pressed",
+        "canonical": "#dadae1",
+        "oklch": "oklch(89.0% 0.009 286.2)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262629",
+          "#454449",
+          "#65656b",
+          "#88888e",
+          "#adadb2",
+          "#d0d0d4",
+          "#eeeef0"
+        ]
+      },
+      "sent": {
+        "role": "secondary",
+        "displayName": "Messaging Blue",
+        "canonical": "#0a84ff",
+        "oklch": "oklch(62.4% 0.206 255.5)",
+        "tonalRamp": [
+          "#000a22",
+          "#002456",
+          "#004190",
+          "#0061cf",
+          "#3288f0",
+          "#74b0ff",
+          "#aad4ff",
+          "#d6f1ff"
+        ]
+      },
+      "sent-hover": {
+        "role": "secondary",
+        "displayName": "Pressed Blue",
+        "canonical": "#0877ea",
+        "oklch": "oklch(58.2% 0.194 255.9)",
+        "tonalRamp": [
+          "#000a21",
+          "#002553",
+          "#00428c",
+          "#0062ca",
+          "#3b89eb",
+          "#78b0fb",
+          "#add4ff",
+          "#d8f1ff"
+        ]
+      },
+      "action-indigo": {
+        "role": "primary",
+        "displayName": "Action Indigo",
+        "canonical": "#2438a8",
+        "oklch": "oklch(40.5% 0.180 268.6)",
+        "tonalRamp": [
+          "#04091f",
+          "#152151",
+          "#293d88",
+          "#3f5bc4",
+          "#6382e5",
+          "#90abf7",
+          "#bbd0ff",
+          "#e1eeff"
+        ]
+      },
+      "on-indigo": {
+        "role": "primary",
+        "displayName": "On Indigo",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "indigo-wash": {
+        "role": "primary",
+        "displayName": "Indigo Wash",
+        "canonical": "#eceefa",
+        "oklch": "oklch(95.1% 0.016 278.5)",
+        "tonalRamp": [
+          "#0b0b0d",
+          "#25262a",
+          "#43444b",
+          "#64656f",
+          "#878892",
+          "#acadb5",
+          "#d0d1d6",
+          "#eeeef1"
+        ]
+      },
+      "your-words-violet": {
+        "role": "tertiary",
+        "displayName": "Your-Words Violet",
+        "canonical": "#7a47b0",
+        "oklch": "oklch(50.8% 0.163 303.5)",
+        "tonalRamp": [
+          "#0f061a",
+          "#2f1a46",
+          "#523277",
+          "#794bab",
+          "#9b72cd",
+          "#bc9ee4",
+          "#dac6f8",
+          "#f4e8ff"
+        ]
+      },
+      "quote-slate": {
+        "role": "tertiary",
+        "displayName": "Quote Slate",
+        "canonical": "#f1f4f8",
+        "oklch": "oklch(96.6% 0.006 255.5)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#252628",
+          "#434547",
+          "#646669",
+          "#87898c",
+          "#acaeb0",
+          "#d0d1d3",
+          "#eeeeef"
+        ]
+      },
+      "quote-rule": {
+        "role": "tertiary",
+        "displayName": "Quote Rule",
+        "canonical": "#7c8aa0",
+        "oklch": "oklch(63.0% 0.037 259.4)",
+        "tonalRamp": [
+          "#090b0f",
+          "#21272f",
+          "#3d4653",
+          "#5b677a",
+          "#7e8a9d",
+          "#a5afbd",
+          "#cbd1dc",
+          "#eaeff5"
+        ]
+      },
+      "tag-line": {
+        "role": "neutral",
+        "displayName": "Tag Line",
+        "canonical": "#c5cae6",
+        "oklch": "oklch(84.4% 0.039 277.5)",
+        "tonalRamp": [
+          "#0a0b10",
+          "#242630",
+          "#414454",
+          "#61647b",
+          "#84889e",
+          "#aaadbe",
+          "#ced0dc",
+          "#eceef6"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#d1d1d6",
+        "oklch": "oklch(86.2% 0.007 286.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262628",
+          "#454548",
+          "#66666a",
+          "#89898d",
+          "#adadb1",
+          "#d1d1d3",
+          "#eeeef0"
+        ]
+      },
+      "hairline-2": {
+        "role": "neutral",
+        "displayName": "Hairline 2",
+        "canonical": "#d6d6dc",
+        "oklch": "oklch(87.8% 0.008 286.2)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262628",
+          "#454548",
+          "#65656a",
+          "#89898d",
+          "#adadb1",
+          "#d1d1d3",
+          "#eeeef0"
+        ]
+      },
+      "bar-line": {
+        "role": "neutral",
+        "displayName": "Bar Line",
+        "canonical": "#cfcfd6",
+        "oklch": "oklch(85.7% 0.010 286.2)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262629",
+          "#454449",
+          "#65656b",
+          "#88888e",
+          "#adadb2",
+          "#d0d0d4",
+          "#eeeef0"
+        ]
+      },
+      "rail": {
+        "role": "neutral",
+        "displayName": "Rail",
+        "canonical": "#8e8e96",
+        "oklch": "oklch(64.9% 0.012 286.1)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262629",
+          "#444449",
+          "#65656c",
+          "#88888f",
+          "#adadb3",
+          "#d0d0d4",
+          "#eeeef0"
+        ]
+      },
+      "gap-line": {
+        "role": "neutral",
+        "displayName": "Gap Line",
+        "canonical": "#55555c",
+        "oklch": "oklch(45.2% 0.011 285.9)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262629",
+          "#444449",
+          "#65656c",
+          "#88888f",
+          "#adadb2",
+          "#d0d0d4",
+          "#eeeef0"
+        ]
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "Error Red",
+        "canonical": "#a3191f",
+        "oklch": "oklch(46.2% 0.172 25.6)",
+        "tonalRamp": [
+          "#1b0303",
+          "#47100f",
+          "#792220",
+          "#af3432",
+          "#d36059",
+          "#eb928a",
+          "#ffbfb8",
+          "#ffe3de"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline only, inside the pinned received bubble. 4rem cap below 1200px, 5rem from 1200px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings as chat date separators between hairlines; step numerals at 44px."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Bold first line of a message or step; 21px from 900px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, 48 to 60ch."
+      },
+      "body-sent": {
+        "displayName": "Body Sent",
+        "purpose": "Text on messaging blue; always 20px bold for contrast."
+      },
+      "your-words": {
+        "displayName": "Your Words",
+        "purpose": "The person's own account; always italic, always violet."
+      },
+      "action": {
+        "displayName": "Action",
+        "purpose": "The indigo send pill."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Sender labels, example pill, delivery notes. Sentence case."
+      },
+      "quote": {
+        "displayName": "Quote",
+        "purpose": "Verbatim document text only, with its quotation marks."
+      },
+      "page-ref": {
+        "displayName": "Page Ref",
+        "purpose": "Page tags, source lines, rail dates and pages, file metadata, the film's length badge and scene times."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card",
+        "value": "0 1px 2px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.06)",
+        "purpose": "Screenshot cards, sheets, help cards, viewer page, the film message (hover: 0 2px 4px rgba(0,0,0,0.1), 0 14px 26px rgba(0,0,0,0.16), 2px rise)."
+      },
+      {
+        "name": "lift",
+        "value": "0 2px 4px rgba(0,0,0,0.12), 0 16px 30px rgba(0,0,0,0.2)",
+        "purpose": "The one lifted message per thread; popovers and dialogs."
+      },
+      {
+        "name": "bar",
+        "value": "0 8px 24px rgba(17,17,17,0.08)",
+        "purpose": "Reply bar and intake composer."
+      },
+      {
+        "name": "go",
+        "value": "0 6px 14px rgba(36,56,168,0.35)",
+        "purpose": "Indigo send pill, sticky bar, the film message's play circle; 0 8px 18px rgba(36,56,168,0.42) on hover."
+      },
+      {
+        "name": "pin",
+        "value": "0 3px 8px rgba(0,0,0,0.22)",
+        "purpose": "Black pin badge on a pinned bubble."
+      }
+    ],
+    "motion": [
+      {
+        "name": "stack",
+        "value": "GSAP 3.15 (ScrollTrigger, SplitText, CustomEase); Lenis 1.3 on desktop only",
+        "purpose": "The one animation system, loaded after hydration and only while motion is allowed. Lenis runs for a fine pointer on a hovering screen, driven by the GSAP ticker and synced with ScrollTrigger; phones keep native scroll. No Three.js."
+      },
+      {
+        "name": "rest-guard",
+        "value": "requestAnimationFrame and setInterval stubbed while ScrollTrigger registers",
+        "purpose": "Swallows ScrollTrigger's endless rAF loop and 250ms scroll-check interval so nothing runs at rest (gsap 3.15.1 internals; a rest-frames check guards it)."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "The only easing curve; also the GSAP custom ease caseiqOut."
+      },
+      {
+        "name": "press",
+        "value": "160ms",
+        "purpose": "Hover fills, shadow changes, press scale (0.97 to 0.99)."
+      },
+      {
+        "name": "panel",
+        "value": "240ms to 260ms",
+        "purpose": "FAQ panel, chevron, sticky bar slide."
+      },
+      {
+        "name": "dialog-in",
+        "value": "220ms, translateY(10px) scale(0.985)",
+        "purpose": "Source and brief dialogs."
+      },
+      {
+        "name": "sheet",
+        "value": "260ms in (24px slide or rise, fade), 180ms out",
+        "purpose": "Conversation sheet and film player."
+      },
+      {
+        "name": "send-spring",
+        "value": "spring stiffness 480, damping 24",
+        "purpose": "A chosen chip appears as a sent bubble."
+      },
+      {
+        "name": "node-spring",
+        "value": "spring stiffness 500, damping 18",
+        "purpose": "Rail nodes pop in; the hero pin badge drops in from 0.6 scale."
+      },
+      {
+        "name": "hero-intro",
+        "value": "pin 0.12s, Pinned 0.2s, film and sub 0.26s/0.38s (sub first from 1024px), who 0.5s, thread 0.64s; each 16px rise over 280ms",
+        "purpose": "Held by html.js-motion before first paint, 2.5s failsafe; the H1, reply bar, nav and strip are never hidden; the film is never invisible below 640px."
+      },
+      {
+        "name": "heading-reveal",
+        "value": "word by word, 0.35em rise, 300ms, 50ms stagger",
+        "purpose": "Section headings below the hero; never the H1. A heading always plays before its messages."
+      },
+      {
+        "name": "message-reveal",
+        "value": "16px rise, 260ms, 90ms stagger",
+        "purpose": "Section messages, crossing the reveal line at their resting position."
+      },
+      {
+        "name": "reveal-line",
+        "value": "8px above the sticky reply bar while it shows (phones), else 88% of the viewport",
+        "purpose": "Shared by headings and messages. Jumped-to content (link, hash, focus, print, resize) shows at once."
+      },
+      {
+        "name": "lift",
+        "value": "300ms; y 16 to 0, rotate 0 to -1.4deg, scale 0.97 to 1",
+        "purpose": "The lifted message; leader line draws in 200ms."
+      },
+      {
+        "name": "film-snap",
+        "value": "silent clip, once, at 60% in view after the intro",
+        "purpose": "Rests on its last frame, never replays, not fetched under reduced motion."
+      },
+      {
+        "name": "film-end",
+        "value": "300ms, 10px rise and fade",
+        "purpose": "The film player's end stack."
+      },
+      {
+        "name": "filing-scene",
+        "value": "pinned (CSS sticky, ScrollTrigger scrub) for 1.1 viewport heights at 44px from the top, from 900x800",
+        "purpose": "S4: roll tiles fly to rail nodes; per-row inline lift and an emptying strip on narrower screens; static final state for reduced motion and server render."
+      },
+      {
+        "name": "back-scroll",
+        "value": "scroll-behavior: auto for 800ms after popstate",
+        "purpose": "Back and Forward restore the position in one step, without a smooth-scroll streak."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "final states; CSS durations 0.01ms; no GSAP, no Lenis",
+        "purpose": "Every animation has a motionless final state."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "399px",
+        "note": "max-width: status-strip text and dot hidden"
+      },
+      {
+        "name": "rail-compact",
+        "value": "520px",
+        "note": "max-width: timeline date column 56px"
+      },
+      {
+        "name": "tablet",
+        "value": "640px",
+        "note": "hero gutters 32px, film message beside the subhead"
+      },
+      {
+        "name": "reply-row",
+        "value": "700px",
+        "note": "reply bar on one row"
+      },
+      {
+        "name": "sticky-off",
+        "value": "768px",
+        "note": "sticky bottom bar hidden, status-strip call to action shown"
+      },
+      {
+        "name": "desktop",
+        "value": "900px",
+        "note": "nav links, 34px strip, 48px gutters, S4 pinned when height >= 800px"
+      },
+      {
+        "name": "split",
+        "value": "1000px",
+        "note": "5fr/7fr section grids"
+      },
+      {
+        "name": "intro-split",
+        "value": "1024px",
+        "note": "hero intro: the subhead lands before the film message"
+      },
+      {
+        "name": "hero-wide",
+        "value": "1200px",
+        "note": "two-column hero, 830px + 502px"
+      },
+      {
+        "name": "max",
+        "value": "1440px",
+        "note": "content cap"
+      }
+    ],
+    "componentNotes": {
+      "cameraRoll": "- **Camera roll:** eight photographs of example papers, made with AI (Krea, flux-2-klein), served as WebP tiles from `public/roll/` (`content/roll.ts` holds paths, sizes and provenance; `scripts/roll-assets.mjs` derives the tiles from the untouched sources, whose prompts are in `docs/marketing/site-media/roll/PROVENANCE.md`). The grid is 4 columns by 3 rows of 52px cells with a 4px gap: tile 1 (a texts screenshot) spans 2x2, tile 6 (a job posting) spans 2x1, and tiles 2 to 5, 7 and 8 (a handwritten note, a letter, an email, the letter's second page and two duplicates) take one cell each. Each tile has 8px corners, a 1px hairline border and a cover-fit photo on white, so a tile that fails to load is a white tile. Files are 3x their largest drawn size (324x324, 324x162, the rest 216x216), each at most 25 KB.\n  - **Grade:** the paper photos are graded a little toward the film's warm, low-light look (red up, blue down, 96% brightness, 90% saturation) so they read as photos from one desk; the two screenshots are not graded.\n  - **Words:** the only legible words are the example case's own, painted after generation in Geist: the chat keeps one received bubble, \"They posted your old job online today\", under \"3 Feb 2025\"; the posting reads \"Operations Coordinator\" with one \"Full-time\" tag, its other tags and its button empty and its body blurred into lines. The paper photos are softened at tile size until no letter can be read at 216px or at 3x: sigma 1.9 on the typed pages and 2.5 on the email, all over. On the note only the ink is blurred. The page without the writing is estimated as the median along each row, and the ink, everything darker than that page, is blurred at sigma 4.6 as its own layer and laid back on top. So the ruling runs sharp and unbroken through the writing, as real ink sits on ruled paper.\n  - **Duplicates:** tiles 7 and 8, the two the S4 scene sets aside, are second photos of the letter and the email, derived without a new generation: the letter turned 4deg, warmer, shadow bottom right; the email turned -3deg, cooler and brighter, shadow top right, framed tighter and lower.\n  - **Phone strip:** a row of eight 30px slots (4px gap, 1.5px dashed rail outline, 7px corners) above the first S4 row. Each tile is drawn at its roll size and brought into its slot by one cover scale, never two (the 2:1 posting is never squeezed), cropped by the slot and centred on the tile's focus (31% across for the posting, so its whole title shows and its button does not). On phones a row's own tile starts as a 72px thumbnail, keeps its size for 70% of its flight and shrinks onto its node at landing.\n  - The caption under the roll is mono 13px muted: \"Photos · notes · papers\".",
+      "filmMessage": "The hero's 30-second film, sent into the thread as a media message. A square card (18px, no tail, card shadow, ink behind it) showing the clip's first frame (the pile of papers) as a WebP picture; under reduced motion the picture is the last frame (the column). Two ink chips sit stacked at the top-left, \"With sound\" and \"Made with AI\" (white on ink, 3px 10px, full pill, 13px semibold grotesque), above a 52px white play circle centred on the tile with an indigo Solar Bold play glyph and the go shadow. At the bottom-left the length, \"0:30\", is the same ink chip set in JetBrains Mono 600 with tabular figures, drawn from a data attribute so it is a picture of the length and not part of the control's name. The tile's accessible name holds both chips' words. Hover lifts it 2px; press scales to 0.98; while the player's code is still on its way, a white ring turns around the play circle. Under the tile: \"The case in it is an example.\" (13px muted, one line) and a \"Read it instead\" text link. With motion allowed a silent clip plays over the picture once, after the intro has brought the message in and 60% of it is on screen; it rests on its last frame and never replays, and it is not fetched before then, or at all under reduced motion. Without JavaScript the tile is a link to the film's text page.",
+      "filmPlayer": "A native modal `<dialog>` that reuses the conversation sheet's frame: the 460px panel docked right from 768px and the whole screen below, the same header (Quick exit first, Close, the chat-glyph avatar, \"Case IQ\" over \"Film · 0:30\"), the scroll lock, 260ms in and 180ms out. It adds no history entry, and the film is fetched only when it plays.\n- **Film view:** the 9:16 film, contained, on ink so the bars read as a screen, with the browser's native controls and a captions track. Its poster frame is fetched when the player first shows the film.\n- **Footer:** on the ground with a hairline above: the AI note at 13px muted (\"The pictures, the voice and the music are made with AI. The case is an example, not a real case.\"), then two 44px controls on one row (stacked under 360px): an \"Audio description\" switch (an outline pill with a small track and knob, filled indigo when pressed; the described cut keeps the viewer's place) and \"Read the film as text\".\n- **Text view:** \"What the film says and shows\" in display type (800, 78% width, 28px), then scene by scene: a mono scene time, sender-style labels (\"On screen\", \"Voice\") and 17px text, with hairlines between scenes; the timeline scene reuses the quote card's source line and serif quote. It ends on the send pill and \"Free first conversation\".\n- **Ended:** the film's last frame is an end card already, so it stays up on its own ground with the native controls off, and the end stack sits in the empty slot at its foot: the real send pill, \"Free first conversation\" and an outline \"Watch again\", up to 340px wide, with no card, shadow or dim. It rises 10px and fades in over 300ms, and focus goes to the send pill. When the slot is too short the frame lifts, then scales from its top, so the stack never covers the frame's fine print.\n- **Compact end:** where that would scale the frame below 0.85 (a small phone), the footage is left out and the stack stands alone at full size from the top of the stage: send pill, \"Free first conversation\", the not-a-law-firm line at 13px, Watch again.\n- **Failed:** the film's area turns to the ground, a plain sentence says the film did not load, and one outline button, which takes focus, opens the text.",
+      "icons": "Solar (480 Design, CC BY 4.0) from Iconify, shipped offline: `scripts/icons.mjs` copies only the glyphs in use into `components/world/solar-icons.ts`, so no icon is ever fetched. Linear glyphs at their 1.5 stroke (the hairline world) for outlines; Bold only where a solid glyph sits in a filled circle: the pin badge, the send arrows and the play triangle. Every glyph is inline SVG in currentColor, aria-hidden, with the name on the control that holds it. Glyph colour follows the Pressable Indigo Rule. The attachment's file glyph is ink on a static attachment (Timeline.pdf, Index of my papers.pdf) and Action Indigo only on the one that opens something, the summary (`button.attach`, `a.attach`). Sizes run from 14px (external link, source) to 26px (the attachment file), mostly 16 to 20px. Close is Solar's plus turned 45deg. Icons sit on controls (send and sticky-bar arrows, Close, menu, chevrons, play, the intake's up arrow), on meaning markers (the pin badge, the \"checked by a person\" tick in a circle, a chosen chip's tick, the error and note circles, the page and source glyphs, the attachment file) and on external links. The chat-bubble glyph is the brand mark and stays authored, not Solar.",
+      "footer": "Plain and quiet on the ground. Among its lines are \"All examples on this page are made up.\" and the credit line: \"The film and the photos in the example case are made with AI. Icons: Solar by 480 Design, CC BY 4.0.\" \"Solar\" and \"CC BY 4.0\" are text links to the set's page and the licence; they open in a new tab and say so to screen readers (\"opens in a new tab\").",
+      "print": "Print shows the finished page: anything a reveal is still holding (hidden messages, split heading words, S4's moved pieces) prints at full opacity with no transform, and a `beforeprint` handler lets every waiting reveal in. Print hides the sticky reply bar and every S4 tile (the roll's slot tiles, the phone row tiles and the strip tiles), so the roll prints as empty dashed slots, its finished state, and the rows carry the page.",
+      "motion": "- **The stack:** GSAP 3.15 with ScrollTrigger, SplitText and CustomEase is the one animation system, registered once in `lib/motion/gsap.ts`. It loads only after hydration and only while motion is allowed, so it is never in the first paint and a visitor who asked for less motion never downloads it; if its code fails to load, the page simply stays finished. CSS transitions handle press, hover and panels. There is no Three.js and no WebGL.\n- **Smooth scroll:** Lenis 1.3 smooths the wheel on desktop only: a fine pointer on a screen that hovers, with motion allowed. The GSAP ticker drives it and it reports every scroll to ScrollTrigger, so both read one position. It never captures, snaps or hijacks, and it stops while a dialog or menu is open. In-page links glide (0.6 to 1.4s on the one ease) and leave focus where the browser's jump would. Phones, tablets and reduced motion keep native scrolling.\n- **Quiet at rest:** registering ScrollTrigger starts an endless requestAnimationFrame loop and a 250ms setInterval scroll check; on a phone, with Lenis off, these were the only frame work left at rest. `gsap.ts` swallows both by stubbing requestAnimationFrame and setInterval for the moment of registration, then restores them and sleeps and wakes the ticker. This leans on gsap 3.15.1 internals, and a rest-frames check fails if the two come back. Nothing runs at rest; the only looping animation is the film's busy ring, shown only while a tap waits for the player's code.\n- **Easing:** one curve, ease-out `cubic-bezier(0.22, 1, 0.36, 1)`, also registered as GSAP's custom ease. Press and hover transitions are 160ms; panels 240 to 260ms; dialogs enter in 220ms (10px rise, 0.985 scale). The two springs are named eases too.\n- **Hero intro:** a head script adds `html.js-motion` before first paint, only when motion is allowed, and CSS holds the intro's pieces 16px low and invisible; HeroMotion takes the class off in the same moment it sets their start state, so nothing flashes, and a 2.5s failsafe takes it off if the intro never starts. The pin badge drops in from 0.6 scale on the pop spring (0.12s). The \"Pinned\" label (0.2s), the film message and the subhead (0.26s and 0.38s; from 1024px, where they sit side by side, the subhead lands first) and the \"who checks\" bubble (0.5s) each rise 16px over 280ms. The example thread follows at 0.64s, its rail line drawing down with each row and the receipt last. The H1, reply bar, send pill, nav and status strip are never hidden. Below 640px the film message is held low but never invisible, since it is the largest paint there.\n- **Send:** a chosen chip appears as a sent bubble with a short spring (stiffness 480, damping 24); the example thread's pieces rise in sequence over 260ms each.\n- **The lift:** the lifted bubble rises from 16px below, unrotated at 0.97 scale, to -1.4deg over 300ms; the leader line draws in 200ms; rail nodes pop in on a spring (stiffness 500, damping 18).\n- **Section reveals** (SectionMotion, every section below the hero): a heading of plain text reveals word by word, each word rising 0.35em and fading in over 300ms with a 50ms stagger (a heading with markup rises whole); the H1 is never split. Then the section's messages each rise 16px over 260ms, 90ms apart when they come in together. Headings and messages share one reveal line: 8px above the sticky reply bar while it is drawn on phones, otherwise 88% of the viewport height. A message's trigger is offset by its 16px rise, so it crosses the line at its resting position. A heading always plays before its messages: a message that crosses first plays the heading at once and waits for it. Only what is below the fold when the reveals mount is ever hidden, and what has arrived stays arrived for the life of the page. Content that is jumped to shows at once: a trigger that fires with its element more than a quarter of the screen past the line lets the whole section in; a hash, a click on an in-page link (that section and the one above), a Tab into a section and printing all let content in at once; and after a resize or zoom ScrollTrigger is asked to look again, so content brought on screen arrives without a scroll. S4's scene and the FAQ accordion keep their own motion.\n- **S4 filing scene:** on screens at least 900px wide and 800px tall, the stage pins (CSS sticky, scrubbed by ScrollTrigger) below the status strip for 1.1 viewport heights while the camera-roll tiles fly to their rail nodes, the duplicates are set aside, then the gap and the \"checked by a person\" receipt arrive, leaving every roll slot an empty dashed outline. Scrolling is never captured. On narrower screens each row's tile lifts onto its node as the row scrolls into view, and the compact roll strip empties as rows land.\n- **Conversation sheet and film player:** enter in 260ms (24px slide from the right on wide screens, 24px rise on phones, plus a fade), leave in 180ms; the backdrop fades with them. The film's end stack rises 10px over 300ms. Reduced motion: no movement, instant.\n- **Back and Forward:** the page's CSS smooth scrolling would make the router's restore show the top of the page and then fly its whole length. On popstate, BackScroll sets scroll-behavior to auto for 800ms, so the page comes back where it was in one step.\n- **Reduced motion:** the final state is shown: the full thread, the finished timeline (also the server render), the film's last frame with no clip, no pinning, no reveals, no sliding sticky bar, no Lenis, and every CSS animation and transition clamped to 0.01ms. CSS smooth scrolling is only enabled when motion is allowed."
+    }
+  },
+  "components": [
+    {
+      "name": "Send Pill",
+      "kind": "button",
+      "refersTo": "send-pill",
+      "description": "The primary action: indigo pill with a white arrow disc. One per view, plus the sticky bar on phones.",
+      "html": "<button class=\"ds-send\">Get my case in order <span class=\"ds-send__arrow\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M12 5l7 7-7 7\"/></svg></span></button>",
+      "css": ".ds-send { display: inline-flex; align-items: center; gap: 16px; min-height: 54px; padding: 0 9px 0 28px; border: 0; border-radius: 27px; background: var(--ind, #2438a8); color: #fff; font-family: var(--font-body, 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif); font-size: 19px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 14px rgba(36,56,168,0.35); transition: transform 160ms cubic-bezier(0.22,1,0.36,1), box-shadow 160ms cubic-bezier(0.22,1,0.36,1); } .ds-send:hover { box-shadow: 0 8px 18px rgba(36,56,168,0.42); } .ds-send:active { transform: scale(0.98); } .ds-send:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; } .ds-send__arrow { width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #2438a8; display: grid; place-items: center; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary pressable: white pill, 1.5px indigo border. Nav call to action, Quick exit, See the page.",
+      "html": "<button class=\"ds-btn-outline\">Get my case in order</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 20px; border-radius: 999px; border: 1.5px solid #2438a8; background: #fff; color: #2438a8; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: background-color 160ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-outline:hover { background: #eceefa; } .ds-btn-outline:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Quick-Reply Chips",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Outlined indigo pills; the chosen one fills indigo. Same grammar for case-type examples, intake answers and closed FAQ questions.",
+      "html": "<div class=\"ds-qr\"><button class=\"ds-chip\" aria-checked=\"true\" role=\"radio\">Job or workplace</button><button class=\"ds-chip\" aria-checked=\"false\" role=\"radio\">Housing</button><button class=\"ds-chip\" aria-checked=\"false\" role=\"radio\">Money owed</button></div>",
+      "css": ".ds-qr { display: flex; flex-wrap: wrap; gap: 10px; } .ds-chip { min-height: 40px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #2438a8; background: #fff; color: #2438a8; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: background-color 160ms cubic-bezier(0.22,1,0.36,1), color 160ms cubic-bezier(0.22,1,0.36,1), transform 160ms cubic-bezier(0.22,1,0.36,1); } .ds-chip:hover { background: #eceefa; } .ds-chip:active { transform: scale(0.97); } .ds-chip[aria-checked=\"true\"] { background: #2438a8; color: #fff; } .ds-chip:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Message Bubbles",
+      "kind": "custom",
+      "refersTo": "bubble-received",
+      "description": "Received (grey, tail left), sent (blue, 20px bold, tail right), your words (white, violet italic) and gap (dashed).",
+      "html": "<div class=\"ds-thread\"><div class=\"ds-bubble ds-bubble--sent ds-tail\">Job or workplace</div><div class=\"ds-bubble ds-bubble--yours\">My manager said my job was safe.</div><div class=\"ds-bubble ds-tail\">They posted your old job online today</div><div class=\"ds-bubble ds-bubble--gap\"><b>Not in your papers yet:</b> a notice about the restructuring</div></div>",
+      "css": ".ds-thread { display: grid; gap: 14px; padding: 12px; background: #f2f2f5; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; color: #111; } .ds-bubble { position: relative; justify-self: start; max-width: 88%; border-radius: 26px; background: #e5e5ea; padding: 12px 18px; font-size: 17px; line-height: 1.45; --tail-bg: #e5e5ea; } .ds-tail::before, .ds-tail::after { content: ''; position: absolute; bottom: 0; } .ds-tail::before { left: -9px; width: 22px; height: 20px; background: var(--tail-bg); border-bottom-right-radius: 18px 16px; } .ds-tail::after { left: -11px; width: 11px; height: 20px; background: #f2f2f5; border-bottom-right-radius: 10px; } .ds-bubble--sent { justify-self: end; background: #0a84ff; --tail-bg: #0a84ff; color: #fff; font-size: 20px; font-weight: 700; padding: 11px 22px; } .ds-bubble--sent.ds-tail::before { left: auto; right: -9px; border-radius: 0 0 0 18px / 0 0 16px 0; } .ds-bubble--sent.ds-tail::after { left: auto; right: -11px; border-radius: 0 0 0 10px; } .ds-bubble--yours { background: #fff; border: 1px solid #d1d1d6; color: #7a47b0; font-style: italic; font-weight: 500; font-size: 19px; padding: 10px 20px; } .ds-bubble--gap { background: transparent; border: 1.5px dashed #55555c; border-radius: 22px; padding: 11px 16px; font-size: 15px; }"
+    },
+    {
+      "name": "Screenshot Quote Card",
+      "kind": "card",
+      "refersTo": "quote-card",
+      "description": "White card with a mono source line, the serif verbatim quote on slate with its 3px rule, and See the page.",
+      "html": "<figure class=\"ds-qcard\"><figcaption class=\"ds-qcard__ref\">Email from your manager · 12 Jan 2025 · page 1</figcaption><blockquote class=\"ds-quote\">“Your role is not affected by the restructuring.”</blockquote><div class=\"ds-qcard__act\"><button class=\"ds-see\">See the page</button></div></figure>",
+      "css": ".ds-qcard { margin: 0; max-width: 380px; border-radius: 18px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.06); padding: 12px 14px 14px; } .ds-qcard__ref { font: 600 13px/1.4 'JetBrains Mono', ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; color: #111; } .ds-quote { margin: 9px 0 0; padding: 10px 14px; background: #f1f4f8; border-left: 3px solid #7c8aa0; font: 400 19px/1.35 'Source Serif 4', Georgia, serif; color: #111; } .ds-qcard__act { display: flex; justify-content: flex-end; margin-top: 10px; } .ds-see { min-height: 34px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #2438a8; background: #fff; color: #2438a8; font: 700 14px 'Bricolage Grotesque', system-ui, sans-serif; cursor: pointer; } .ds-see:hover { background: #eceefa; } .ds-see:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Lifted Bubble with Page Tag",
+      "kind": "custom",
+      "refersTo": "page-tag-pill",
+      "description": "The one lifted message per thread: rotated -1.4deg, lift shadow, mono page-tag pill anchored above it.",
+      "html": "<div class=\"ds-liftwrap\"><div class=\"ds-lift\"><span class=\"ds-tag\">Text a coworker · 3 Feb 2025 · page 4</span>They posted your old job online today</div></div>",
+      "css": ".ds-liftwrap { padding: 32px 16px 16px; background: #f2f2f5; } .ds-lift { position: relative; max-width: 340px; border-radius: 26px; background: #e5e5ea; padding: 12px 18px; font: 400 18px/1.4 'Bricolage Grotesque', system-ui, sans-serif; color: #111; transform: rotate(-1.4deg); box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 16px 30px rgba(0,0,0,0.2); } .ds-tag { position: absolute; bottom: calc(100% - 10px); left: 14px; padding: 3px 10px; border-radius: 12px; background: #fff; border: 1px solid #c5cae6; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font: 600 13px/1.25 'JetBrains Mono', ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; color: #111; white-space: nowrap; }"
+    },
+    {
+      "name": "Reply Bar",
+      "kind": "input",
+      "refersTo": "reply-bar",
+      "description": "The page's composer: a white pill with muted helper text and the send pill. Helper stacks above a full-width pill under 700px.",
+      "html": "<a class=\"ds-reply\" href=\"#\"><span class=\"ds-reply__helper\">6 quick questions · A person replies within one business day</span><span class=\"ds-reply__go\">Get my case in order</span></a>",
+      "css": ".ds-reply { display: flex; align-items: center; gap: 14px; min-height: 70px; padding: 8px 9px 8px 12px; border-radius: 35px; background: #fff; border: 1px solid #cfcfd6; box-shadow: 0 8px 24px rgba(17,17,17,0.08); color: #111; text-decoration: none; font-family: 'Bricolage Grotesque', system-ui, sans-serif; } .ds-reply__helper { flex: 1; padding-left: 16px; color: #4f4f57; font-size: 17px; } .ds-reply__go { display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; border-radius: 27px; background: #2438a8; color: #fff; font-size: 19px; font-weight: 700; box-shadow: 0 6px 14px rgba(36,56,168,0.35); transition: box-shadow 160ms cubic-bezier(0.22,1,0.36,1); } .ds-reply:hover .ds-reply__go { box-shadow: 0 8px 18px rgba(36,56,168,0.42); } .ds-reply:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field-input",
+      "description": "Intake field: 48px, 1.5px rail border, 14px radius; error state is a 2.5px red border with icon and words.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-f1\">Your first name</label><input id=\"ds-f1\" placeholder=\"\"><div class=\"ds-field ds-field--err\"><label for=\"ds-f2\">Email</label><input id=\"ds-f2\" aria-invalid=\"true\" value=\"name@\"><p class=\"ds-err\">Enter an email address like name@example.com</p></div></div>",
+      "css": ".ds-field { display: grid; gap: 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; color: #111; } .ds-field label { font-size: 15px; font-weight: 600; } .ds-field input { min-height: 48px; padding: 0 14px; border: 1.5px solid #8e8e96; border-radius: 14px; background: #fff; color: #111; font: inherit; font-size: 17px; caret-color: #2438a8; } .ds-field input:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; } .ds-field input[aria-invalid=\"true\"] { border: 2.5px solid #a3191f; } .ds-field--err { margin-top: 12px; } .ds-err { margin: 0; color: #a3191f; font-size: 15px; font-weight: 600; }"
+    },
+    {
+      "name": "Status Strip and Nav",
+      "kind": "nav",
+      "refersTo": "status-strip",
+      "description": "The phone's status bar as the safety strip (Quick exit at right), above a 56px nav row with the chat-glyph wordmark.",
+      "html": "<div class=\"ds-safe\"><span class=\"ds-safe__text\"><i></i>Taking our first clients in Ontario, a few at a time</span><button class=\"ds-qx\">Quick exit</button></div><nav class=\"ds-nav\"><span class=\"ds-logo\">Case IQ</span><a href=\"#\">How it works</a><a href=\"#\">Questions</a><button class=\"ds-qx ds-nav__cta\">Get my case in order</button></nav>",
+      "css": ".ds-safe { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 34px; padding: 0 24px; background: #e5e5ea; color: #111; font: 500 13.5px/1.3 'Bricolage Grotesque', system-ui, sans-serif; } .ds-safe__text { display: flex; align-items: center; gap: 10px; } .ds-safe__text i { width: 8px; height: 8px; border-radius: 50%; background: #111; } .ds-qx { min-height: 28px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #2438a8; background: #fff; color: #2438a8; font: 700 13px 'Bricolage Grotesque', system-ui, sans-serif; cursor: pointer; } .ds-qx:hover { background: #eceefa; } .ds-qx:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; } .ds-nav { display: flex; align-items: center; gap: 32px; min-height: 56px; padding: 0 24px; background: #f2f2f5; border-bottom: 1px solid #d6d6dc; font-family: 'Bricolage Grotesque', system-ui, sans-serif; } .ds-logo { font-size: 27px; font-weight: 800; font-variation-settings: 'wdth' 78; letter-spacing: -0.02em; color: #111; } .ds-nav a { color: #111; font-size: 15px; font-weight: 500; text-decoration: none; } .ds-nav a:hover { text-decoration: underline; text-underline-offset: 0.25em; } .ds-nav__cta { margin-left: auto; min-height: 38px; padding: 0 20px; font-size: 14.5px; }"
+    },
+    {
+      "name": "Film Message",
+      "kind": "custom",
+      "description": "The hero's 30-second film as a square media message: 18px card, no tail; ink chips 'With sound' and 'Made with AI' top-left, a white play circle, the mono '0:30' length bottom-left.",
+      "html": "<div class=\"ds-film\"><a class=\"ds-film__tile\" href=\"#\" aria-label=\"Play the 30-second film, with sound. Made with AI.\"><span class=\"ds-film__cues\"><span class=\"ds-film__chip\">With sound</span><span class=\"ds-film__chip\">Made with AI</span></span><span class=\"ds-film__play\" aria-hidden=\"true\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M21.4086 9.35258C23.5305 10.5065 23.5305 13.4935 21.4086 14.6474L8.59662 21.6145C6.53435 22.736 4 21.2763 4 18.9671L4 5.0329C4 2.72368 6.53435 1.26402 8.59661 2.38548L21.4086 9.35258Z\"/></svg></span><span class=\"ds-film__time\" aria-hidden=\"true\">0:30</span></a><p class=\"ds-film__ex\">The case in it is an example.</p></div>",
+      "css": ".ds-film { display: grid; gap: 2px; width: 232px; font-family: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif; } .ds-film__tile { position: relative; display: block; aspect-ratio: 1; border-radius: 18px; overflow: hidden; background: #111; box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.06); transition: transform 160ms cubic-bezier(0.22,1,0.36,1), box-shadow 160ms cubic-bezier(0.22,1,0.36,1); } .ds-film__tile:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 14px 26px rgba(0,0,0,0.16); } .ds-film__tile:active { transform: scale(0.98); } .ds-film__tile:focus-visible { outline: 3px solid #2438a8; outline-offset: 3px; } .ds-film__cues { position: absolute; left: 10px; top: 10px; display: grid; justify-items: start; gap: 4px; } .ds-film__chip { padding: 3px 10px; border-radius: 999px; background: #111; color: #fff; font-size: 13px; font-weight: 600; line-height: 1.3; white-space: nowrap; } .ds-film__play { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; display: grid; place-items: center; border-radius: 50%; background: #fff; color: #2438a8; box-shadow: 0 6px 14px rgba(36,56,168,0.35); } .ds-film__tile:hover .ds-film__play { box-shadow: 0 8px 18px rgba(36,56,168,0.42); } .ds-film__time { position: absolute; left: 10px; bottom: 10px; padding: 3px 10px; border-radius: 999px; background: #111; color: #fff; font: 600 13px/1.3 'JetBrains Mono', ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; } .ds-film__ex { margin: 4px 0 0; font-size: 13px; line-height: 1.4; color: #4f4f57; }"
+    },
+    {
+      "name": "Camera Roll",
+      "kind": "custom",
+      "description": "Eight AI-made WebP photos of example papers in a 4x3 grid of 52px cells (4px gap): the chat 2x2, the posting 2x1, the rest one cell; 8px corners, hairline border, cover-fit on white. Empty slots are 1.5px dashed rail outlines. Mono caption.",
+      "html": "<div class=\"ds-roll\"><div class=\"ds-roll__grid\"><i class=\"ds-roll__t ds-roll__t--chat\"></i><i class=\"ds-roll__t\"></i><i class=\"ds-roll__t\"></i><i class=\"ds-roll__t\"></i><i class=\"ds-roll__t\"></i><i class=\"ds-roll__t ds-roll__t--wide\"></i><i class=\"ds-roll__slot\"></i><i class=\"ds-roll__slot\"></i></div><div class=\"ds-roll__cap\">Photos · notes · papers</div></div>",
+      "css": ".ds-roll { display: inline-grid; gap: 6px; } .ds-roll__grid { display: grid; grid: repeat(3, 52px) / repeat(4, 52px); gap: 4px; } .ds-roll__t { display: block; border-radius: 8px; border: 1px solid #d1d1d6; background: #fff; } .ds-roll__t--chat { grid-area: span 2 / span 2; } .ds-roll__t--wide { grid-column: span 2; } .ds-roll__slot { display: block; border-radius: 8px; border: 1.5px dashed #8e8e96; } .ds-roll__cap { font: 500 13px/1.4 'JetBrains Mono', ui-monospace, Consolas, monospace; color: #4f4f57; }"
+    },
+    {
+      "name": "Timeline Rail",
+      "kind": "custom",
+      "description": "Mono date and page labels, a 1px rail, solid ink nodes for evidenced facts and a dashed hollow node for a gap.",
+      "html": "<ol class=\"ds-tl\"><li><span class=\"ds-tl__d\"><b>12 Jan</b><br>page 1</span><i class=\"ds-node\"></i><span>Manager writes: your role is not affected</span></li><li><span class=\"ds-tl__d\"><b>3 Feb</b><br>page 4</span><i class=\"ds-node\"></i><span>Your old job is posted online</span></li><li><span class=\"ds-tl__d\"><b>Gap</b><br>no page</span><i class=\"ds-node ds-node--gap\"></i><span>Not in your papers yet</span></li></ol>",
+      "css": ".ds-tl { list-style: none; margin: 0; padding: 12px; background: #f2f2f5; font-family: 'Bricolage Grotesque', system-ui, sans-serif; color: #111; } .ds-tl li { position: relative; display: grid; grid-template-columns: 76px 28px 1fr; column-gap: 8px; padding-bottom: 20px; } .ds-tl li::before { content: ''; position: absolute; left: 98px; top: 0; bottom: 0; width: 1px; background: #8e8e96; } .ds-tl__d { text-align: right; font: 500 13px/1.35 'JetBrains Mono', ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; color: #4f4f57; } .ds-tl__d b { color: #111; font-weight: 600; } .ds-node { justify-self: center; margin-top: 5px; position: relative; width: 13px; height: 13px; border-radius: 50%; background: #111; border: 2px solid #f2f2f5; box-sizing: border-box; } .ds-node--gap { background: #f2f2f5; border: 1.5px dashed #111; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Phone Roll",
+    "overview": "The page is a phone conversation at page scale. Its material is the material people already keep their case in: a light grey ground, grey received bubbles with real tails, blue sent bubbles, white screenshot cards, a camera roll of photographed papers, a square video message, a status-bar strip at the top and a reply bar at the bottom. Headlines are themselves pinned messages, and section headings sit like the date separators between days in a chat. Proof is staged rather than claimed: a message lifts out of the thread with its page tag pinned to it, a leader line runs to a timeline rail, and whatever the papers do not show sits in a dashed \"gap\" bubble with a dashed node.\n\nThe system is calm and dense the way a messaging app is dense: generous type, tight vertical rhythm between messages (12 to 14px), and wide air between sections. Colour carries meaning, never mood. Every pressable thing is indigo; every non-pressable thing is not. The product's own meanings (violet italic for the person's words, serif with quotation marks for document text, mono for page references and figures) are used exactly as the app will use them, so the marketing page is a faithful preview of the product.\n\nThere is no laptop screenshot, no feature-card grid and no gradient atmosphere. Depth is a few soft shadows on cards, the lift and the action pill; everything else is flat. The only pictures are the ones a person would have on their phone: photos of example papers in the camera roll and one 30-second film sent as a message. Both are made with AI, say so, and show no face. Motion is a conversation arriving, and then it stops: nothing moves at rest.",
+    "keyCharacteristics": [
+      "Phone-thread materials (bubbles with tails, status strip, reply bar, camera roll) used at page scale.",
+      "One action colour, indigo, used only on pressable things.",
+      "Product UI meanings preserved: violet italic, serif with quotation marks, mono page references.",
+      "Bricolage Grotesque condensed to 78% width for display, set inside bubbles.",
+      "A timeline rail with solid dot nodes for evidenced facts and dashed nodes for gaps.",
+      "One lift (rotated -1.4deg, lifted shadow) per thread; everything else rests flat.",
+      "AI-made media, disclosed on the media and in the footer, with no faces.",
+      "One motion system (GSAP), loaded after the first paint, idle at rest."
+    ],
+    "rules": [
+      {
+        "name": "The Pressable Indigo Rule",
+        "body": "If it is indigo, it can be pressed; if it can be pressed, it is indigo (sent bubbles excepted, which belong to the conversation). Indigo never colours a heading, an icon in passing, or a surface.",
+        "section": "colors"
+      },
+      {
+        "name": "The Meaning Before Colour Rule",
+        "body": "Shape says what a thing is before colour does: a dashed outline is a gap, a tailed bubble is a message, a white card with a mono header is a document. Red and green never mark evidence.",
+        "section": "colors"
+      },
+      {
+        "name": "The Who Is Speaking Rule",
+        "body": "Grotesque is the conversation, serif is the document, violet italic is the person, mono is the page reference. Never swap them for style. Mono also sets the thread's short metadata labels, as the approved sketch did: \"Pinned · Case IQ\", \"Timeline\", rail dates, the camera-roll caption, link-preview domains, citation field names, the film's length badge (\"0:30\") and its scene times in the text version. These work like timestamps. The words beside them stay grotesque: the film's \"With sound\" and \"Made with AI\" chips are Bricolage 13px semibold, and only the length is mono. Mono never sets a sentence.",
+        "section": "typography"
+      },
+      {
+        "name": "The Quotation Stripe Rule",
+        "body": "The 3px quote-rule stripe on the left of verbatim document text is a mandated product meaning (it marks words copied from a page), and the only side stripe in the system. It is justified there and nowhere else: never on cards, callouts, list items or alerts.",
+        "section": "typography"
+      },
+      {
+        "name": "The 13px Floor Rule",
+        "body": "No visible text is smaller than 13px, and every 13px line meets 4.5:1.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Lift Rule",
+        "body": "A thread carries at most one lifted message, rotated -1.4deg with the lift shadow. Everything else rests flat.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** set every headline as a message: the hero as a pinned received bubble, section headings as date separators between hairlines.",
+      "**Do** keep indigo for pressable things, and give every outlined indigo control the indigo-wash hover and the 3px focus ring.",
+      "**Do** show the person's words in violet italic, document text in Source Serif 4 with its quotation marks on slate with the 3px quote rule, and page references in JetBrains Mono.",
+      "**Do** mark what the papers do not show with dashes: a dashed bubble, a dashed node, a dashed rail segment.",
+      "**Do** keep sent-bubble text at 20px bold, since white on messaging blue is 3.7:1.",
+      "**Do** ship a final, motionless state for every animation, and let reduced motion show it.",
+      "**Do** keep a way to start on the first screen at 320, 360, 390 and 1440 (the hero send pill or the sticky bar).",
+      "**Do** disclose AI-made media on the media itself (the film's \"Made with AI\" chip, the player's AI note) and in the footer credit line, and credit every licence the page uses (Solar, CC BY 4.0).",
+      "**Do** paint only the example case's own words into a generated picture, and soften everything else past reading.",
+      "**Do** show content that is jumped to (a link, a hash, focus, print, a resize) at once, without its reveal."
+    ],
+    "donts": [
+      "**Don't** use indigo on headings, icons, surfaces or anything that cannot be pressed.",
+      "**Don't** use red, green or amber on evidence; red is for intake errors only, green and amber are reserved for their product meanings.",
+      "**Don't** use the serif for anything but verbatim document text, or mono for anything but page references, figures and short metadata labels. Never use mono for a sentence.",
+      "**Don't** use a coloured left rule anywhere except verbatim quote text; it is the product's quotation mark, not a card accent.",
+      "**Don't** lift more than one message per thread, or use hard or offset shadows.",
+      "**Don't** capture or hijack scrolling; the filing scene pins and lets go with the page.",
+      "**Don't** set visible text below 13px.",
+      "**Don't** reveal or hold back the H1; it is in the first paint and never split into words.",
+      "**Don't** show a face in generated media: the camera roll shows no people at all, and the film shows hands and forearms only.",
+      "**Don't** leave anything animating at rest: no idle frame loops, timers or repeating animations once the page has settled."
+    ]
+  }
+}

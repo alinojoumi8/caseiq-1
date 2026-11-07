@@ -1,0 +1,97 @@
+{
+  "_readme": "Case IQ 30 s vertical spot (v3). Re-render from the source folder: node build/run.mjs [--skip-capture] [--out-dir DIR] [--tmp-dir DIR]. Defaults: source/out and source/build/tmp. Every path is relative to the source folder (the whoosh sound effect is read from ../../commercial/source/footage/finalA.mp4). All times are picture time in seconds (24 fps, 720 frames). Design space 1080x1920, delivered at 720x1280.",
+  "fps": 24,
+  "nFrames": 720,
+  "outName": "caseiq-30s-vertical.mp4",
+  "cuts": { "site": { "outName": "caseiq-30s-vertical-site.mp4", "endPanelTop": 352, "_note": "node build/run.mjs --cut site: no drawn button on the end card (the stack below the panel moves up, and the whole end card sits 90 px lower to stay centred), and the AI line in the fine print (overlay.html). Picture and audio are otherwise the default cut's." } },
+  "qaDir": "qa",
+  "size": { "w": 720, "h": 1280 },
+  "clips": {
+    "c1": "footage/clip1_take1.mp4",
+    "c2": "footage/clip2_take1.mp4",
+    "c3": "footage/clip3_take1.mp4"
+  },
+  "picture": [
+    { "name": "clip1 pile (hook crop)",      "clip": "c1", "srcStart": 0.3,   "srcEnd": 4.85,     "outDuration": 4.55 },
+    { "name": "clip2 still + lift",           "clip": "c2", "srcStart": 0.45,  "srcEnd": 1.85,     "outDuration": 1.4 },
+    { "name": "clip2 gather 1.5x (the snap)", "clip": "c2", "srcStart": 1.85,  "srcEnd": 2.55,     "outDuration": 0.466667 },
+    { "name": "clip2 pages land",             "clip": "c2", "srcStart": 2.55,  "srcEnd": 5.4,      "outDuration": 2.85 },
+    { "name": "clip2 settle",                 "clip": "c2", "srcStart": 5.4,   "srcEnd": 6.583333, "outDuration": 1.183333 },
+    { "name": "hold clip2 last frame",        "clip": "c2", "holdFrame": 157,                       "outDuration": 9.25 },
+    { "name": "clip3 morning",                "clip": "c3", "srcStart": 0.0,   "srcEnd": 4.0,      "outDuration": 4.0 },
+    { "name": "clip3 end of take",            "clip": "c3", "srcStart": 4.0,   "srcEnd": 5.166667, "outDuration": 1.166667 },
+    { "name": "hold clip3 last frame",        "clip": "c3", "holdFrame": 123,                       "outDuration": 5.133333 }
+  ],
+  "camera": {
+    "_note": "Source-pixel space of the 768x1376 clips. Base = fit to width, centre-crop height. Hook: 1.2x punch-in centred on the pile, easing out (site ease) to the base by hook.dur. Thud: scale bump 1.00 -> 1+amp -> 1.00 over `frames` frames from `at`. Push: 1.00 -> zoom ease in-out over the hold.",
+    "hook": { "zoom": 1.2, "cx": 372, "cy": 770, "dur": 1.2 },
+    "thud": { "at": 0.25, "frames": 6, "amp": 0.025 },
+    "push": { "from": 10.70, "to": 19.70, "zoom": 1.05 }
+  },
+  "grade": {
+    "_note": "night footage only (P < nightUntil): removes the cyan/blue cast on the bundle, the lifting pile and the column's shadow bands, under the overlays",
+    "filter": "huesaturation=colors=c+b:saturation=-1:strength=60",
+    "nightUntil": 19.70
+  },
+  "overlay": {
+    "_note": "bubbles[] are the appear times of B1..B5; the stack shifts up shiftLead s before bubbles 3..5 appear; the oldest leaves under the label's bottom edge. rows[0] < 0 = row 1 is already inside the panel at the lift.",
+    "bubbles": [-0.15, 1.95, 5.10, 10.65, 20.25],
+    "T0": 276,
+    "shiftLead": 0.16, "shiftDur": 0.34, "exitExtra": 60,
+    "scrimOn": 10.70, "scrimAlpha": 0.35, "scrimFade": 0.3,
+    "gradAlpha": 1.0,
+    "panelIn": 10.95, "panelOut": 19.70, "rows": [-1, 14.20, 16.20], "rowGrow": 0.25,
+    "panelGap": 30, "panelScale0": 0.55, "liftFrom": { "x": 530, "dy": 150 },
+    "endCard": 23.70, "wordmark": 23.85, "price": 24.00, "pill": 24.15,
+    "endExit": { "start": 23.58, "dur": 0.20, "rise": 150 },
+    "endPanelTop": 262, "endPanelLag": 0.02
+  },
+  "voice": {
+    "_note": "Cuts are in the silences of vo.mp3 (take 1) and vo_take2.mp3 (take 2); from/to in source s. onsetAt = P time at which the first audible sample (> -40 dBFS) of the line lands.",
+    "srcs": { "t1": "audio/vo.mp3", "t2": "audio/vo_take2.mp3" },
+    "cutFade": 0.01,
+    "match": true,
+    "onsetThresholdDb": -40,
+    "lines": [
+      { "id": "A1", "take": "t1", "text": "You know what happened.",                              "from": 0.0,   "to": 1.435, "onsetAt": 0.45 },
+      { "id": "A2", "take": "t1", "text": "It’s in here somewhere.",                              "from": 1.425, "to": 2.95,  "onsetAt": 2.00 },
+      { "id": "B",  "take": "t2", "text": "Let’s find the page that shows it.",                   "from": 0.0,   "to": 2.35,  "onsetAt": 5.15 },
+      { "id": "C1", "take": "t1", "text": "One timeline.",                                         "from": 5.18,  "to": 6.23,  "onsetAt": 10.70 },
+      { "id": "C2", "take": "t1", "text": "The page behind every fact.",                           "from": 6.42,  "to": 8.40,  "onsetAt": 11.95 },
+      { "id": "D",  "take": "t1", "text": "Bring the pile. Leave with a timeline.",                "from": 8.69,  "to": 11.02, "onsetAt": 20.30 },
+      { "id": "E1", "take": "t1", "text": "Case IQ.",                                              "from": 11.32, "to": 12.52, "onsetAt": 24.05 },
+      { "id": "E2", "take": "t2", "text": "A flat price agreed before we start, never hourly.",   "from": 4.40,  "to": 8.10,  "onsetAt": 25.55 }
+    ],
+    "duckDb": -7, "duckAttack": 0.04, "duckRelease": 0.25
+  },
+  "music": {
+    "_note": "src music.mp3. Anchors are attack-start times measured on the 1.5 kHz high-passed (pulses), broadband (swell, warm hit) and 50-200 Hz (resolve chord) envelopes; audio.py re-checks each one rises. Segments are placed by anchoring a source onset to a P time.",
+    "src": "audio/music.mp3",
+    "beatPeriod": 0.39484,
+    "preroll": 0.02,
+    "anchors": {
+      "pulse13": 5.149, "pulse21": 8.308,
+      "swell": 12.658, "warm": 15.813, "resolve": 25.298
+    },
+    "m1": { "srcStart": 0.3, "srcEnd": "pulse13", "fadeIn": 0.015, "fadeOut": 0.04, "_note": "P = src - 0.3 (0.3 s trimmed off the head with a 15 ms fade-in); stops 3 ms before the pulse13 attack, which is the lift (4.85)" },
+    "m2": { "srcStart": "pulse21", "anchor": "swell", "at": 10.95, "srcEnd": 15.55, "fadeIn": 0.018, "fadeOut": 0.10,
+            "_note": "pulse resumes from the pulse21 hit; the swell accent lands on the panel lift. Its natural decay runs on into M3's entrance (crossfade)" },
+    "m3": { "anchor": "resolve", "at": 23.70, "srcStart": 15.34, "fadeIn": 0.10,
+            "_note": "enters under M2's decay (0.10 s equal-power crossfade), warm hit lands at 14.215, resolve chord at the end card",
+            "ringOut": { "reverb": { "rt60": 4.0, "wetDb": -8, "fromSrc": 25.288, "lowpassHz": 5000 }, "fadeStart": 29.0, "silentBy": 29.95 } },
+    "musicBelowVoiceLU": 9
+  },
+  "native": {
+    "highpassHz": 90, "crossfade": 0.05,
+    "clipGainDb": { "c1": 0, "c2": 3, "c3": 0 },
+    "thudCompressor": "acompressor=threshold=-30dB:ratio=6:attack=2:release=60:makeup=1",
+    "belowMusicLU": 6,
+    "roomTone": { "from": 19.70, "to": 23.70, "fadeIn": 0.4, "fadeOut": 0.8, "belowVoiceDb": 36 }
+  },
+  "sfx": {
+    "whoosh": { "src": "../../commercial/source/footage/finalA.mp4", "srcStart": 2.86, "dur": 0.47, "at": 4.85, "fadeIn": 0.025, "fadeOut": 0.16, "belowVoiceDb": 14 },
+    "swish": { "at": 10.95, "dur": 0.34, "belowVoiceDb": 17 },
+    "ticks": { "at": [14.20, 16.20], "belowVoiceDb": 27 }
+  },
+  "master": { "I": -14, "TP": -1, "LRA": 11 }
+}

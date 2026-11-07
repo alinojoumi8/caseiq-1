@@ -1,0 +1,226 @@
+@import "tailwindcss";
+@import "./world.css";
+@import "./hero.css";
+@import "./chrome.css";
+
+/* ─────────────── Tokens ───────────────
+   Every colour, shape and type decision is a custom property so a night-reading
+   theme can be added later by redefining these under [data-theme="dark"]
+   without touching components. Light ships in v1. */
+:root {
+  --ground: #f2f2f5;
+  --ink: #111111;
+  --muted: #4f4f57;
+  --rx: #e5e5ea; /* received bubble */
+  --tx: #0a84ff; /* sent bubble */
+  --ind: #2438a8; /* action: only on pressable things */
+  --on-ind: #ffffff;
+  --vio: #7a47b0; /* the person's own words */
+  --slate: #f1f4f8; /* quote surface */
+  --rule: #7c8aa0; /* quote rule */
+  --hair: #d1d1d6;
+  --hair-2: #d6d6dc;
+  --rail: #8e8e96;
+  --gap-line: #55555c;
+  --card: #ffffff;
+  --tag-line: #c5cae6;
+  --body-2: #2b2b31;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.06);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.12), 0 16px 30px rgba(0, 0, 0, 0.2);
+  --shadow-bar: 0 8px 24px rgba(17, 17, 17, 0.08);
+  --shadow-go: 0 6px 14px rgba(36, 56, 168, 0.35);
+
+  --r-bubble: 26px;
+  --r-display: 52px;
+  --r-card: 18px;
+
+  --font-display: var(--font-bricolage), "Segoe UI", system-ui, sans-serif;
+  --font-body: var(--font-bricolage), "Segoe UI", system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, serif;
+  --font-mono-face: var(--font-jetbrains), ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-ind: var(--ind);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono-face);
+}
+
+/* Base rules live in the base layer so component classes (world.css, hero.css, chrome.css) always win over them. */
+@layer base {
+/* ─────────────── Base ─────────────── */
+html {
+  background: var(--ground);
+  /* The sticky status strip is 40px on phones (34px from 900px); the sticky bottom bar is 72px plus the safe area on phones.
+     Anchors and focused controls scroll clear of both. */
+  scroll-padding-top: 56px;
+  scroll-padding-bottom: 24px;
+  /* No scroll anchoring. When a dialog takes the page's scrollbar away and gives its width back as padding (and again on the way
+     out), the browser re-lays the page out for an instant and anchoring nudges the scroll position by a few pixels to follow
+     it. Nothing on this page loads above the reader, so there is nothing for anchoring to hold in place. */
+  overflow-anchor: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Where Lenis smooths the wheel, the browser's own smooth scrolling would fight it. */
+html.lenis {
+  scroll-behavior: auto;
+}
+
+/* A modal dialog should not let the page scroll behind it. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.45;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+img,
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─────────────── Browser surfaces, themed ─────────────── */
+::selection {
+  background: var(--ind);
+  color: var(--on-ind);
+}
+
+input,
+textarea,
+select {
+  caret-color: var(--ind);
+  accent-color: var(--ind);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ind);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Links in running text */
+.link {
+  color: var(--ind);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+}
+.link:hover {
+  text-decoration-thickness: 2.5px;
+}
+
+/* Numerals in data line up */
+.tnum,
+.mono,
+time {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.mono {
+  font-family: var(--font-mono-face);
+}
+
+* {
+  scrollbar-color: var(--rail) var(--ground);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ground);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--rail);
+  border-radius: 8px;
+  border: 3px solid var(--ground);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Skip link: first thing a keyboard user meets */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -64px;
+  z-index: 100;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 20px;
+  border-radius: 22px;
+  background: var(--ind);
+  color: var(--on-ind);
+  font-weight: 700;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+}

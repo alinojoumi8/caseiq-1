@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Case IQ overlay 30s</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=JetBrains+Mono:wght@600&family=Source+Serif+4:opsz,wght@8..60,400&display=block">
+<style>
+  :root {
+    --ground: #f2f2f5; --ink: #111111; --body2: #2b2b31; --muted: #4f4f57;
+    --received: #e5e5ea; --indigo: #2438a8; --hairline: #d1d1d6; --rail: #8e8e96;
+  }
+  html, body { margin: 0; padding: 0; background: transparent; }
+  /* Design space is 1080x1920. The capture renders it at deviceScaleFactor 2/3, so the PNG is 720x1280 with no resampling. */
+  #stage {
+    position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    font-optical-sizing: auto; text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased;
+  }
+  #stage > * { position: absolute; }
+
+  /* z-order: scrim/gradient < ground (with fine print) < avatar/label/bubbles < end-card items < timeline panel */
+  #scrim { z-index: 1; left: 0; top: 0; width: 1080px; height: 1920px; background: #111; opacity: 0; }
+  #grad { z-index: 1; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0;
+    background: linear-gradient(to bottom, rgba(17,17,17,.74) 0px, rgba(17,17,17,.60) 380px, rgba(17,17,17,.20) 800px, rgba(17,17,17,0) 1150px); }
+  #ground { z-index: 2; left: 0; top: 0; width: 1080px; height: 1920px; background: var(--ground); will-change: transform; }
+  #fine > div { display: inline-block; }
+  /* site cut: the fine print is two lines (the legal line, then the AI line) */
+  #fine.two > div { display: block; width: fit-content; margin: 0 auto; }
+  #fine.two > div + div { margin-top: 6px; }
+  #fine { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 500; font-size: 36px; line-height: 1.25;
+    color: var(--muted); font-variation-settings: 'wdth' 100; white-space: nowrap; }
+
+  #avatar, #sender, .bub { z-index: 3; }
+  #avatar { left: 72px; width: 110px; height: 110px; }
+  #avatar .anim { width: 110px; height: 110px; border-radius: 50%; background: #fff; display: grid; place-items: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 8px 20px rgba(0,0,0,.06); opacity: 0; }
+  #avatar svg { width: 56px; height: auto; display: block; }
+  #sender { font-weight: 600; font-size: 36px; line-height: 1.2; color: #fff; white-space: nowrap; opacity: 0; }
+
+  .bub { transform-origin: 0 100%; opacity: 0; visibility: hidden;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,.08)) drop-shadow(0 22px 27.5px rgba(0,0,0,.06)); }
+  .bub .body {
+    box-sizing: border-box; width: fit-content; max-width: 768px;
+    background: var(--received); color: var(--ink);
+    font-weight: 800; font-size: 72px; line-height: 1.0; letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 78;
+    padding: 26px 40px; border-radius: 62px;
+  }
+  .bub svg.tail { position: absolute; left: 0; top: 100%; width: 1px; height: 1px; overflow: visible; z-index: -1; }
+  .bub svg.tail path { fill: var(--received); }
+
+  .row { z-index: 4; left: 0; width: 1080px; display: flex; justify-content: center; }
+  .row > .anim { display: flex; align-items: center; opacity: 0; }
+
+  #wordmark .anim { gap: 18px; }
+  #wordmark svg { height: 76px; width: auto; display: block; }
+  #wordmark .name { font-weight: 800; font-size: 104px; line-height: 76px; letter-spacing: 0;
+    font-variation-settings: 'wdth' 78; color: var(--ink); white-space: nowrap; }
+
+  #pill .anim { height: 104px; box-sizing: border-box; border-radius: 999px; background: var(--indigo);
+    padding: 0 14px 0 48px; gap: 32px; box-shadow: 0 12px 27px rgba(36,56,168,.35); }
+  #pill .lab { font-weight: 700; font-size: 50px; line-height: 1; color: #fff; white-space: nowrap; }
+  #pill .circ { width: 76px; height: 76px; border-radius: 50%; background: #fff; display: grid; place-items: center; flex: none; }
+  #pill .circ svg { width: 76px; height: 76px; display: block; }
+
+  .row > .anim.blk { display: block; }
+  #price .anim { font-weight: 600; font-size: 50px; line-height: 1.17; color: var(--body2); white-space: nowrap; text-align: center; }
+
+  /* the timeline panel: the one lifted thing in the thread (white card, site card radius at 2.78x, lift shadow) */
+  .pnl { z-index: 6; left: 84px; width: 890px; box-sizing: border-box; background: #fff; border-radius: 50px; overflow: hidden;
+    padding: 24px 26px 26px 26px; opacity: 0; visibility: hidden; transform-origin: 50% 0;
+    box-shadow: 0 6px 11px rgba(0,0,0,.12), 0 44px 83px rgba(0,0,0,.20); }
+    .pnl .top { display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 10px 16px; }
+    .pnl .lbl { font-weight: 600; font-size: 36px; line-height: 1.2; color: var(--muted); white-space: nowrap; }
+    .pnl .ex { font-weight: 600; font-size: 36px; line-height: 1.2; color: var(--muted); border: 2px solid var(--hairline);
+    border-radius: 999px; padding: 4px 16px; white-space: nowrap; }
+  /* rail + rows, mirroring the site's TimelineRail: a 1px rail (3px here), solid ink node, mono ref line, quote on slate */
+    .tl { position: relative; margin-top: 14px; }
+    .tl .track { position: absolute; left: 22.5px; width: 3px; background: #dcdce2; border-radius: 2px; }
+  .tr { position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr); margin-bottom: 18px; }
+  .tr:last-child { margin-bottom: 0; }
+  .tr .dot { position: absolute; left: 6px; width: 36px; height: 36px; border-radius: 50%; background: var(--ink);
+    border: 6px solid #fff; box-sizing: border-box; box-shadow: 0 0 0 0 transparent; }
+  .tr .seg { position: absolute; left: 22.5px; width: 3px; background: var(--rail); border-radius: 2px; }
+  .tr .body { grid-column: 2; min-width: 0; }
+  .tr .src { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-weight: 600; font-size: 36px;
+    line-height: 1.2; color: var(--ink); white-space: nowrap; font-feature-settings: 'tnum' 1, 'lnum' 1; }
+  .tr .quote { margin-top: 6px; background: #f1f4f8; border-left: 8px solid #7c8aa0; padding: 10px 22px 12px 24px;
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 400; font-size: 44px; line-height: 1.22; color: var(--ink); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="scrim"></div>
+  <div id="grad"></div>
+
+  <div id="ground"><div id="fine"><div>Case IQ isn’t a law firm and doesn’t give legal advice.</div></div></div>
+
+  <div id="avatar"><div class="anim">
+    <svg viewBox="0 0 30 26"><path d="M6 1h18a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5H13l-7 5v-5a5 5 0 0 1-5-5V6a5 5 0 0 1 5-5z" fill="#111"/><path d="M8 8h14M8 13h9" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+  </div></div>
+  <div id="sender">Case IQ</div>
+
+  <div class="bub" id="b1"><div class="body">You know what happened.</div>
+    <svg class="tail" viewBox="0 0 1 1"><path d="M0 -72 L0 -54 C0 -24 -9 -8 -26 1 C-12 -4 8 0 32 0 L78 0 L78 -30 Z"/></svg></div>
+  <div class="bub" id="b2"><div class="body">It’s in here somewhere.</div>
+    <svg class="tail" viewBox="0 0 1 1"><path d="M0 -72 L0 -54 C0 -24 -9 -8 -26 1 C-12 -4 8 0 32 0 L78 0 L78 -30 Z"/></svg></div>
+  <div class="bub" id="b3"><div class="body">Let’s find the page<br>that shows it.</div>
+    <svg class="tail" viewBox="0 0 1 1"><path d="M0 -72 L0 -54 C0 -24 -9 -8 -26 1 C-12 -4 8 0 32 0 L78 0 L78 -30 Z"/></svg></div>
+  <div class="bub" id="b4"><div class="body">One timeline.<br>The page behind<br>every fact.</div>
+    <svg class="tail" viewBox="0 0 1 1"><path d="M0 -72 L0 -54 C0 -24 -9 -8 -26 1 C-12 -4 8 0 32 0 L78 0 L78 -30 Z"/></svg></div>
+  <div class="bub" id="b5"><div class="body">Bring the pile.<br>Leave with a timeline.</div>
+    <svg class="tail" viewBox="0 0 1 1"><path d="M0 -72 L0 -54 C0 -24 -9 -8 -26 1 C-12 -4 8 0 32 0 L78 0 L78 -30 Z"/></svg></div>
+
+  <div class="row" id="wordmark"><div class="anim">
+    <svg viewBox="0 0 30 26"><path d="M6 1h18a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5H13l-7 5v-5a5 5 0 0 1-5-5V6a5 5 0 0 1 5-5z" fill="#111"/><path d="M8 8h14M8 13h9" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    <span class="name">Case IQ</span></div></div>
+
+  <div class="row" id="price"><div class="anim blk">A flat price agreed before we start,<br>never hourly.</div></div>
+
+  <div class="row" id="pill"><div class="anim">
+    <span class="lab">Get my case in order</span>
+    <span class="circ"><svg viewBox="0 0 100 100"><path d="M30 50H69M52 31L70 50L52 69" fill="none" stroke="#2438a8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </div></div>
+
+  <div id="panel" class="pnl">
+    <div class="top"><span class="lbl">Your papers show</span><span class="ex">Example, not a real case</span></div>
+    <div id="tl" class="tl">
+      <div class="track" id="track"></div>
+      <div class="tr" id="r1"><span class="dot"></span>
+        <div class="body"><div class="src">12 Jan 2025 · Email · page 1</div><div class="quote">“Your role is not affected by the restructuring.”</div></div></div>
+      <div class="tr" id="r2"><span class="seg"></span><span class="dot"></span>
+        <div class="body"><div class="src">28 Jan 2025 · Letter · page 1</div><div class="quote">“Your position has been eliminated, effective today.”</div></div></div>
+      <div class="tr" id="r3"><span class="seg"></span><span class="dot"></span>
+        <div class="body"><div class="src">3 Feb 2025 · Texts · page 4</div><div class="quote">“They posted your old job online today”</div></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- deterministic overlay: everything is a pure function of t ---------- */
+const CFG = window.__CFG || {};
+const T = CFG.t;
+const SITE = CFG.cut === 'site';                    /* the cut for the website: no drawn button, the AI line in the fine print */
+const $ = (id) => document.getElementById(id);
+const clamp01 = (x) => Math.min(1, Math.max(0, x));
+const r3 = (x) => Math.round(x * 1000) / 1000;
+
+/* closed-form damped spring, x(0)=0 -> 1, v(0)=0 */
+function spring(t, k, c, m = 1) {
+  if (t <= 0) return 0;
+  const w0 = Math.sqrt(k / m), z = c / (2 * Math.sqrt(k * m));
+  if (z < 1) {
+    const wd = w0 * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w0 * t) * (Math.cos(wd * t) + (z * w0 / wd) * Math.sin(wd * t));
+  }
+  if (z === 1) return 1 - Math.exp(-w0 * t) * (1 + w0 * t);
+  const s = w0 * Math.sqrt(z * z - 1), a = -z * w0 + s, b = -z * w0 - s;
+  return 1 - (b * Math.exp(a * t) - a * Math.exp(b * t)) / (b - a);
+}
+function cubicBezier(x1, y1, x2, y2) {
+  const bx = (u) => 3 * (1 - u) * (1 - u) * u * x1 + 3 * (1 - u) * u * u * x2 + u * u * u;
+  const by = (u) => 3 * (1 - u) * (1 - u) * u * y1 + 3 * (1 - u) * u * u * y2 + u * u * u;
+  return (x) => {
+    if (x <= 0) return 0; if (x >= 1) return 1;
+    let lo = 0, hi = 1;
+    for (let i = 0; i < 48; i++) { const mid = (lo + hi) / 2; (bx(mid) < x) ? (lo = mid) : (hi = mid); }
+    return by((lo + hi) / 2);
+  };
+}
+const ease = cubicBezier(0.22, 1, 0.36, 1);
+const lerp = (a, b, p) => a + (b - a) * p;
+
+/* geometry (filled in by layout()) */
+const GAP = 20, T0 = CFG.T0, AV = 110;
+const G = { H: [], arrival: [], panel: { top: 0, h: 0, cx: 0 }, shiftAmt: [], Hs: [], senderTop: 0 };
+const BUB = () => [1, 2, 3, 4, 5].map((i) => $('b' + i));
+let PANEL2 = null;
+
+function enter(el, t0, t, extra = '') {            /* bubble-style entrance: spring 480/24, 24px up, 0.94 scale */
+  const tau = t - t0;
+  if (tau < 0) { el.style.opacity = 0; el.style.visibility = 'hidden'; return; }
+  const x = spring(tau, 480, 24, 1);
+  el.style.visibility = 'visible';
+  el.style.opacity = r3(clamp01(tau / 0.12));
+  el.style.transform = `${extra}translateY(${r3(24 * (1 - x))}px) scale(${r3(0.94 + 0.06 * x)})`;
+}
+function rise(el, t0, t, dur = 0.26, px = 20) {
+  const p = ease(clamp01((t - t0) / dur));
+  el.style.opacity = r3(p);
+  el.style.transform = `translateY(${r3((1 - p) * px)}px)`;
+  return p;
+}
+
+/* vertical position of bubble i (1-based) at time t: it arrived at arrival[i]; later events j shift it up.
+   Event j (j >= 3) starts shiftLead before bubble j appears; bubble j-1 moves to the top slot, bubble j-2 leaves. */
+function stackTop(i, t) {
+  let y = G.arrival[i];
+  for (let j = i + 1; j <= 5; j++) {
+    if (j < 3 || (j !== i + 1 && j !== i + 2)) continue;
+    const ts = T.bubble[j - 1] - T.shiftLead;
+    const p = ease(clamp01((t - ts) / T.shiftDur));
+    const leaving = (j === i + 2);
+    y -= p * (G.shiftAmt[j] + (leaving ? T.exitExtra : 0));
+  }
+  return y;
+}
+function bottomOf(i, t) { return stackTop(i, t) + G.H[i]; }
+
+function renderAt(t) {
+  const B = BUB();
+  /* the end card: bubbles, label and avatar scroll up and fade as the ground rises */
+  const ex = T.endExit, xe = clamp01((t - ex.start) / ex.dur);
+  const exitY = -ex.rise * ease(xe), exitM = 1 - clamp01(xe / 0.6);
+  const clipLine = T0 - 4;                         /* leaving bubbles slide under the label's bottom edge */
+  for (let i = 1; i <= 5; i++) {
+    const el = B[i - 1], t0 = T.bubble[i - 1];
+    enter(el, t0, t);
+    const y = stackTop(i, t);
+    el.style.top = r3(y + exitY) + 'px';
+    const b = bottomOf(i, t);
+    const leaveStart = (i + 2 <= 5) ? T.bubble[i + 1] - T.shiftLead : 1e9;
+    let op = parseFloat(el.style.opacity || 1);
+    if (t >= leaveStart) {
+      op *= clamp01((b - (T0 + 4)) / 120);
+      const loc = clipLine - y;                    /* hide everything above the label's bottom edge */
+      el.style.clipPath = loc > 0 ? `polygon(-400px ${r3(loc)}px, 2400px ${r3(loc)}px, 2400px 2400px, -400px 2400px)` : 'none';
+    } else el.style.clipPath = 'none';
+    el.style.opacity = r3(op * exitM);
+    if (t < t0 || (t >= leaveStart && b < T0 + 5) || exitM <= 0) el.style.visibility = 'hidden';
+    /* only the newest bubble carries a tail (site: tails only the last bubble in a group) */
+    const nextT = (i < 5) ? T.bubble[i] - T.shiftLead : 1e9;
+    el.querySelector('svg.tail').style.opacity = r3(1 - clamp01((t - nextT) / 0.10));
+  }
+  const av = document.querySelector('#avatar .anim'), sd = $('sender');
+  enter(av, T.bubble[0], t); enter(sd, T.bubble[0], t);
+  av.style.opacity = r3(parseFloat(av.style.opacity) * exitM); sd.style.opacity = r3(parseFloat(sd.style.opacity) * exitM);
+  sd.style.top = r3(G.senderTop + exitY) + 'px';
+  /* the avatar glides to the newest bubble's bottom edge on the same spring */
+  let newest = 1; for (let i = 1; i <= 5; i++) if (t >= T.bubble[i - 1]) newest = i;
+  let ay = bottomOf(newest, t) - AV;
+  if (newest > 1) {
+    const p = spring(t - T.bubble[newest - 1], 480, 24, 1);
+    const old = bottomOf(newest - 1, t) - AV;
+    ay = lerp(old, ay, p);
+  }
+  $('avatar').style.top = r3(ay + exitY) + 'px';
+
+  /* scrim: #111 at 35% over the held night footage (cut with the picture); the top gradient runs over every shot until the end card */
+  const sc = (t >= T.scrimOn && t < T.panelOut) ? CFG.scrimAlpha * clamp01((t - T.scrimOn) / CFG.scrimFade) : 0;
+  $('scrim').style.opacity = r3(sc);
+  $('grad').style.opacity = t < T.endCard ? CFG.gradAlpha : 0;
+
+  /* timeline panel: the one lift (0.28 s, site ease, no overshoot, -1.4deg) with row 1 already inside; it grows with each row */
+  const panel = $('panel'), tau = t - T.panelIn;
+  if (tau < 0 || t >= T.panelOut) { panel.style.opacity = 0; panel.style.visibility = 'hidden'; }
+  else {
+    const x = ease(clamp01(tau / 0.28)), P = G.panel, s0 = CFG.panelScale0;
+    const dx = (CFG.liftFrom.x - P.cx) * (1 - x), dy = CFG.liftFrom.dy * (1 - x);
+    panel.style.visibility = 'visible';
+    panel.style.opacity = r3(clamp01(tau / 0.08));
+    panel.style.transform = `translate(${r3(dx)}px, ${r3(dy)}px) rotate(${r3(-1.4 * x)}deg) scale(${r3(s0 + (1 - s0) * x)})`;
+  }
+  const Hs = G.Hs;
+  const g2 = ease(clamp01((t - T.rows[1]) / T.rowGrow)), g3 = ease(clamp01((t - T.rows[2]) / T.rowGrow));
+  panel.style.height = r3(Hs[0] + (Hs[1] - Hs[0]) * g2 + (Hs[2] - Hs[1]) * g3) + 'px';
+  [$('r1'), $('r2'), $('r3')].forEach((r, k) => {
+    const p = rise(r, T.rows[k], t, 0.25, 20);
+    const seg = r.querySelector('.seg'); if (seg) seg.style.opacity = r3(p);
+  });
+
+  /* end card: ground rises (fine print rides on it); the three-row panel arrives on it already at rest (-1.4deg, lift shadow) */
+  const gp = ease(clamp01((t - T.endCard) / 0.26));
+  $('ground').style.transform = `translateY(${r3((1 - gp) * 1920)}px)`;
+  const pp = ease(clamp01((t - T.endCard - T.endPanelLag) / 0.26));
+  if (t < T.endCard + T.endPanelLag) { PANEL2.style.visibility = 'hidden'; PANEL2.style.opacity = 0; }
+  else { PANEL2.style.visibility = 'visible'; PANEL2.style.opacity = 1; }
+  PANEL2.style.transform = `translateY(${r3((1 - pp) * 1920)}px) rotate(-1.4deg)`;
+
+  rise(document.querySelector('#wordmark .anim'), T.wordmark, t, 0.26, 16);
+  rise(document.querySelector('#price .anim'), T.price, t, 0.26, 20);
+  const pill = document.querySelector('#pill .anim'), pt = t - T.pill;
+  if (pt < 0) pill.style.opacity = 0;
+  else {
+    const x = spring(pt, 480, 24, 1);
+    pill.style.opacity = r3(clamp01(pt / 0.12));
+    pill.style.transform = `scale(${r3(0.92 + 0.08 * x)})`;
+  }
+}
+
+/* ---------- one-time static layout ---------- */
+function layout() {
+  const AVL = 72, CLEAR = 14;
+  const BL = AVL + AV + CLEAR + 26;               /* bubble left edge: tail tip sits 14 px from the avatar */
+  const B = BUB(), sender = $('sender');
+  B.forEach((b, k) => { b.style.left = BL + 'px'; G.H[k + 1] = b.offsetHeight; });
+  G.arrival[1] = T0;
+  G.arrival[2] = T0 + G.H[1] + GAP;
+  for (let j = 3; j <= 5; j++) G.arrival[j] = T0 + G.H[j - 1] + GAP;
+  for (let j = 3; j <= 5; j++) G.shiftAmt[j] = G.H[j - 2] + GAP;
+  sender.style.left = (BL + 30) + 'px';
+  G.senderTop = T0 - sender.offsetHeight - 8;
+  sender.style.top = G.senderTop + 'px';
+  $('avatar').style.top = (T0 + G.H[1] - AV) + 'px';
+
+  /* timeline panel rests under the (bubble 3, bubble 4) stack; measure the height with 1, 2 and 3 rows */
+  const stackBottom = T0 + G.H[3] + GAP + G.H[4];
+  const panel = $('panel');
+  const top = stackBottom + CFG.panelGap;
+  panel.style.top = top + 'px';
+  const rows = [$('r1'), $('r2'), $('r3')];
+  const pTop = panel.getBoundingClientRect().top;
+  G.Hs = rows.map((r) => r.getBoundingClientRect().bottom - pTop + 26);
+  const ph = panel.offsetHeight, pw = panel.offsetWidth;
+  const pl = parseFloat(getComputedStyle(panel).left);
+  G.panel = { top, h: ph, w: pw, cx: pl + pw / 2 };
+  panel.style.height = G.Hs[0] + 'px';
+
+  /* rail: faint track between the first and last node, solid segment above each later node (before the clone) */
+  const tl = $('tl');
+  const tlTop = tl.getBoundingClientRect().top;
+  const ctr = rows.map((r) => r.querySelector('.src').getBoundingClientRect().top - tlTop + 22);
+  rows.forEach((r, k) => {
+    const dot = r.querySelector('.dot');
+    const rt = r.getBoundingClientRect().top - tlTop;
+    dot.style.top = (ctr[k] - rt - 18) + 'px';
+    const seg = r.querySelector('.seg');
+    if (seg) { const prevCtr = ctr[k - 1]; seg.style.top = (prevCtr - rt) + 'px'; seg.style.height = (ctr[k] - prevCtr) + 'px'; }
+  });
+  const tk = $('track'); tk.style.top = ctr[0] + 'px'; tk.style.height = (ctr[2] - ctr[0]) + 'px';
+
+  /* end card: the three-row panel (clone, no ids) on the ground, then wordmark, price, pill, fine print */
+  PANEL2 = panel.cloneNode(true);
+  PANEL2.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
+  PANEL2.id = 'panelEnd';
+  PANEL2.style.top = CFG.endPanelTop + 'px'; PANEL2.style.height = G.Hs[2] + 'px';
+  PANEL2.style.transform = 'translateY(1920px) rotate(-1.4deg)'; PANEL2.style.opacity = 0; PANEL2.style.visibility = 'hidden';
+  PANEL2.querySelectorAll('.tr').forEach((n) => { n.style.opacity = 1; n.style.transform = 'none'; });
+  PANEL2.querySelectorAll('.seg').forEach((n) => { n.style.opacity = 1; });
+  $('stage').appendChild(PANEL2);
+  const wm = $('wordmark'), price = $('price'), pill = $('pill'), fine = $('fine');
+  if (SITE) {
+    pill.style.display = 'none';                    /* the site puts a real, pressable button under the film */
+    fine.classList.add('two');
+    const ai = document.createElement('div');
+    ai.textContent = 'Pictures, voice and music made with AI.';
+    fine.appendChild(ai);
+  }
+  const epBot = CFG.endPanelTop + G.Hs[2];
+  const wmTop = epBot + 11 + 50;        wm.style.top = wmTop + 'px';
+  const wmBot = wmTop + wm.offsetHeight;
+  const priceTop = wmBot + 34;          price.style.top = priceTop + 'px';
+  const priceBot = priceTop + price.offsetHeight;
+  const pillTop = SITE ? priceBot : priceBot + 28;      pill.style.top = pillTop + 'px';
+  const pillBot = SITE ? priceBot : pillTop + pill.offsetHeight;
+  const fineTop = SITE ? priceBot + 34 : pillBot + 26;  fine.style.top = fineTop + 'px';   /* site cut: the fine print moves up under the price line */
+  const fineBot = fineTop + fine.offsetHeight;
+  window.__stack = { stackBottom, panelTop: top, panelH: ph, panelHs: G.Hs, panelBottom: top + ph, endPanelTop: CFG.endPanelTop, endPanelBottom: epBot, wmTop, wmBot, priceTop, priceBot, pillTop, pillBot, fineTop, fineBot, H: G.H.slice(1) };
+}
+
+window.renderAt = renderAt;
+const rectOf = (el) => { const r = el.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; };
+/* per-frame geometry for the guards */
+window.frameInfo = () => {
+  const out = { bubbles: [], panel: null, panel2: null, label: null, avatar: null, end: {} };
+  BUB().forEach((b, k) => {
+    const op = parseFloat(b.style.opacity || 0);
+    if (op > 0.02 && b.style.visibility !== 'hidden') out.bubbles.push({ i: k + 1, op, tail: parseFloat(b.querySelector('svg.tail').style.opacity), ...rectOf(b.querySelector('.body')) });
+  });
+  const boxOf = (p) => {
+    const parts = [...p.querySelectorAll('.lbl, .ex, .src, .quote, .dot')].map(rectOf);
+    const x0 = Math.min(...parts.map((r) => r.x)), y0 = Math.min(...parts.map((r) => r.y));
+    const x1 = Math.max(...parts.map((r) => r.x + r.w)), y1 = Math.max(...parts.map((r) => r.y + r.h));
+    return { ...rectOf(p), content: { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } };
+  };
+  const p = $('panel');
+  if (p.style.visibility === 'visible' && parseFloat(p.style.opacity) > 0.02) out.panel = { op: parseFloat(p.style.opacity), ...boxOf(p) };
+  if (PANEL2.style.visibility === 'visible') out.panel2 = { op: 1, ...boxOf(PANEL2) };
+  const sd = $('sender');
+  out.label = { op: parseFloat(sd.style.opacity || 0), ...rectOf(sd) };
+  out.avatar = { op: parseFloat(document.querySelector('#avatar .anim').style.opacity || 0), ...rectOf($('avatar')) };
+  const fineRects = [...$('fine').children].map(rectOf);          /* one line, or two in the site cut */
+  const fx0 = Math.min(...fineRects.map((r) => r.x)), fy0 = Math.min(...fineRects.map((r) => r.y));
+  const fine = { x: fx0, y: fy0, w: Math.max(...fineRects.map((r) => r.x + r.w)) - fx0, h: Math.max(...fineRects.map((r) => r.y + r.h)) - fy0 };
+  out.end = { wordmark: rectOf($('wordmark').querySelector('.anim')), price: rectOf($('price').querySelector('.anim')), ...(SITE ? {} : { pill: rectOf($('pill').querySelector('.anim')) }), fine };
+  return out;
+};
+window.layoutInfo = () => {
+  const q = (s) => { const r = document.querySelector(s).getBoundingClientRect(); return { x: +r.x.toFixed(1), y: +r.y.toFixed(1), w: +r.width.toFixed(1), h: +r.height.toFixed(1) }; };
+  renderAt(1e6);
+  return {
+    stack: window.__stack, G,
+    bodies: BUB().map((b) => q('#' + b.id + ' .body')),
+    sender: q('#sender'), panel: q('#panel'), name: q('#wordmark .name'), glyph: q('#wordmark svg'),
+    pill: q('#pill .anim'), lab: q('#pill .lab'), price: q('#price .anim'), fine1: q('#fine div'),
+    priceLines: Math.round(document.querySelector('#price .anim').offsetHeight / (50 * 1.17)),
+    rowSrc: ['#r1', '#r2', '#r3'].map((s) => q(s + ' .src')), rowQuote: ['#r1', '#r2', '#r3'].map((s) => q(s + ' .quote')),
+    rowQuoteLines: ['#r1', '#r2', '#r3'].map((s) => Math.round(document.querySelector(s + ' .quote').offsetHeight)),
+  };
+};
+window.ready = (async () => {
+  await document.fonts.ready;
+  await Promise.all([
+    document.fonts.load("800 72px 'Bricolage Grotesque'"), document.fonts.load("600 36px 'Bricolage Grotesque'"),
+    document.fonts.load("500 36px 'Bricolage Grotesque'"), document.fonts.load("700 50px 'Bricolage Grotesque'"),
+    document.fonts.load("600 30px 'JetBrains Mono'"), document.fonts.load("400 44px 'Source Serif 4'"),
+  ]);
+  await document.fonts.ready;
+  layout();
+  renderAt(+(new URLSearchParams(location.search).get('t') || 0));
+  return true;
+})();
+</script>
+</body>
+</html>

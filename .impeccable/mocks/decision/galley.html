@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Case IQ - The Fact-Checker's Galley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@400&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--mat:#24533F;--paper:#FBFBF8;--ink:#141414;--gr:#4A4F57;--pen:#1F8FD1;--pt:#17619E;--ind:#2438A8;--vio:#7A47B0;--pale:#EAF1EC;--fr:"Libre Franklin",sans-serif;--cas:"Libre Caslon Text",serif;--mono:"JetBrains Mono",monospace;--hand:Kalam,cursive}
+html,body{width:1440px;height:900px;overflow:hidden;margin:0}
+body{position:relative;color:var(--ink);font:16px/1.4 var(--cas);background:
+ linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px) 0 0/120px 120px,linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px) 0 0/120px 120px,
+ linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px) 0 0/24px 24px,
+ radial-gradient(ellipse at 28% 18%,#2D6148,transparent 70%),var(--mat)}
+::selection{background:var(--ind);color:#fff}
+button{cursor:pointer;font-family:var(--fr)} :focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+.sb{position:absolute;top:0;left:0;right:0;height:32px;padding:0 48px;display:flex;justify-content:space-between;align-items:center;background:#173D2D;color:var(--pale);font:500 14px var(--fr)}
+.bt{border:2px solid var(--paper);background:var(--ind);color:#fff;border-radius:6px;font:700 15px var(--fr);padding:0 18px;height:38px}
+.sb .bt{height:24px;font-size:13px;padding:0 12px;border-width:1.5px}
+.rl{position:absolute;top:32px;left:0;width:1440px;height:78px;background:linear-gradient(90deg,rgba(255,255,255,.85) 1.5px,transparent 0) 0 0/120px 16px repeat-x,linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 0) 0 0/60px 11px repeat-x,linear-gradient(90deg,rgba(255,255,255,.45) 1px,transparent 0) 0 0/12px 6px repeat-x,rgba(0,0,0,.14);border-bottom:1px solid rgba(255,255,255,.35)}
+.nm{position:absolute;top:17px;left:0;display:flex;font:400 12px var(--mono);color:var(--pale)} .nm i{width:120px;padding-left:5px;box-sizing:border-box;font-style:normal}
+.nv{position:absolute;left:48px;right:48px;top:38px;height:36px;display:flex;align-items:center;gap:32px;font:500 15.5px var(--fr)}
+.nv b{margin-right:auto;font:800 23px var(--fr);color:#fff;letter-spacing:-.01em} .nv a{color:var(--pale);text-decoration:underline;text-decoration-color:rgba(234,241,236,.45);text-underline-offset:5px}
+.g{position:absolute;left:40px;top:118px;width:930px;height:720px;display:grid;grid-template-columns:48px 520px 44px 290px;grid-auto-rows:30px;background:linear-gradient(#ECECE3 1px,transparent 1px) 0 29px/100% 30px,var(--paper);box-shadow:0 22px 40px -14px rgba(0,0,0,.55),0 2px 4px rgba(0,0,0,.3)}
+.g::before{content:"";position:absolute;left:47px;top:0;bottom:0;width:1px;background:#C9CBC4}
+.g>*:not(i){grid-row:var(--r)/span var(--n,1);margin:0}
+.g>i{grid-column:1;font:400 12px/30px var(--mono);color:var(--gr);text-align:right;padding-right:11px;font-style:normal} .g>i.d{grid-row:span 2}
+.h{grid-column:2/5;background:var(--paper);font:800 62px/60px var(--fr);letter-spacing:-.025em;text-wrap:nowrap}
+.u{position:relative}.u svg{position:absolute;left:0;bottom:-4px;width:100%;height:12px}
+.sub{grid-column:2;font:400 17px/30px var(--cas)} .sl{grid-column:4;font:700 16px/30px var(--cas)}
+.ex{grid-column:2/5;display:flex;align-items:center;gap:14px;font:400 19px/30px var(--hand);color:var(--gr)} .ex::after{content:"";flex:1;border-top:1.5px solid #D5D7D0}
+.s{grid-column:2;position:relative;font:italic 400 21px/30px var(--cas);color:var(--vio)}
+.bd{grid-column:2;display:flex;font:400 12.5px/30px var(--mono);color:var(--gr)} .bd b{font-weight:400;padding-right:12px} .bd b+b{border-left:1px solid #B9BDC4;padding-left:12px}
+.bd .e{border:1.5px dashed var(--gr);margin-right:10px;padding:0 12px;height:19px;line-height:19px;align-self:center;border-radius:3px;font-size:12px}
+.nt{grid-column:4;font:400 17px/30px var(--hand);color:var(--pt);white-space:nowrap;transform:rotate(-1.2deg);transform-origin:left;padding-left:6px}
+.sn{grid-column:4;margin:2px 0!important;box-sizing:border-box;padding:6px 10px;background:#F1F4F8;border-left:3px solid #7C8AA0;font:400 14.5px/1.35 "Source Serif 4",serif;color:var(--ink)}
+.mk{grid-column:4;margin:2px 0!important;box-sizing:border-box;padding:6px 12px;border:2px dashed var(--gr);border-radius:4px;font:400 14.5px/1.3 var(--cas)} .mk b{font:700 14px var(--fr)}
+.fp{grid-column:2/5;font:400 15px/30px var(--cas)}
+.pn{fill:none;stroke:var(--pen);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;filter:url(#r);overflow:visible} .dz{stroke-dasharray:5 6}
+.tk{grid-column:3;width:34px;height:30px;justify-self:center}
+.ld{grid-column:3/5;width:100%;height:100%;stroke-width:1.4}
+.ci{position:absolute;left:-16px;top:-9px;width:280px;height:48px}
+.q{position:absolute;left:278px;top:-4px;font:700 25px/34px var(--hand);color:var(--pt);font-style:normal;white-space:nowrap;transform:rotate(-3deg)} .q svg{position:absolute;left:calc(100% + 6px);top:14px;width:180px;height:20px;stroke-width:1.4}
+.cd{position:absolute;left:944px;top:148px;width:448px;box-sizing:border-box;padding:30px 30px 28px;background:#fff;border-radius:8px;box-shadow:0 26px 44px -16px rgba(0,0,0,.55),0 3px 6px rgba(0,0,0,.25)}
+.go{display:block;width:100%;height:62px;border:0;border-radius:6px;background:var(--ind);color:#fff;font:800 20px var(--fr);box-shadow:0 8px 16px -8px rgba(36,56,168,.7)}
+.hp{margin:12px 0 0;font:400 14.5px/1.4 var(--cas);color:var(--gr)}
+.rs{margin:20px 0 0;padding-top:16px;border-top:1px solid #DADDE2;display:grid;gap:4px;font:400 15px/1.35 var(--cas)}
+.cl{margin:20px 0 10px;font:700 15.5px var(--fr)} .ch{display:flex;flex-wrap:wrap;gap:10px}
+.ch button{height:44px;padding:0 18px;border-radius:22px;border:1.5px solid var(--ind);background:#fff;color:var(--ind);font:600 15px var(--fr)} .ch .on{background:var(--ind);color:#fff}
+.lg{position:absolute;left:968px;top:610px;width:400px;box-sizing:border-box;padding:10px 18px;background:#F3F2EA;transform:rotate(-1.2deg);box-shadow:0 12px 20px -8px rgba(0,0,0,.5);font:400 14.5px/1.3 var(--cas)}
+.lg p{display:flex;align-items:center;gap:14px;margin:6px 0} .lg svg{width:34px;height:26px;flex:none}
+.pc{position:absolute;left:984px;top:792px;width:470px;transform:rotate(3deg);filter:drop-shadow(0 9px 5px rgba(0,0,0,.4))}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs><filter id="r"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter>
+<g id="t"><path d="M3 17C6 19 9 22 12 27C15 18 23 9 31 3"/><path d="M4 18C7 20 9 23 12.5 26C16 17 24 10 30 4" style="stroke-width:1.2;opacity:.5"/></g></defs></svg>
+
+<div class="sb"><span>Now helping people in Ontario, a few at a time</span><button class="bt">Quick exit</button></div>
+<header class="rl"><div class="nm"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i><i>11</i><i>12</i></div>
+<nav class="nv"><b>Case IQ</b><a href="#">How it works</a><a href="#">What you get</a><a href="#">Privacy</a><a href="#">Questions</a><button class="bt">Get my case in order</button></nav></header>
+
+<main class="g">
+<i class="d">1</i><i class="d">2</i><i class="d">3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i>10</i><i>11</i><i>12</i><i>13</i><i>14</i><i>15</i><i>16</i><i>17</i><i>18</i><i>19</i><i>20</i><i>21</i>
+<h1 class="h" style="--r:1;--n:6">You know what happened.<br>Let’s find <span class="u">the page<svg class="pn" viewBox="0 0 230 12" preserveAspectRatio="none"><path d="M2 7C40 3 80 9 120 5S200 4 228 6"/></svg></span><br>that shows it.</h1>
+<p class="sub" style="--r:7;--n:5">For people in Ontario handling a court or tribunal case. Case IQ puts your emails, texts, photos, handwritten notes and court papers into one timeline. Every fact links to the page it came from, and if your papers don’t show something, we tell you.</p>
+<p class="sl" style="--r:8;--n:3">Our software reads every page. A person on our team checks every fact.</p>
+<svg class="pn tk" style="--r:10" viewBox="0 0 34 30"><use href="#t"/></svg>
+<p class="ex" style="--r:12">Example, not a real case</p>
+
+<p class="s" style="--r:13">My manager said my job was safe.</p>
+<p class="bd" style="--r:14"><b>12 Jan 2025</b><b>Email from your manager</b><b>page 1</b></p>
+<svg class="pn tk" style="--r:13" viewBox="0 0 34 30"><use href="#t"/></svg>
+<svg class="pn ld" style="--r:13;--n:3" viewBox="0 0 334 90"><path d="M12 28C14 44 26 56 42 60"/></svg>
+<p class="nt" style="--r:13">Email · 12 Jan 2025 · p. 1</p>
+<blockquote class="sn" style="--r:14;--n:2">“Your role is not affected by the restructuring.”</blockquote>
+
+<p class="s" style="--r:16">He said there’d be no more cuts this year.</p>
+<p class="bd" style="--r:17"><b>20 Jan 2025</b><b>Your meeting notes</b><b>page 1</b></p>
+<svg class="pn dz tk" style="--r:16" viewBox="0 0 34 30"><use href="#t"/></svg>
+<svg class="pn dz ld" style="--r:16;--n:3" viewBox="0 0 334 90"><path d="M12 28C13 36 24 44 40 45" style="stroke-dasharray:3 5"/></svg>
+<p class="nt" style="--r:16">Notes · 20 Jan 2025 · p. 1</p>
+<p class="nt" style="--r:17;--n:2">read by computer,<br>check the original</p>
+
+<p class="s" style="--r:19">They never told me why.<svg class="pn ci" viewBox="0 0 280 48"><path d="M34 10C80 3 205 4 250 11C274 16 276 32 246 38C205 45 80 45 36 39C8 34 6 18 32 11C46 7 66 5 88 5"/></svg><em class="q">Source?<svg class="pn" viewBox="0 0 200 20"><path d="M2 14C50 20 120 4 196 12"/></svg></em></p>
+<p class="bd" style="--r:20"><b class="e">when</b><b class="e">what</b><b class="e">where</b></p>
+<p class="mk" style="--r:19;--n:3"><b>Not in your papers yet:</b> anything about the restructuring the email mentions.</p>
+
+<p class="fp" style="--r:23;--n:2">Case IQ isn’t a law firm and doesn’t give legal advice. We organize your papers so you can take them to a lawyer, a legal clinic or your hearing.</p>
+</main>
+
+<section class="cd">
+<button class="go">Get my case in order</button>
+<p class="hp">6 quick questions · A person replies within one business day</p>
+<p class="rs"><span>Free first conversation</span><span>Flat price, never hourly</span><span>No documents needed to start</span></p>
+<p class="cl">Show me with a case like mine</p>
+<div class="ch"><button class="on">Job or workplace</button><button>Housing</button><button>Money owed</button><button>Family &amp; separation</button></div>
+</section>
+
+<aside class="lg">
+<p><svg class="pn" viewBox="0 0 34 30"><use href="#t"/></svg>Stated in a document</p>
+<p><svg class="pn dz" viewBox="0 0 34 30"><use href="#t"/></svg>Read by computer, check the original</p>
+<p><svg viewBox="0 0 34 26"><rect x="2" y="3" width="30" height="20" rx="3" fill="none" stroke="#4A4F57" stroke-width="2" stroke-dasharray="4 3"/></svg>Missing: not in your papers yet</p>
+</aside>
+
+<svg class="pc" viewBox="0 0 480 40"><polygon points="8,20 86,6 86,34" fill="#DAD6CC"/><polygon points="0,20 24,16.5 24,23.5" fill="#4A4F57"/><rect x="86" y="6" width="356" height="28" fill="#1F8FD1"/><rect x="86" y="9" width="356" height="5" fill="#6DBAE8" opacity=".7"/><rect x="86" y="26" width="356" height="8" fill="#17619E"/><rect x="442" y="5" width="22" height="30" fill="#B9BEC5"/><path d="M448 5V35M454 5V35M460 5V35" stroke="#7B8189"/><rect x="464" y="8" width="16" height="24" rx="4" fill="#17619E"/></svg>
+</body></html>

@@ -1,0 +1,6 @@
+# Python packages the build scripts import (Python 3.11+). Also needed on PATH: ffmpeg + ffprobe (8.x), node 20+.
+# Chromium comes from the repo's Playwright install (apps/site/node_modules/playwright). The font Consolas (C:/Windows/Fonts/consola.ttf) is copied at QA time for the timestamp overlays.
+numpy>=2.0
+scipy>=1.11
+matplotlib>=3.8
+pillow>=10.0

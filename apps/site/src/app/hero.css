@@ -1,0 +1,690 @@
+/* S2 hero. Mobile first: one column in reading order (headline, film message, sub, who, reply bar, reassurance, chips, thread).
+   From 1200px the sketch's two-column composition applies (830px left, 502px thread, 12px gap, 48px margins). */
+@layer components {
+  .hero {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 18px 20px 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+  }
+
+  .hero-left {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .hero-h1 {
+    width: min(100%, 808px);
+    padding: 16px 26px 20px;
+    border-radius: 38px;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 9.64cqw, 4rem);
+    line-height: 0.98;
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .hero-h1 .pin {
+    position: absolute;
+    top: -14px;
+    right: 22px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--ink);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+  }
+
+  /* At 320 the first line runs under the pin badge: give the bubble room above the text. */
+  @container (max-width: 300px) {
+    .hero-h1 {
+      padding-top: 30px;
+    }
+  }
+
+  .hero-pinned {
+    margin: -4px 0 4px 22px;
+    font: 500 13px/1.4 var(--font-mono-face);
+    color: var(--muted);
+  }
+
+  /* The film message and the sub: stacked on a phone, side by side from 640px (the film on the right). */
+  .hero-subrow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    max-width: 100%;
+  }
+  .hero-sub {
+    width: 560px;
+    max-width: 100%;
+    font-size: 17px;
+    line-height: 1.5;
+    padding: 15px 20px;
+  }
+
+  /* ───────── The film message ─────────
+     A square video message in the thread: the clip's first frame, a play control, and the cues a visitor needs before the tap
+     ("With sound", "Made with AI") on the tile itself, so they travel with the control. Under it: one line, and the way to read it.
+     62% of the screen on a phone (240px at most), 200 to 232px from 640px. */
+  .hero-film {
+    flex: none;
+    width: min(62vw, 240px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .film-tile {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    margin-bottom: 4px;
+    border-radius: var(--r-card);
+    overflow: hidden;
+    background: var(--ink);
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+  }
+  .film-tile picture,
+  .film-tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* The silent clip lies over the picture and shows only once it is playing, so there is never a black frame. It rests on its last
+     frame. It is 1px inside the picture on every side: a video that matched the picture exactly would be a new, slightly larger
+     largest contentful paint the moment it starts, and the metric would jump to the start of the clip. */
+  .film-tile__snap {
+    position: absolute;
+    inset: 1px;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    object-fit: cover;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .film-tile[data-snap="playing"] .film-tile__snap,
+  .film-tile[data-snap="ended"] .film-tile__snap {
+    opacity: 1;
+  }
+  /* The cues sit above the control in the tile's top-left corner. Where the sticky bar covers the bottom of the page, the control
+     can only show if the tile's top shows too, so both cues are always fully showing while any part of the control is. */
+  .film-tile__cues {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    display: grid;
+    justify-items: start;
+    gap: 4px;
+  }
+  /* White on solid ink: 18:1 on every frame of the clip, whatever is behind it. */
+  .film-chip {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .film-tile__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 52px;
+    height: 52px;
+    margin: -26px 0 0 -26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ind);
+    box-shadow: var(--shadow-go);
+    transition: box-shadow 160ms var(--ease-out);
+  }
+  /* White on solid ink: 18:1 on every frame of the clip, whatever is behind it. */
+  .film-tile__time::before {
+    content: attr(data-length);
+  }
+  .film-tile__time {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font: 600 13px/1.3 var(--font-mono-face);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (hover: hover) {
+    .film-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 14px 26px rgba(0, 0, 0, 0.16);
+    }
+    .film-tile:hover .film-tile__play {
+      box-shadow: 0 8px 18px rgba(36, 56, 168, 0.42);
+    }
+  }
+  .film-tile:active {
+    transform: scale(0.98);
+  }
+  /* A tap that is waiting for the player's code (FilmContext sets data-busy and aria-busy): a ring turns around the play circle. */
+  .film-tile[data-busy] .film-tile__play::after {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    animation: film-busy 800ms linear infinite;
+  }
+  @keyframes film-busy {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .film-tile:focus-visible {
+    border-radius: var(--r-card);
+  }
+  /* One line under the tile, at every width: the tile is never narrower than 198px, and the line is about 180px. */
+  .film-example {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .film-read {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  @media (pointer: coarse) {
+    .film-read {
+      min-height: 44px;
+    }
+  }
+  .hero-who {
+    max-width: 700px;
+    font-size: 17px;
+    padding: 12px 20px;
+  }
+
+  .hero-bar {
+    min-width: 0;
+  }
+  .hero-reassure {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--body-2);
+    text-wrap: balance;
+  }
+  .hero-fine {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .hero-chips {
+    margin-top: 6px;
+  }
+
+  /* Reply bar on a phone: helper above a full-width send pill. */
+  .reply-bar {
+    flex-wrap: wrap;
+    padding: 12px;
+    border-radius: 30px;
+    gap: 10px;
+  }
+  .reply-bar__helper {
+    flex: 1 1 100%;
+    padding: 2px 8px 0;
+    text-wrap: balance;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .reply-bar .send {
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 24px;
+  }
+
+  /* ───────── The hero intro's start state ─────────
+     A script in the page's head adds html.js-motion before the first paint, only when motion is allowed (layout.tsx). While it is
+     on, the pieces the intro brings in wait one step below their place and invisible: the pin badge, the "Pinned" label, the film
+     message, the sub, the "who checks" bubble and the example thread's pieces (the thread arrives as the last step of the intro).
+     HeroMotion takes the class off in the same moment it sets the same state on the pieces, and plays them in. If it never starts
+     (a script error, a slow connection) the head script takes the class off after 2.5s and everything simply shows. The headline,
+     the reply bar and send pill, the nav and the status strip are never hidden. With no JavaScript the class is never added. */
+  html.js-motion .hero-h1 .pin,
+  html.js-motion .hero-pinned,
+  html.js-motion .hero-sub,
+  html.js-motion .hero-who,
+  html.js-motion .thread [data-at] {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  /* The rail's line is part of the thread's start state too: it is drawn by each row's ::before, scaled by --rail-s, and the intro
+     draws it down with the thread. Without this the line stood alone in an empty column for the first 640ms. */
+  html.js-motion .thread .trow--rail {
+    --rail-s: 0;
+  }
+  /* The film message is the biggest thing on a phone's first screen (240px square, bigger than the headline's text), so it is
+     the largest contentful paint there. It is held down but never made invisible below 640px, so the picture paints with
+     the page and the metric stays at first paint; from 640px the headline is the biggest and the film waits invisible like the rest. */
+  html.js-motion .hero-film {
+    transform: translateY(16px);
+  }
+  @media (min-width: 640px) {
+    html.js-motion .hero-film {
+      opacity: 0;
+    }
+  }
+
+  /* ───────── Example thread ───────── */
+  .thread {
+    --rail-w: 84px;
+    --rail-x: 12px;
+    --node-x: 6px;
+    width: 100%;
+    max-width: 502px;
+    padding-top: 6px;
+    min-width: 0;
+  }
+  .trow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--rail-w);
+    position: relative;
+  }
+  .trow__main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-bottom: 12px;
+  }
+  .trow__rail {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 0 12px var(--node-x);
+  }
+  .trow--rail .trow__rail::before {
+    content: "";
+    position: absolute;
+    left: var(--rail-x);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--rail);
+    transform: scaleY(var(--rail-s, 1));
+    transform-origin: 50% 0;
+  }
+  .trow--end .trow__main {
+    align-items: flex-end;
+  }
+  .trow--center .trow__main {
+    align-items: center;
+  }
+  .trow--sent .trow__main {
+    padding-bottom: 14px;
+    margin-right: 14px;
+  }
+  .thread-delivered {
+    margin-top: 5px;
+    max-width: 40ch;
+    font: 500 13px/1.4 var(--font-body);
+    color: var(--muted);
+    text-align: right;
+    text-wrap: balance;
+  }
+  .thread-pill {
+    display: inline-block;
+    padding: 3px 13px;
+    border-radius: 13px;
+    background: var(--rx);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .trow--pill .trow__rail {
+    align-items: flex-end;
+    padding-bottom: 4px;
+  }
+  .rail-title {
+    font: 600 13px/1.3 var(--font-mono-face);
+    color: var(--ink);
+    margin-left: calc(var(--node-x) * -1 + var(--node-x));
+  }
+
+  .thread-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+  .thread-item--end {
+    align-items: flex-end;
+  }
+  .thread-label {
+    margin: 0 0 5px 6px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--muted);
+  }
+  .thread-item--end .thread-label {
+    margin: 0 8px 5px 0;
+  }
+  .shot-card .quote-text {
+    font-size: 19px;
+  }
+  .shot-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  .see-page {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 14px 0 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+  .see-page:hover {
+    background: #eceefa;
+  }
+  .see-page:active {
+    transform: scale(0.97);
+  }
+  @media (pointer: coarse) {
+    .see-page {
+      min-height: 44px;
+    }
+  }
+
+  .trow--lift .trow__main {
+    flex-direction: row;
+    align-items: center;
+    padding-top: 12px;
+  }
+  .lift {
+    flex: 0 1 326px;
+    min-width: 0;
+    font-size: 18px;
+    transform: rotate(-1.4deg);
+    box-shadow: var(--shadow-lift);
+    z-index: 2;
+  }
+  /* The tag is anchored by its bottom edge, so when it wraps (phones) it grows upward, never over the bubble's own text. */
+  .lift .page-tag {
+    position: absolute;
+    top: auto;
+    bottom: calc(100% - 10px);
+    left: 14px;
+    max-width: calc(100% - 22px);
+    white-space: normal;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+  .leader {
+    position: relative;
+    flex: 1 0 20px;
+    height: 1px;
+    background: var(--ink);
+    margin-right: calc(var(--rail-x) * -1);
+    transform-origin: left center;
+    z-index: 3;
+  }
+  .leader::before {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .bubble--gap .gap-add {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+  }
+
+  /* Phones: room above the lifted bubble for a tag that wraps onto two lines. */
+  @media (max-width: 639px) {
+    .trow--lift .trow__main {
+      padding-top: 28px;
+    }
+    /* The first screen holds the headline, both lines of context, the reply bar and the reassurance line (390x844). */
+    .hero {
+      padding-top: 10px;
+      row-gap: 8px;
+    }
+    .hero-left {
+      gap: 8px;
+    }
+    .hero-h1 {
+      padding-bottom: 18px;
+    }
+    .hero-pinned {
+      margin: -2px 0 0 22px;
+    }
+    .hero-sub,
+    .hero-who {
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    .hero-sub {
+      padding: 12px 18px;
+    }
+    .hero-who {
+      padding: 10px 18px;
+    }
+  }
+
+  /* ───────── Tablet ───────── */
+  @media (min-width: 640px) {
+    .hero {
+      padding: 22px 32px 48px;
+    }
+    /* The film message takes the camera roll's old place, beside the sub. It spans the sub and the "who checks" bubble, so the
+       column stays as tall as the sub, who and the film's own details together and leaves no gap under the sub. */
+    .hero-left {
+      display: grid;
+      grid-template-columns: minmax(0, 560px) auto 1fr;
+      column-gap: 0;
+      row-gap: 12px;
+      align-items: start;
+      justify-items: start;
+      /* The film spans the last two rows; the last row takes whatever height it has over, so the sub and the "who" bubble stay together. */
+      grid-template-rows: auto auto auto 1fr;
+      grid-template-areas:
+        "h1 h1 h1"
+        "pinned pinned pinned"
+        "sub film ."
+        "who film .";
+    }
+    .hero-subrow {
+      display: contents;
+    }
+    .hero-h1 {
+      grid-area: h1;
+    }
+    .hero-pinned {
+      grid-area: pinned;
+    }
+    .hero-sub {
+      grid-area: sub;
+    }
+    .hero-who {
+      grid-area: who;
+    }
+    .hero-film {
+      grid-area: film;
+      width: clamp(200px, 20vw, 232px);
+      margin-left: 28px;
+    }
+    .hero-h1 {
+      padding: 18px 36px 24px;
+      border-radius: 46px;
+      letter-spacing: -0.025em;
+    }
+    .hero-h1 .pin {
+      right: 30px;
+    }
+    .thread {
+      --rail-w: 122px;
+      --rail-x: 34px;
+      --node-x: 28px;
+      margin-top: 8px;
+    }
+    .trow--sent .trow__main {
+      margin-right: 20px;
+    }
+    .rail-title {
+      margin-left: 0;
+    }
+  }
+  @media (min-width: 700px) {
+    .reply-bar {
+      flex-wrap: nowrap;
+      padding: 8px 9px 8px 12px;
+      border-radius: 35px;
+      gap: 14px;
+    }
+    .reply-bar__helper {
+      flex: 1;
+      padding: 0 0 0 16px;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+    .reply-bar .send {
+      width: auto;
+      justify-content: flex-start;
+      padding-left: 28px;
+    }
+    .hero-reassure {
+      padding-left: 28px;
+      padding-right: 28px;
+    }
+    .hero-fine {
+      padding-left: 28px;
+    }
+  }
+
+  /* At 1440 the left column is its full 830px: the sub (560px), a 16px gap and the 232px tile end at x 856, where the headline bubble ends
+     (48px margin + 808px), so the right edges line up. Narrower windows keep the 28px gap. */
+  @media (min-width: 1440px) {
+    .hero-film {
+      margin-left: 16px;
+    }
+  }
+
+  /* ───────── Desktop: the Phone Roll first viewport ───────── */
+  @media (min-width: 1200px) {
+    .hero {
+      padding: 12px 48px 24px;
+      grid-template-columns: minmax(0, 830px) 502px;
+      column-gap: 12px;
+      row-gap: 0;
+      grid-template-rows: minmax(576px, auto) auto auto auto auto;
+      grid-template-areas:
+        "left thread"
+        "chips chips"
+        "bar bar"
+        "reassure reassure"
+        "fine fine";
+    }
+    .hero-left {
+      grid-area: left;
+    }
+    /* The film message is the hero's focal picture here. With its details cut to one line there is height for 232px; the sub (560px), a
+       28px gap and 232px fit the 830px column, and narrower windows scale it down toward 200px. */
+    .hero-film {
+      width: clamp(200px, 17vw, 232px);
+    }
+    .thread {
+      grid-area: thread;
+      margin-top: 0;
+      padding-top: 0;
+      /* As tall as the tallest example (Housing, 601.9px as measured), so the quick-reply row never moves when the example changes. */
+      min-height: 602px;
+    }
+    /* The film message's details add height to the left column; these two gaps give it back so the whole first screen still fits 900px. */
+    .hero-chips {
+      grid-area: chips;
+      margin-top: 16px;
+    }
+    .hero-bar {
+      grid-area: bar;
+      margin-top: 6px;
+    }
+    .hero-bar .reply-bar {
+      min-height: 62px;
+    }
+    .hero-reassure {
+      grid-area: reassure;
+      margin-top: 6px;
+      flex-wrap: nowrap;
+    }
+    .hero-fine {
+      grid-area: fine;
+      margin-top: 2px;
+    }
+    .hero-h1 {
+      padding: 20px 44px 26px;
+      border-radius: var(--r-display);
+      font-size: clamp(2.75rem, 9.64cqw, 5rem);
+    }
+    .hero-h1 .pin {
+      right: 36px;
+    }
+    /* The thread carries two labels the sketch did not: tighter rows keep the whole first screen inside 900px. */
+    .thread .trow__main {
+      padding-bottom: 6px;
+    }
+    .thread .trow--sent .trow__main {
+      padding-bottom: 6px;
+    }
+    .thread-label {
+      margin-bottom: 3px;
+    }
+    .shot-card .quote-text {
+      font-size: 17.5px;
+    }
+    .lift {
+      flex-basis: 352px;
+      font-size: 16.5px;
+    }
+    .thread .trow--lift .trow__main {
+      padding-top: 6px;
+    }
+  }
+}

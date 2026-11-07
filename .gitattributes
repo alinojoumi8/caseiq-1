@@ -1,0 +1,4 @@
+# Line endings for files whose exact bytes matter.
+# The film manifest (apps/site/src/content/media.ts) records each caption
+# file's size and the tests check it, so captions keep LF on every machine.
+*.vtt text eol=lf

@@ -1,0 +1,402 @@
+/* The conversation sheet: the intake and the early-access list as the top of a message thread, in a native <dialog> over the page.
+   The film player shares its frame (the dialog, the backdrop, the page lock and the header) and adds its own rules in film.css.
+   Imported by the sheet component. Uses only the tokens defined in globals.css.
+   The layer order is repeated here so this file behaves the same whichever stylesheet loads first. */
+@layer theme, base, components, utilities;
+
+@layer components {
+  /* ───────── The dialog ─────────
+     Wide screens: a panel docked to the right, 12px in from the top, right and bottom, sliding in from the right.
+     Phones: the whole screen, rising from below. Both end at rest with no transform, so nothing is left blurry. */
+  :is(.convo-sheet, .film-player) {
+    --sheet-from: translateX(24px);
+    position: fixed;
+    inset: 12px 12px 12px auto;
+    width: min(460px, calc(100vw - 24px));
+    height: calc(100dvh - 24px);
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 22px;
+    background: var(--ground);
+    color: var(--ink);
+    box-shadow: var(--shadow-lift);
+    overflow: hidden;
+    /* Closed, and while it leaves: faded, nudged 24px, and quick (180ms). */
+    opacity: 0;
+    transform: var(--sheet-from);
+    transition:
+      opacity 180ms var(--ease-out),
+      transform 180ms var(--ease-out),
+      overlay 180ms allow-discrete,
+      display 180ms allow-discrete;
+  }
+  :is(.convo-sheet, .film-player)[open] {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: none;
+    /* The panel is solid by 120ms while the slide runs its 260ms, so the page never shows through it mid-flight. */
+    transition:
+      opacity 120ms var(--ease-out),
+      transform 260ms var(--ease-out),
+      overlay 260ms allow-discrete,
+      display 260ms allow-discrete;
+  }
+  @starting-style {
+    :is(.convo-sheet, .film-player)[open] {
+      opacity: 0;
+      transform: var(--sheet-from);
+    }
+  }
+
+  :is(.convo-sheet, .film-player)::backdrop {
+    background: rgba(17, 17, 17, 0);
+    transition:
+      background-color 180ms var(--ease-out),
+      overlay 180ms allow-discrete,
+      display 180ms allow-discrete;
+  }
+  :is(.convo-sheet, .film-player)[open]::backdrop {
+    background: rgba(17, 17, 17, 0.5);
+    transition-duration: 260ms;
+  }
+  @starting-style {
+    :is(.convo-sheet, .film-player)[open]::backdrop {
+      background: rgba(17, 17, 17, 0);
+    }
+  }
+
+  @media (max-width: 767px) {
+    :is(.convo-sheet, .film-player) {
+      --sheet-from: translateY(24px);
+      inset: 0;
+      width: 100%;
+      height: 100dvh;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+
+  /* Reduced motion: no movement. The fade is cut to an instant by the global clamp in globals.css. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.convo-sheet, .film-player) {
+      --sheet-from: none;
+    }
+  }
+
+  /* The page behind keeps its width while the sheet is open: the scrollbar leaves with the scroll lock (globals.css), and
+     the sheet's opener measured how wide it was. */
+  html:has(dialog:is(.convo-sheet, .film-player)[open]) {
+    padding-right: var(--sbw, 0px);
+  }
+  /* The strip's call to action and the phone's sticky bar are inert behind the sheet; they should not show through the backdrop. */
+  html:has(dialog:is(.convo-sheet, .film-player)[open]) .safe__cta,
+  html:has(dialog:is(.convo-sheet, .film-player)[open]) .sticky-reply {
+    visibility: hidden;
+  }
+
+  /* ───────── Header: the top of a messaging thread ─────────
+     Visually: Close, avatar and name, Quick exit. In the markup Quick exit comes first, so it is the first stop for the keyboard. */
+  .sheet-head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--ground);
+    border-bottom: 1px solid var(--hair-2);
+  }
+  .sheet-head__close {
+    order: 1;
+    flex: none;
+  }
+  .sheet-head__who {
+    order: 2;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .sheet-head__qx {
+    order: 3;
+    margin-left: 0;
+    min-height: 32px;
+  }
+  /* The panic control is a full-size target on touch screens. */
+  @media (pointer: coarse) {
+    .sheet-head__qx {
+      min-height: 44px;
+      padding-inline: 16px;
+    }
+  }
+  .sheet-head__avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1px solid var(--hair);
+  }
+  .sheet-head__text {
+    min-width: 0;
+  }
+  .sheet-head__name {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .sheet-head__status {
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+  @media (max-width: 767px) {
+    .sheet-head {
+      padding-top: calc(10px + env(safe-area-inset-top));
+      padding-left: calc(12px + env(safe-area-inset-left));
+      padding-right: calc(12px + env(safe-area-inset-right));
+    }
+  }
+  /* Small phones: a smaller avatar and tighter gaps keep the status line to two lines. */
+  @media (max-width: 399px) {
+    .sheet-head {
+      gap: 8px;
+    }
+    .sheet-head__who {
+      gap: 8px;
+    }
+    .sheet-head__avatar {
+      width: 32px;
+      height: 32px;
+    }
+    .sheet-head__avatar svg {
+      width: 18px;
+      height: auto;
+    }
+    .sheet-head__qx {
+      padding-inline: 12px;
+    }
+  }
+  /* On the narrowest phones the avatar steps aside and the gaps tighten, so the status line fits in two lines. */
+  @media (max-width: 339px) {
+    .sheet-head {
+      gap: 6px;
+      padding: calc(6px + env(safe-area-inset-top)) 8px 6px;
+    }
+    .sheet-head__avatar {
+      display: none;
+    }
+    .sheet-head__qx {
+      padding-inline: 12px;
+    }
+    .sheet-head__status {
+      line-height: 1.25;
+    }
+  }
+
+  /* ───────── The thread ───────── */
+  .sheet-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 18px 14px 0;
+    /* A focused question or field scrolls clear of the composer that sits over the bottom of the thread. */
+    scroll-padding-top: 12px;
+    scroll-padding-bottom: calc(var(--dock-h, 110px) + 12px);
+  }
+  @media (max-width: 767px) {
+    .sheet-scroll {
+      padding-left: calc(14px + env(safe-area-inset-left));
+      padding-right: calc(14px + env(safe-area-inset-right));
+    }
+  }
+
+  /* A question takes focus when the sheet opens or the thread moves on. The ring goes round the bubble, not the full-width legend. */
+  .convo-body .step__legend:focus-visible {
+    outline: none;
+  }
+  .convo-body .step__legend:focus-visible .bubble {
+    outline: 3px solid var(--ind);
+    outline-offset: 3px;
+  }
+
+  /* The intake, then the early-access list under it. When the thread is short the composer still sits at the bottom of the panel. */
+  .convo-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 100%;
+  }
+  .convo-body > .chat {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+  }
+  .convo-body .chat__progress {
+    align-self: center;
+  }
+  /* In the markup the dock follows the thread (so Tab reaches Back and Next before the early-access link); on screen the list
+     disclosure sits in the thread and the dock is the last thing in the scroller on every step. */
+  .convo-body .wl-wrap {
+    order: 1;
+    flex: none;
+    margin-top: 16px;
+    padding-bottom: 4px;
+  }
+  .convo-body > .composer-dock {
+    order: 2;
+    flex: none;
+  }
+  .convo-body > .composer-dock:empty {
+    display: none;
+  }
+  .convo-body > .composer-dock[hidden] {
+    display: none;
+  }
+  .convo-body:has(> .composer-dock:empty) .wl-wrap,
+  .convo-body:has(> .composer-dock[hidden]) .wl-wrap {
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  /* The link and its chevron read as one line of text, so the chevron follows the words instead of sitting at the far edge. */
+  .convo-body .wl-toggle,
+  .final__link .wl-toggle {
+    display: inline-block;
+    text-wrap: balance;
+  }
+  .convo-body .wl-toggle svg,
+  .final__link .wl-toggle svg {
+    display: inline-block;
+    margin: 0 0 0 8px;
+    vertical-align: -4px;
+  }
+
+  /* The composer is the input bar: it stays at the bottom of the panel on a fade of the ground, above the thread. */
+  .composer-dock {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin: 0 -14px;
+    padding: 26px 14px calc(12px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--ground) 60%, rgba(242, 242, 245, 0));
+    pointer-events: none;
+  }
+  .composer-dock > * {
+    pointer-events: auto;
+  }
+  .composer-dock .composer {
+    margin-top: 0;
+  }
+
+  /* The sheet is narrower than the page was: let the pieces of the thread use its width. */
+  .convo-body .sheet {
+    padding: 18px 16px 20px;
+  }
+  .convo-body .wl {
+    padding: 22px 16px 24px;
+  }
+
+  /* ───────── The composer in a narrow sheet ─────────
+     The dock is a container, so the rules follow the sheet's own width (the 460px panel and every phone). Below 520px of sheet width (a 492px-wide dock content box) Back becomes a
+     44px outline icon button (its name stays "Back") and the send pill gets the row. "Request my free conversation" is 278px wide at
+     19px, so it stays on one line from 360px up: the arrow circle steps aside on that one button below 440px, and the label drops to
+     17px below 390px. */
+  .composer-dock {
+    container: dock / inline-size;
+  }
+  .composer__back-icon {
+    display: none;
+  }
+  .composer__label {
+    min-width: 0;
+  }
+  /* Next is quieter until the question has an answer. It stays indigo and pressable; pressing it says what is missing. */
+  .composer .composer__go {
+    transition:
+      background-color 160ms var(--ease-out),
+      color 160ms var(--ease-out),
+      box-shadow 160ms var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+  .composer .composer__go .send__arrow {
+    transition:
+      background-color 160ms var(--ease-out),
+      color 160ms var(--ease-out);
+  }
+  /* While there is no answer, the same outline language as Back: white, a 1.5px indigo edge (an inset shadow, so nothing moves),
+     indigo text and an inverted arrow circle. It fills indigo as soon as the question has an answer. */
+  .composer__go[data-quiet="true"] {
+    background: var(--card);
+    color: var(--ind);
+    box-shadow: inset 0 0 0 1.5px var(--ind);
+  }
+  .composer__go[data-quiet="true"] .send__arrow {
+    background: var(--ind);
+    color: var(--on-ind);
+  }
+  @container dock (max-width: 491px) {
+    .composer {
+      flex-wrap: nowrap;
+      gap: 8px;
+      padding: 5px;
+    }
+    .composer .composer__back {
+      flex: none;
+      width: 44px;
+      min-height: 44px;
+      padding: 0;
+      border-radius: 50%;
+    }
+    .composer__back-text {
+      display: none;
+    }
+    .composer__back-icon {
+      display: grid;
+      place-items: center;
+    }
+    .composer .composer__go {
+      flex: 1 1 0;
+      min-width: 0;
+      gap: 8px;
+      padding: 0 6px 0 20px;
+      font-size: 19px;
+    }
+  }
+  @container dock (max-width: 409px) {
+    .composer .composer__go--long {
+      justify-content: center;
+      padding: 0 12px;
+      text-align: center;
+    }
+    .composer .composer__go--long .send__arrow {
+      display: none;
+    }
+  }
+  /* A phone's full width: the bar gives up 6px a side so the long label fits. */
+  @container dock (max-width: 371px) {
+    .composer {
+      margin-inline: -6px;
+    }
+  }
+  @container dock (min-width: 332px) and (max-width: 491px) {
+    .composer .composer__go--long .composer__label {
+      white-space: nowrap;
+    }
+  }
+  @container dock (max-width: 361px) {
+    .composer .composer__go {
+      font-size: 17px;
+    }
+  }
+}

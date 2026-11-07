@@ -1,0 +1,38 @@
+# Case IQ: files that stay on this machine.
+# apps/site/.gitignore covers the site's own build output.
+
+# Dependencies
+node_modules/
+.next/
+
+# Local caches and tool state
+.vitest/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.tsbuildinfo
+.herenow/
+.herenow-build/
+.impeccable/questions/
+
+# Screenshots and captures from local checks
+.shots/
+test-results/
+playwright-report/
+
+# Pages and papers saved during research. They belong to their
+# publishers, so they are not republished here.
+/.research/
+/.research-cache/
+
+# Secrets and machine-specific settings
+.env*
+!.env.example
+*.pem
+.claude/settings.local.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

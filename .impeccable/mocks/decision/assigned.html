@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Case IQ - The Card Catalogue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Rokkitt:wght@700;800&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16181D;--paper:#FCFBF7;--sky:#8DB7E0;--coral:#E9775B;--mint:#7CC6A4;--indigo:#2438A8;--brass:#B89A4E;--violet:#7A47B0;
+--grain:repeating-linear-gradient(180deg,rgba(70,34,6,.17) 0 1px,transparent 1px 4px),repeating-linear-gradient(179deg,rgba(255,218,150,.11) 0 2px,transparent 2px 13px),repeating-linear-gradient(181deg,rgba(60,28,4,.13) 0 1px,transparent 1px 29px),linear-gradient(180deg,#C48A50,#B5773D 45%,#A5682F);
+--r:repeating-linear-gradient(180deg,transparent 0 27px,rgba(141,183,224,.95) 27px 28px)}
+*{box-sizing:border-box}
+html,body{width:1440px;height:900px;overflow:hidden;margin:0}
+body{position:relative;background:#2b1607;color:var(--ink);font:400 16px/28px "Public Sans",sans-serif;font-variant-numeric:tabular-nums}
+::selection{background:var(--indigo);color:#fff}
+:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;box-shadow:0 0 0 6px var(--paper)}
+/* wall of drawers */
+.wall{position:absolute;inset:44px 0 0;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(9,1fr);gap:6px;padding:6px;background:#2b1607;filter:brightness(.88)}
+.wall u{position:relative;background:var(--grain);border-radius:2px;box-shadow:inset 0 2px 0 rgba(255,232,185,.4),inset 0 -5px 9px rgba(50,22,3,.45),inset 2px 0 0 rgba(255,232,185,.12)}
+.wall u::before{content:attr(data-l);position:absolute;left:50%;top:11px;width:112px;height:24px;margin-left:-56px;border:3px solid var(--brass);outline:1px solid #6e5820;background:var(--paper);font:700 11.5px/18px "Courier Prime",monospace;text-align:center;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.45)}
+.wall u::after{content:"";position:absolute;left:50%;bottom:13px;width:36px;height:11px;margin-left:-18px;border-radius:6px;background:linear-gradient(#e0c880,var(--brass) 50%,#7d6528);box-shadow:0 3px 4px rgba(30,12,0,.5)}
+/* brass rail */
+.rail{position:absolute;inset:0 0 auto;height:44px;z-index:30;display:flex;align-items:center;gap:24px;padding:0 28px;background:linear-gradient(#d4ba70,var(--brass) 45%,#a58742);border-bottom:2px solid #6e5820;box-shadow:0 5px 12px rgba(20,8,0,.55);font:700 14.5px/1 "Courier Prime",monospace}
+.safe{display:flex;align-items:center;gap:14px;margin-right:auto}
+.qx,.cta{font:inherit;cursor:pointer;height:28px;display:flex;align-items:center;gap:7px;padding:0 13px;border-radius:3px}
+.qx{background:var(--ink);color:var(--paper);border:2px solid var(--ink)}
+.cta{background:none;color:var(--ink);border:2px solid var(--ink)}.cta:hover{background:var(--ink);color:var(--paper)}
+.rail nav{display:flex;gap:26px}.rail nav a{color:var(--ink);text-decoration:none;padding:5px 0 3px;border-bottom:2px solid transparent}.rail nav a:hover{border-color:var(--ink)}
+/* the pulled drawer */
+.drawer{position:absolute;left:70px;top:202px;width:1300px;bottom:0;z-index:1;background:var(--grain);border-radius:5px 5px 0 0;box-shadow:0 22px 50px rgba(15,6,0,.65),inset 0 3px 0 rgba(255,236,190,.4)}
+.cav{position:absolute;left:86px;top:216px;width:1268px;height:520px;z-index:2;background:repeating-linear-gradient(180deg,rgba(255,200,130,.05) 0 1px,transparent 1px 5px),linear-gradient(180deg,#24120a,#3a2010 60%,#4a2a14);box-shadow:inset 0 18px 26px rgba(0,0,0,.65)}
+.card{position:absolute;background:var(--paper);border-radius:3px;box-shadow:0 2px 0 #d9d6cc,0 14px 28px rgba(15,6,0,.5)}
+.hd{display:flex;justify-content:space-between;height:28px;border-bottom:2px solid var(--coral);font:700 15px/26px "Courier Prime",monospace;color:var(--indigo)}
+/* card in hand */
+.fc{left:110px;top:176px;width:820px;height:580px;z-index:4;padding:20px 48px;background:var(--r) 0 272px/100% 400px no-repeat,var(--paper)}
+.back{position:absolute;z-index:3;border-radius:3px;box-shadow:0 8px 16px rgba(15,6,0,.4)}
+.b1{left:100px;top:184px;width:820px;height:580px;background:#E6E3D8;transform:rotate(-1deg)}
+.b2{left:916px;top:132px;width:410px;height:640px;background:#D4D9DC;transform:rotate(5deg);transform-origin:0 60%}
+h1{margin:28px 0 0;max-width:720px;font:800 64px/56px Rokkitt,serif;letter-spacing:-.01em;text-wrap:balance}
+.sub{margin:28px 0 0;max-width:640px;font-size:19px;line-height:28px;color:#23262e}
+.lab{margin:28px 0 0;font:700 15px/28px "Courier Prime",monospace;color:var(--indigo)}
+/* guide-card tabs */
+.tabs{position:absolute;left:134px;bottom:164px;z-index:5;display:flex;align-items:flex-end;gap:5px;margin:0;padding:0;list-style:none}
+.tabs a{display:flex;gap:7px;height:58px;padding:13px 13px 0;border-radius:11px 11px 0 0;font:700 17px/22px Rokkitt,serif;color:var(--ink);text-decoration:none;white-space:nowrap;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -12px 14px rgba(40,20,0,.14),0 -4px 10px rgba(20,8,0,.3);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.tabs li:nth-child(3n+1) a{background:var(--coral)}.tabs li:nth-child(3n+2) a{background:var(--sky)}.tabs li:nth-child(3n) a{background:var(--mint)}
+.tabs a:hover{transform:translateY(-6px)}
+.tabs a[aria-selected=true]{height:76px;outline:2.5px solid var(--ink);outline-offset:-2.5px;font-size:18px}
+/* proof card, behind */
+.proof{left:912px;top:140px;width:410px;height:640px;z-index:3;padding:20px 24px;transform:rotate(2deg);transform-origin:0 60%;filter:brightness(.95);background:var(--r) 0 48px/100% 560px no-repeat,var(--paper)}
+.proof .hd{font-size:12.5px}
+h3{margin:0;font:700 14px/28px "Courier Prime",monospace;color:var(--indigo)}
+.proof h3+h3,.proof .mine+h3{margin-top:28px}
+.mine{margin:0;font:italic 400 17px/28px "Public Sans",sans-serif;color:var(--violet)}
+blockquote{margin:0;padding:14px 14px 14px 13px;background:#F1F4F8;border-left:3px solid #7C8AA0;font:400 19px/28px "Source Serif 4",serif}
+mark{background:none;color:inherit;outline:1.6px solid var(--indigo);outline-offset:1px;border-radius:2px}
+.ref{position:relative;margin:0 0 0 34px;font:400 12.5px/28px "JetBrains Mono",monospace}
+.ref::before{content:"";position:absolute;left:-20px;top:0;width:16px;height:14px;border-left:1px solid var(--indigo);border-bottom:1px solid var(--indigo)}
+.ref::after{content:"";position:absolute;left:-23px;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--indigo)}
+.seep{margin:0 0 0 34px;font:700 14.5px/28px "Public Sans",sans-serif}.seep a{color:var(--indigo)}
+.rub,.stamp{display:inline-block;color:var(--indigo);font:700 12.5px/22px "Courier Prime",monospace;border:2px solid var(--indigo);border-radius:3px;padding:0 9px;transform:rotate(-2deg);box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3.5px var(--indigo)}
+.rub{margin-top:3px}
+/* the gap card */
+.gap{left:938px;top:506px;width:392px;height:300px;z-index:3;padding:20px 26px;transform:rotate(-1.4deg);transform-origin:0 100%;filter:brightness(.97);background:var(--r) 0 48px/100% 300px no-repeat,var(--paper)}
+.sw{height:56px;margin-top:28px;display:flex;align-items:center}
+.stamp{font-size:19px;line-height:30px;letter-spacing:.06em;text-transform:uppercase;padding:0 14px;transform:rotate(-3deg)}
+.gap p{margin:0;font-size:16px;line-height:28px;text-wrap:balance}.gap a{color:var(--indigo);font-weight:700}
+/* drawer front */
+.front{position:absolute;left:70px;width:1300px;top:730px;bottom:0;z-index:6;display:flex;align-items:center;gap:24px;padding:0 44px 10px;background:var(--grain);border-radius:3px 3px 0 0;box-shadow:0 -8px 16px rgba(15,6,0,.55),inset 0 3px 0 rgba(255,236,190,.55),inset 0 -12px 20px rgba(50,22,3,.35)}
+.btn{flex:none;width:340px;height:70px;display:flex;align-items:center;justify-content:center;gap:12px;border-radius:6px;background:linear-gradient(#3049c6,var(--indigo) 55%,#1c2c86);color:#fff;text-decoration:none;font:800 26px/1 Rokkitt,serif;box-shadow:0 0 0 3px var(--brass),0 0 0 4px #6e5820,0 0 0 10px rgba(48,22,4,.5),0 12px 18px rgba(30,12,0,.45),inset 0 2px 0 rgba(255,255,255,.35);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.btn:hover{transform:translateY(-3px)}
+.see2{flex:none;display:flex;align-items:center;gap:8px;height:48px;padding:0 18px;background:var(--paper);border:1px solid var(--sky);border-radius:4px;color:var(--ink);font:600 16px/1 "Public Sans",sans-serif;box-shadow:0 3px 6px rgba(30,12,0,.4)}
+.holder{flex:1;background:var(--paper);border:4px solid var(--brass);outline:1px solid #6e5820;border-radius:2px;padding:8px 16px 9px;box-shadow:0 2px 5px rgba(20,8,0,.5)}
+.holder b{display:block;font:700 13.5px/22px "Courier Prime",monospace;color:var(--indigo)}
+.holder p{margin:2px 0 0;font-size:14px;line-height:20px;color:#23262e}
+</style></head><body>
+<div class="wall" aria-hidden="true">
+<u data-l="EMPLOYMENT"></u><u data-l="HOUSING"></u><u data-l="2025 · JAN–MAR"></u><u data-l="MONEY OWED"></u><u data-l="TEXTS"></u><u data-l="EMAILS"></u><u data-l="2024 · OCT–DEC"></u><u data-l="TRIBUNALS"></u><u data-l="PHOTOS"></u><u data-l="FAMILY"></u>
+<u data-l="2025 · APR–JUN"></u><u data-l="COURT PAPERS"></u><u data-l="SMALL CLAIMS"></u><u data-l="LANDLORD"></u><u data-l="HANDWRITTEN"></u><u data-l="HEARINGS"></u><u data-l="2023 · ALL"></u><u data-l="BEING SUED"></u><u data-l="NOTES"></u><u data-l="2025 · JUL–SEP"></u>
+<u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u>
+<u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u>
+<u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u>
+<u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u>
+<u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u>
+<u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u>
+<u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u>
+</div>
+<header class="rail">
+<div class="safe"><span>Now welcoming founding clients in Ontario</span><button class="qx"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1.5 1.5l8 8m0-8l-8 8" stroke="currentColor" stroke-width="2" fill="none"/></svg>Quick exit</button></div>
+<nav aria-label="Primary"><a href="#">How it works</a><a href="#">What you get</a><a href="#">Privacy</a><a href="#">Questions</a></nav>
+<button class="cta">Get my case in order</button>
+</header>
+<div class="drawer"></div><div class="cav"></div><i class="back b1"></i><i class="back b2"></i>
+<section class="card proof" aria-label="Example evidence card">
+<div class="hd"><span>Card 2 / 3</span><span>Employment</span></div>
+<h3>You told us</h3><p class="mine">My manager said my job was safe.</p>
+<h3>Your papers show</h3>
+<blockquote>“Your role is <mark>not affected</mark> by the restructuring.”</blockquote>
+<p class="ref">Email from J. Patel · 12 Jan 2025 · page 1</p>
+<p class="seep"><a href="#">See the page</a></p>
+<span class="rub">Example, not a real case</span>
+</section>
+<section class="card gap" aria-label="Missing evidence card">
+<div class="hd"><span>Card 3 / 3</span></div>
+<div class="sw"><span class="stamp">Not in your papers yet</span></div>
+<p>A written reason for ending your job. Have it? <a href="#">Add it.</a></p>
+</section>
+<main class="card fc">
+<div class="hd"><span>For people representing themselves in Ontario</span><span>Card 1 / 3</span></div>
+<h1>You know what happened. Let's find the page that shows it.</h1>
+<p class="sub">Case IQ turns your emails, texts, photos, handwritten notes and court papers into one clear timeline. Every fact links to the exact page it came from. If your papers don't show something, we tell you.</p>
+<p class="lab" id="tl">Show me with a case like mine</p>
+</main>
+<ul class="tabs" role="tablist" aria-labelledby="tl">
+<li role="presentation"><a href="#" role="tab" aria-selected="true"><svg width="14" height="14" viewBox="0 0 14 14" style="margin-top:4px"><path d="M2 7.5l3.2 3.2L12 3.5" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>Job or workplace</a></li>
+<li role="presentation"><a href="#" role="tab">Housing</a></li><li role="presentation"><a href="#" role="tab">Money owed</a></li>
+<li role="presentation"><a href="#" role="tab">Family &amp; separation</a></li><li role="presentation"><a href="#" role="tab">Being sued</a></li><li role="presentation"><a href="#" role="tab">Something else</a></li>
+</ul>
+<footer class="front">
+<a class="btn" href="#">Get my case in order<svg width="22" height="18" viewBox="0 0 22 18"><path d="M2 9h16M12 3l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6"/></svg></a>
+<a class="see2" href="#">See how it works</a>
+<div class="holder"><b>Free first conversation · Private · No documents needed to start</b><p>Case IQ isn't a law firm and doesn't give legal advice. We organize your papers and help you prepare, for your lawyer, a legal clinic or your hearing.</p></div>
+</footer>
+</body></html>

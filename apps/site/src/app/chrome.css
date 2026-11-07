@@ -1,0 +1,374 @@
+/* Page chrome: status-bar strip, nav row, footer, section scaffolding, sticky reply bar. */
+@layer components {
+  /* The header groups the status bar and the nav row for landmarks only. It must not be a box: the status bar
+     sticks to the viewport for the whole page, and a sticky child never leaves its parent. */
+  header {
+    display: contents;
+  }
+
+  /* ───────── S0 safety bar (the phone's status bar) ───────── */
+  .safe {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 40px;
+    padding: 4px 16px;
+    background: var(--rx);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .safe__status {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  /* One line, always: the text truncates rather than wrapping, and goes away on the narrowest phones. */
+  .safe__text {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  @media (max-width: 399px) {
+    /* No lone dot beside Quick exit: the dot and the text go together. */
+    .safe__text,
+    .safe__dot {
+      display: none;
+    }
+  }
+  /* The call to action sits at the left of the strip (order) but after Quick exit in the markup, so Quick exit stays
+     the first focusable control after the skip link and stands alone on the right. */
+  .safe__cta {
+    order: -1;
+    display: none;
+    flex: none;
+    align-items: center;
+    gap: 6px;
+    min-height: 28px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: var(--ind);
+    color: var(--on-ind);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: box-shadow 160ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+  .safe__cta:hover {
+    box-shadow: 0 3px 8px rgba(36, 56, 168, 0.4);
+  }
+  @media (min-width: 768px) {
+    .safe__cta[data-visible="true"] {
+      display: inline-flex;
+    }
+  }
+  .safe__dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .qx {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin-left: 24px;
+    min-height: 32px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+    font-size: 13px;
+    font-weight: 700;
+    transition: background-color 160ms var(--ease-out);
+  }
+  .qx:hover {
+    background: #eceefa;
+  }
+  @media (min-width: 900px) {
+    .safe {
+      min-height: 34px;
+      padding: 0 48px;
+    }
+    .qx {
+      min-height: 24px;
+      font-size: 13px;
+    }
+  }
+
+  /* ───────── S1 nav ───────── */
+  .nav {
+    position: relative;
+    border-bottom: 1px solid var(--hair-2);
+  }
+  .nav__row {
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 56px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-right: 56px;
+    font-family: var(--font-display);
+    font-size: 27px;
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    letter-spacing: -0.02em;
+    min-height: 44px;
+  }
+  .nav__links {
+    display: none;
+  }
+  .nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-right: 32px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .nav__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+    font-weight: 700;
+    font-size: 14.5px;
+    transition: background-color 160ms var(--ease-out);
+  }
+  .btn-outline:hover {
+    background: #eceefa;
+  }
+  .nav__cta {
+    display: none;
+    margin-left: auto;
+  }
+  .nav__menu-btn {
+    margin-left: auto;
+    min-height: 44px;
+    padding: 0 16px 0 14px;
+    gap: 8px;
+  }
+  .nav__panel {
+    padding: 4px 16px 18px;
+    display: grid;
+    gap: 2px;
+    border-top: 1px solid var(--hair-2);
+    background: var(--ground);
+  }
+  .nav__panel[hidden] {
+    display: none;
+  }
+  .nav__panel .nav__link {
+    margin-right: 0;
+    font-size: 18px;
+    min-height: 48px;
+  }
+  .nav__panel .btn-outline {
+    margin-top: 10px;
+    min-height: 48px;
+  }
+  @media (min-width: 900px) {
+    .nav__row {
+      padding: 0 48px;
+    }
+    .nav__links {
+      display: flex;
+      align-items: center;
+    }
+    .nav__cta {
+      display: inline-flex;
+    }
+    .nav__menu-btn,
+    .nav__panel {
+      display: none !important;
+    }
+  }
+
+  /* ───────── Sections ───────── */
+  .section {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 6vw, 80px) 20px;
+    scroll-margin-top: 48px;
+  }
+  @media (min-width: 900px) {
+    .section {
+      padding-inline: 48px;
+    }
+  }
+  .h-section {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    font-size: clamp(2rem, 4.2vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* ───────── S13 footer ───────── */
+  .footer {
+    border-top: 1px solid var(--hair-2);
+    background: var(--ground);
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .footer__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 40px 20px 48px;
+    display: grid;
+    gap: 14px;
+  }
+  .footer__inner p {
+    max-width: 68ch;
+  }
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 22px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .footer__links a,
+  .footer__links button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+  .footer__links button {
+    cursor: pointer;
+  }
+  @media (min-width: 900px) {
+    .footer__inner {
+      padding: 48px 48px 56px;
+    }
+  }
+
+  /* ───────── Sticky reply bar (phones only): one compact row ───────── */
+  /* Phones: the page ends clear of the sticky bottom bar (56px link + 8px above and below, plus the safe area). */
+  @media (max-width: 767px) {
+    main {
+      padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    }
+    html {
+      scroll-padding-top: 52px;
+      scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom));
+    }
+  }
+  .sticky-reply {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--ground) 72%, rgba(242, 242, 245, 0));
+    transition: transform 240ms var(--ease-out), opacity 200ms var(--ease-out);
+  }
+  .sticky-reply[data-visible="false"] {
+    transform: translateY(110%);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .sticky-reply__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 56px;
+    padding: 6px 8px 6px 22px;
+    border-radius: 28px;
+    background: var(--ind);
+    color: var(--on-ind);
+    box-shadow: var(--shadow-go);
+  }
+  .sticky-reply__text {
+    display: grid;
+    min-width: 0;
+    line-height: 1.2;
+  }
+  .sticky-reply__text b {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .sticky-reply__text small {
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.92;
+  }
+  .sticky-reply__link .send__arrow {
+    flex: none;
+    width: 40px;
+    height: 40px;
+  }
+  @media (min-width: 768px) {
+    .sticky-reply {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-reply {
+      transition: none;
+    }
+  }
+
+  /* Printing shows everything. The section reveals hide what is below the fold with an inline opacity and offset (SectionMotion marks it
+     data-rv, or rv-word on a split heading), and the S4 scene starts its rows and tiles the same way, scrubbed by scroll; this puts all of it
+     back for the page that is printed. The sticky reply bar is fixed to the foot of every printed page, over the text, so it is left out. */
+  @media print {
+    [data-rv],
+    .rv-word,
+    #pile [style*="opacity"],
+    #pile [style*="transform"] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .sticky-reply {
+      display: none !important;
+    }
+    /* A row's tile on a phone prints where it starts, over the dates; the rows themselves carry the page. */
+    #pile .pile-tile {
+      visibility: hidden !important;
+    }
+  }
+}

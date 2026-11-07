@@ -1,0 +1,402 @@
+/* The film player: the 30-second film, or its text version, in a native <dialog> over the page.
+   Imported by the player component. The dialog frame, backdrop, scroll lock and header come from sheet.css; this adds the body and footer.
+   The layer order is repeated here so this file behaves the same whichever stylesheet loads first. */
+@layer theme, base, components, utilities;
+
+@layer components {
+  /* The "Audio description" switch, in the footer beside "Read the film as text": the two other ways to take in the film. Pressed it fills with the action colour. */
+  .film-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 16px 0 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+  .film-switch[hidden] {
+    display: none;
+  }
+  .film-switch:hover {
+    background: #eceefa;
+  }
+  .film-switch:active {
+    transform: scale(0.97);
+  }
+  .film-switch[aria-pressed="true"] {
+    background: var(--ind);
+    color: var(--on-ind);
+  }
+  /* The switch's own picture of on and off: a small track whose knob sits left (off) or right (on). */
+  .film-switch__track {
+    position: relative;
+    flex: none;
+    width: 24px;
+    height: 16px;
+    border-radius: 999px;
+    border: 1.5px solid currentColor;
+  }
+  .film-switch__track::after {
+    content: "";
+    position: absolute;
+    top: 1.5px;
+    left: 1.5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: currentColor;
+    transition: transform 160ms var(--ease-out);
+  }
+  .film-switch[aria-pressed="true"] .film-switch__track::after {
+    transform: translateX(8px);
+  }
+
+  /* The body fills what the header and the footer leave. Either the film or the text shows; the other is hidden. */
+  .film-body {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .film-stage[hidden],
+  .film-text[hidden] {
+    display: none;
+  }
+
+  /* The film: 9:16, as large as the area allows, on ink so the bars read as a screen and not as missing picture. */
+  .film-stage {
+    --frame-ground: #f2f1f4; /* the ground of the film's last frame, as it decodes */
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .film-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: var(--ink);
+  }
+
+  /* The end: the film's last frame stays up. It is an end card already (the example timeline, the name, the price line, the fine print), on
+     --frame-ground, with an empty slot at its foot where the ad's drawn button was. The stage and the video take that colour so any bars
+     match it, the native controls are off (no browser scrim or centre button on the frame), and the end stack sits in the slot. Where the
+     slot is too short the frame gives way (FilmPlayer sets --frame-lift and --frame-scale), so nothing ever covers its fine print. */
+  .film-stage[data-state="ended"] {
+    background: var(--frame-ground);
+  }
+  .film-stage[data-state="ended"] .film-video {
+    background: var(--frame-ground);
+    transform: translateY(var(--frame-lift, 0px)) scale(var(--frame-scale, 1));
+    transform-origin: 50% var(--frame-top, 0px);
+  }
+  /* A small screen (FilmPlayer decides): the footage is left out and the end stack stands alone at full size, from the top of the stage
+     (centred where there is room to spare), with the stage scrolling if it must. The pill and the line under it stay in the first screen. */
+  .film-stage[data-compact="on"] {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .film-stage[data-compact="on"] .film-video {
+    display: none;
+  }
+  .film-stage[data-compact="on"] .film-end {
+    position: relative;
+    inset: auto;
+    align-self: flex-start;
+    flex: 1;
+    min-height: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    padding: 16px;
+  }
+  @media (max-height: 520px) {
+    .film-stage[data-compact="on"] .film-end {
+      justify-content: flex-start;
+      padding-block: 12px;
+    }
+  }
+  .film-stage[data-state="failed"] {
+    background: var(--ground);
+  }
+  .film-stage[data-state="failed"] .film-video {
+    visibility: hidden;
+  }
+  .film-end {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 16px var(--end-bottom, 12px);
+    pointer-events: none;
+  }
+  /* The stack: the real send pill, "Free first conversation", Watch again. No card, shadow or dim. A short entrance: it rises 10px and fades in
+     over 300ms (at once under reduced motion, by the global clamp). The reply bar's helper line goes first when the slot is tight. */
+  .film-end__stack {
+    width: min(100%, 340px);
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    pointer-events: auto;
+    text-align: center;
+    animation: film-end-in 300ms var(--ease-out) both;
+  }
+  .film-end__stack[data-helper="off"] .film-end__helper,
+  .film-end__stack:not([data-fine="on"]) .film-end__fine {
+    display: none;
+  }
+  @keyframes film-end-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+  .film-end__helper {
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--body-2);
+    text-wrap: balance;
+  }
+  .film-end__fine {
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+  .film-end__free {
+    margin-top: -2px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--muted);
+  }
+  /* A film that will not load: the message is plain text on the surface, with the one way out beside it. */
+  .film-fail {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+  .film-fail__message {
+    font-size: 17px;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+  .film-end .send {
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 24px;
+  }
+  .film-end .btn-outline,
+  .film-fail .btn-outline {
+    min-height: 44px;
+    padding: 0 24px;
+  }
+
+  /* The text version: scene by scene, in the thread's own voice. */
+  .film-text {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 20px 18px 28px;
+  }
+  .film-text__title {
+    margin-bottom: 18px;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .film-text__title:focus {
+    outline: none;
+  }
+  /* The text version ends where the film does: a way to start. */
+  .film-start {
+    display: grid;
+    justify-items: start;
+    gap: 8px;
+    margin-top: 26px;
+  }
+  .film-start__free {
+    margin-left: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--muted);
+  }
+  .film-text__title:focus-visible {
+    outline: 3px solid var(--ind);
+    outline-offset: 4px;
+  }
+  .film-scenes {
+    display: grid;
+    gap: 22px;
+  }
+  .film-scene {
+    display: grid;
+    justify-items: start;
+    gap: 4px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--hair-2);
+  }
+  .film-scene:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .film-scene__at {
+    font: 600 13px/1.3 var(--font-mono-face);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  /* The sender-style label above a block, as "Your words" is in the thread. */
+  .film-scene__label {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--muted);
+  }
+  .film-scene__text {
+    font-size: 17px;
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .film-rows {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .film-row__date {
+    display: block;
+    margin-bottom: 4px;
+    font: 600 13px/1.3 var(--font-mono-face);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  .film-rows .quote-card__ref {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 10px;
+    font: 700 14px/1.3 var(--font-body);
+  }
+  .film-rows .quote-text {
+    margin-top: 7px;
+    padding: 6px 12px;
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  /* The footer: the AI note, and the switch between the film and its text. */
+  .film-foot {
+    flex: none;
+    display: grid;
+    gap: 6px;
+    padding: 8px 10px calc(10px + env(safe-area-inset-bottom));
+    background: var(--ground);
+    border-top: 1px solid var(--hair-2);
+  }
+  .film-foot__note {
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+  .film-foot__toggle {
+    min-height: 44px;
+  }
+  .film-foot__toggle[hidden] {
+    display: none;
+  }
+  /* The note, then the two other ways to take in the film on one row (they stack under 360px, where they cannot both fit). */
+  .film-foot__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .film-foot__actions > * {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-height: 44px;
+    padding-inline: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    gap: 6px;
+  }
+
+  /* A short window (a phone on its side, 400% zoom): the header and the footer leave the film no room. The player scrolls as
+     a whole instead, with the header held at the top (Close and Quick exit are always there), and the body keeps a usable height. */
+  @media (max-height: 520px) {
+    dialog.film-player {
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    dialog.film-player .sheet-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .film-body {
+      flex: none;
+      height: 300px;
+    }
+  }
+
+  /* ───────── /film-text: the text version as a page of its own ───────── */
+  .film-page {
+    min-height: 60vh;
+    padding: 32px 20px 56px;
+  }
+  .film-page__inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .film-page .film-text__title {
+    font-size: clamp(2rem, 7vw, 2.75rem);
+  }
+  .film-page__note {
+    margin: -6px 0 22px;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+  /* The line beside "Watch the film, with sound" when the player cannot open. */
+  .film-page__status {
+    flex-basis: 100%;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--body-2);
+  }
+  .film-page__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    margin-top: 28px;
+  }
+  .film-page__links .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}

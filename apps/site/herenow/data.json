@@ -1,0 +1,46 @@
+{
+  "collections": {
+    "requests": {
+      "fields": {
+        "case_type": { "type": "string", "required": true, "maxLength": 20, "trim": true },
+        "location": { "type": "string", "required": true, "maxLength": 20, "trim": true },
+        "date_window": { "type": "string", "required": true, "maxLength": 20, "trim": true },
+        "has_lawyer": { "type": "string", "required": true, "maxLength": 20, "trim": true },
+        "paper_amount": { "type": "string", "required": true, "maxLength": 20, "trim": true },
+        "first_name": { "type": "string", "required": true, "maxLength": 60, "trim": true },
+        "email": { "type": "email", "required": true },
+        "phone": { "type": "string", "maxLength": 40, "trim": true },
+        "contact_method": { "type": "string", "required": true, "maxLength": 20, "trim": true },
+        "voicemail": { "type": "string", "maxLength": 10, "trim": true },
+        "consent_privacy": { "type": "boolean", "required": true },
+        "consent_updates": { "type": "boolean", "default": false },
+        "consent_text": { "type": "string", "required": true, "maxLength": 1000 }
+      },
+      "access": {
+        "read": "owner",
+        "insert": "public",
+        "update": "owner",
+        "delete": "owner"
+      },
+      "rateLimit": "10/hour/ip"
+    },
+    "waitlist": {
+      "fields": {
+        "email": { "type": "email", "required": true },
+        "province": { "type": "string", "required": true, "maxLength": 2, "trim": true },
+        "language": { "type": "string", "maxLength": 40, "trim": true },
+        "professional": { "type": "boolean", "default": false },
+        "case_type": { "type": "string", "maxLength": 20, "trim": true },
+        "consent_launch": { "type": "boolean", "required": true },
+        "consent_text": { "type": "string", "required": true, "maxLength": 1000 }
+      },
+      "access": {
+        "read": "owner",
+        "insert": "public",
+        "update": "owner",
+        "delete": "owner"
+      },
+      "rateLimit": "10/hour/ip"
+    }
+  }
+}

@@ -1,0 +1,1045 @@
+/* Sections S8 to S12 (ask, limits, privacy, FAQ, final call to action with intake and early-access list) and the legal pages.
+   Imported from the section components. Uses only the tokens defined in globals.css.
+   The layer order is repeated here so this file behaves the same whichever stylesheet loads first. */
+@layer theme, base, components, utilities;
+
+:root {
+  /* Error text and borders. Always paired with an icon and words, never colour alone. 7:1 on the ground. */
+  --err: #a3191f;
+  --convo-bg: #fafafc;
+}
+
+@layer components {
+  /* ───────── Thread messages (shared by S8 and the intake) ───────── */
+  .msg {
+    display: flex;
+    min-width: 0;
+  }
+  .msg--rx {
+    justify-content: flex-start;
+    padding-left: 12px;
+  }
+  .msg--sent {
+    justify-content: flex-end;
+    padding-right: 12px;
+  }
+  .msg--rx > .bubble {
+    max-width: min(94%, 640px);
+  }
+  .msg--sent > .bubble {
+    max-width: 88%;
+  }
+  .msg > .bubble,
+  .step__legend .bubble {
+    overflow-wrap: anywhere;
+  }
+
+  /* ───────── S8 Ask your papers ───────── */
+  .ask__grid {
+    margin-top: 40px;
+    display: grid;
+    gap: 40px;
+  }
+  .ask__side {
+    min-width: 0;
+  }
+  .facts {
+    display: grid;
+    border-bottom: 1px solid var(--hair);
+  }
+  .fact {
+    padding: 18px 0;
+    border-top: 1px solid var(--hair);
+    font-size: 19px;
+    line-height: 1.5;
+  }
+  /* A div, not a p: the Cite popover opens inside it and a popover holds paragraphs of its own. */
+  .fact__text {
+    max-width: 48ch;
+  }
+  .ask__body {
+    margin-top: 22px;
+    max-width: 58ch;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--body-2);
+  }
+
+  .convo {
+    --tail-ground: var(--convo-bg);
+    min-width: 0;
+    padding: 16px 14px 18px;
+    border-radius: 28px;
+    background: var(--convo-bg);
+    border: 1px solid var(--hair);
+    box-shadow: var(--shadow-card);
+  }
+  .convo .bubble {
+    --tail-ground: var(--convo-bg);
+  }
+  .convo__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 0 6px 12px;
+    border-bottom: 1px solid var(--hair-2);
+  }
+  .convo__label {
+    font: 500 13px/1.4 var(--font-mono-face);
+    color: var(--muted);
+  }
+  .convo__log {
+    display: grid;
+    align-content: start;
+    gap: 18px;
+    min-height: 320px;
+    padding: 18px 0 6px;
+  }
+  .xchg {
+    display: grid;
+    gap: 10px;
+  }
+  .ans-row {
+    display: grid;
+    gap: 4px;
+  }
+  /* The sender line: plain sans, small and muted, above each answer bubble. */
+  .ans__sender {
+    margin: 0;
+    padding-left: 30px;
+    font: 500 13px/1.3 var(--font-body);
+    color: var(--muted);
+  }
+  .ans {
+    display: grid;
+    gap: 10px;
+    padding: 14px 18px 16px;
+    font-size: 16.5px;
+    line-height: 1.5;
+  }
+  .ans__p {
+    margin: 0;
+  }
+  .qi {
+    padding: 0 5px;
+    border-radius: 3px;
+    background: var(--slate);
+    font-family: var(--font-serif);
+    font-size: 1.06em;
+  }
+  .ans__card {
+    padding: 10px 12px 12px;
+  }
+  .ans__card .quote-text {
+    font-size: 17px;
+  }
+  .caution {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: 1.5px dashed var(--gap-line);
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .convo__replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 14px 6px 0;
+    border-top: 1px solid var(--hair-2);
+  }
+  .chip--ask {
+    padding-block: 8px;
+    text-align: left;
+    line-height: 1.25;
+  }
+  .chip--ask[aria-current="true"] {
+    background: var(--ind);
+    color: var(--on-ind);
+  }
+
+  /* ───────── S9 Limits ───────── */
+  .limits__grid {
+    margin-top: 40px;
+    display: grid;
+    gap: 40px;
+  }
+  .limits__thread {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding-left: 12px;
+    min-width: 0;
+  }
+  .limits__bubble {
+    max-width: 540px;
+    padding: 18px 24px;
+  }
+  .limits__dont {
+    display: grid;
+    gap: 10px;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+  .limits__dont li {
+    position: relative;
+    padding-left: 28px;
+  }
+  .limits__dont li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.7em;
+    width: 14px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--ink);
+  }
+  .limits__do p {
+    font-size: 18px;
+    line-height: 1.45;
+  }
+  .limits__help {
+    min-width: 0;
+  }
+  .limits__help-title {
+    max-width: 54ch;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .limits__cards {
+    margin-top: 16px;
+    display: grid;
+    gap: 12px;
+  }
+  .limits__cards > li {
+    display: flex;
+  }
+  .preview {
+    flex: 1;
+    display: grid;
+    align-content: start;
+    gap: 4px;
+    min-width: 0;
+    padding: 16px 18px;
+    border-radius: var(--r-card);
+    background: var(--card);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 200ms var(--ease-out), transform 200ms var(--ease-out);
+  }
+  a.preview:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+  .preview__title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  a.preview .preview__title {
+    color: var(--ind);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
+  }
+  .preview__blurb {
+    font-size: 15.5px;
+    line-height: 1.4;
+    color: var(--body-2);
+  }
+  .preview__domain {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font: 500 13px/1.3 var(--font-mono-face);
+    color: var(--muted);
+  }
+
+  /* ───────── S10 Privacy: the thread continues ───────── */
+  .priv__thread {
+    display: grid;
+    gap: 14px;
+    max-width: 760px;
+  }
+  .priv__ask {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 12px;
+    margin: 0 0 6px;
+  }
+  .priv__ask .bubble {
+    max-width: min(100%, 640px);
+    padding: 14px 30px 16px;
+    border-radius: 40px;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .priv__bubble {
+    padding: 14px 22px 16px;
+  }
+  .priv__t {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .priv__bubble p {
+    max-width: 58ch;
+    font-size: 16.5px;
+    line-height: 1.5;
+  }
+  .priv__note-row {
+    margin-top: 10px;
+  }
+  .priv__bubble.priv__note {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #ececf1;
+    --tail-bg: #ececf1;
+    border: 1px solid var(--hair);
+  }
+  .priv__note-icon {
+    flex: none;
+    margin-top: 2px;
+  }
+
+  /* ───────── S11 FAQ: sent-bubble questions, received-bubble answers ───────── */
+  .faq-wrap {
+    margin-top: 40px;
+    max-width: 760px;
+  }
+  .faq {
+    display: grid;
+    gap: 14px;
+  }
+  .faq__q {
+    margin: 0;
+  }
+  .faq__btn {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0 12px 0 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+  }
+  .faq__btn[aria-expanded="true"] {
+    justify-content: flex-end;
+  }
+  /* Closed: an outlined quick-reply pill, the same grammar as the intake's chips. */
+  .faq__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: min(100%, 600px);
+    min-height: 44px;
+    padding: 8px 16px 8px 18px;
+    border-radius: 26px;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+  .faq__btn:hover .faq__pill {
+    background: #eceefa;
+  }
+  .faq__btn:active .faq__pill {
+    transform: scale(0.98);
+  }
+  /* Open: the filled sent bubble. */
+  .faq__bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    max-width: min(100%, 600px);
+    line-height: 1.3;
+    transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+  /* Darken the fill, not the whole element: a filter would also darken the tail's ground patch and leave a grey notch. */
+  .faq__btn:hover .faq__bubble {
+    background: #0877ea;
+    --tail-bg: #0877ea;
+  }
+  .faq__btn:active .faq__bubble {
+    transform: scale(0.99);
+  }
+  .faq__btn:focus-visible {
+    outline: none;
+  }
+  .faq__btn:focus-visible .faq__bubble,
+  .faq__btn:focus-visible .faq__pill {
+    outline: 3px solid var(--ind);
+    outline-offset: 3px;
+  }
+  .faq__chev {
+    flex: none;
+    display: grid;
+    transition: transform 240ms var(--ease-out);
+  }
+  .faq__btn[aria-expanded="true"] .faq__chev {
+    transform: rotate(180deg);
+  }
+  .faq__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 260ms var(--ease-out), visibility 0s linear 260ms;
+  }
+  .faq__panel[data-open="true"] {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .faq__panel-in {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .faq__panel-in .msg {
+    padding-top: 14px;
+    padding-bottom: 4px;
+  }
+  .faq__a {
+    max-width: min(94%, 640px);
+    padding: 14px 22px 16px;
+  }
+  .faq__a p {
+    max-width: 60ch;
+    font-size: 16.5px;
+    line-height: 1.55;
+  }
+
+  /* ───────── S12 Final call to action, intake, early-access list ───────── */
+  .final__body {
+    margin-top: 18px;
+    max-width: 52ch;
+    font-size: 19px;
+    line-height: 1.5;
+  }
+  .final__email {
+    margin-top: 8px;
+    color: var(--muted);
+  }
+  /* The closing section: the words on the left, question 1 as a launcher card on the right, the early-access link under the words.
+     On phones everything stacks in that order: words, card, link. */
+  .final__layout {
+    display: grid;
+    gap: 28px;
+    grid-template-areas:
+      "text"
+      "card"
+      "link";
+  }
+  .final__text {
+    grid-area: text;
+    min-width: 0;
+  }
+  .final__card {
+    grid-area: card;
+    min-width: 0;
+    container: launch / inline-size;
+  }
+  .final__link {
+    grid-area: link;
+    min-width: 0;
+  }
+  .final__link .wl-toggle {
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .final__link .wl-toggle svg {
+    margin-top: 0.2em;
+  }
+
+  /* Question 1 of the thread, on a white card. Tapping a chip opens the sheet on question 2. */
+  .launch {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+    padding: 24px 16px 16px;
+    border-radius: 22px;
+    background: var(--card);
+    box-shadow: var(--shadow-card);
+  }
+  .launch .bubble {
+    --tail-ground: var(--card);
+  }
+  .launch__pill {
+    justify-self: center;
+    margin: 0 0 4px;
+    font-family: var(--font-mono-face);
+    font-weight: 500;
+  }
+  .launch__title {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .launch__sub {
+    display: block;
+  }
+  .launch__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .launch__chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 8px;
+    text-align: left;
+    line-height: 1.25;
+  }
+  /* The reply bar follows the card's own width, not the screen's: stacked (helper above a full-width pill) in a narrow card,
+     one row once the card is wide enough for the helper to sit beside the pill in two lines at most. */
+  .launch .launch__bar {
+    margin-top: 14px;
+    cursor: default;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 30px;
+  }
+  .launch .launch__bar .reply-bar__helper {
+    flex: 1 1 100%;
+    padding: 2px 8px 0;
+    font-size: 15px;
+    line-height: 1.4;
+    text-wrap: balance;
+  }
+  .launch .launch__bar .send {
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 24px;
+  }
+  /* From 700px the two halves of the helper each stay whole, so it breaks after the dot. */
+  @container launch (min-width: 700px) {
+    .launch .launch__bar .launch__part {
+      white-space: nowrap;
+    }
+  }
+  @container launch (min-width: 620px) {
+    .launch .launch__bar {
+      flex-wrap: nowrap;
+      gap: 14px;
+      padding: 8px 9px 8px 12px;
+      border-radius: 35px;
+    }
+    .launch .launch__bar .reply-bar__helper {
+      flex: 1;
+      padding: 0 0 0 8px;
+      font-size: 17px;
+      text-wrap: balance;
+    }
+    .launch .launch__bar .send {
+      width: auto;
+      justify-content: flex-start;
+      padding-left: 28px;
+    }
+  }
+  .launch__bar .send {
+    cursor: pointer;
+  }
+  .launch__bar .send:hover {
+    box-shadow: 0 8px 18px rgba(36, 56, 168, 0.42);
+  }
+  .launch__reopen {
+    display: flex;
+    margin-top: 6px;
+    padding-left: 12px;
+  }
+  .launch__outline {
+    min-height: 48px;
+    padding-inline: 24px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .chat {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    min-width: 0;
+    max-width: 720px;
+  }
+  .chat__done {
+    display: grid;
+    gap: 10px;
+  }
+  .chat__progress {
+    justify-self: center;
+    margin-top: 8px;
+    font-family: var(--font-mono-face);
+    font-weight: 500;
+  }
+  .chat__success {
+    padding: 16px 22px 18px;
+  }
+  .chat__success-title {
+    margin-bottom: 6px;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .chat__success p + p {
+    margin-top: 8px;
+  }
+  .msg[tabindex="-1"]:focus-visible {
+    outline-offset: 2px;
+  }
+
+  .step {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .step__legend {
+    float: left;
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 0 0 0 12px;
+  }
+  .step__legend + * {
+    clear: both;
+  }
+  .step__legend .bubble {
+    display: inline-block;
+    max-width: min(94%, 640px);
+  }
+  .step > .msg {
+    margin-bottom: 10px;
+  }
+  .step > .msg--sent {
+    margin-top: 14px;
+  }
+  .notes:not(:empty) {
+    margin-top: 12px;
+  }
+
+  /* Options: quick-reply chips that are real radio inputs. */
+  .opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .opt {
+    position: relative;
+    display: inline-flex;
+  }
+  .opt input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .opt .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding-block: 8px;
+    text-align: left;
+    line-height: 1.25;
+    cursor: pointer;
+  }
+  .chip__check {
+    display: none;
+    flex: none;
+  }
+  .opt input:checked + .chip {
+    background: var(--ind);
+    color: var(--on-ind);
+  }
+  .opt input:checked + .chip .chip__check {
+    display: block;
+  }
+  .opt input:focus-visible + .chip {
+    outline: 3px solid var(--ind);
+    outline-offset: 3px;
+  }
+  .opt input[data-invalid="true"] + .chip {
+    border-color: var(--err);
+    border-width: 2.5px;
+  }
+
+  .sheet {
+    display: grid;
+    gap: 18px;
+    margin-top: 4px;
+    padding: 20px 18px 22px;
+    border-radius: 22px;
+    background: var(--card);
+    box-shadow: var(--shadow-card);
+  }
+  .sheet__note,
+  .sheet__small {
+    max-width: 58ch;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .sheet__small {
+    font-size: 13px;
+  }
+  .sub {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .sub legend {
+    padding: 0;
+    margin-bottom: 2px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .sub .opts {
+    margin-top: 8px;
+  }
+
+  .field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .field input,
+  .field select {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1.5px solid var(--rail);
+    border-radius: 14px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-size: 17px;
+  }
+  .field input[aria-invalid="true"],
+  .field select[aria-invalid="true"] {
+    border: 2.5px solid var(--err);
+  }
+  .field-err {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    margin-top: 6px;
+    color: var(--err);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .field-err svg {
+    flex: none;
+    margin-top: 1px;
+  }
+
+  .check__row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    min-height: 44px;
+  }
+  .check__row input {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin: 10px 0 0;
+  }
+  .check__row input[aria-invalid="true"] {
+    outline: 2.5px solid var(--err);
+    outline-offset: 1px;
+  }
+  .check__row label {
+    padding-top: 8px;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .err-sum {
+    padding: 14px 16px 16px;
+    border-radius: 18px;
+    border: 2px solid var(--err);
+    background: var(--card);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .err-sum__title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--err);
+    font-weight: 700;
+  }
+  .err-sum ul {
+    display: grid;
+    gap: 6px;
+    margin-top: 8px;
+    padding-left: 26px;
+  }
+  .err-sum li {
+    list-style: disc;
+  }
+  .err-sum a {
+    color: var(--ind);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
+  }
+  .err-sum__submit {
+    margin-top: 8px;
+  }
+
+  .hp {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* The bottom bar of the thread: Back and the send pill. */
+  .composer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 8px;
+    border-radius: 35px;
+    background: var(--card);
+    border: 1px solid #cfcfd6;
+    box-shadow: var(--shadow-bar);
+  }
+  .composer__back {
+    flex: none;
+    min-height: 54px;
+    padding-inline: 24px;
+    font-size: 16px;
+  }
+  .composer__go {
+    flex: 1 1 220px;
+    justify-content: space-between;
+    min-height: 54px;
+    font-size: 18px;
+    line-height: 1.2;
+    text-align: left;
+    cursor: pointer;
+  }
+  .composer__go[data-busy="true"] {
+    opacity: 0.7;
+    cursor: progress;
+    box-shadow: none;
+  }
+
+  /* The early-access list sits behind a disclosure link. */
+  .wl-wrap {
+    min-width: 0;
+    scroll-margin-top: 72px;
+  }
+  .wl-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ind);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: left;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
+  }
+  .wl-toggle svg {
+    flex: none;
+    transition: transform 240ms var(--ease-out);
+  }
+  .wl-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+  .wl {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+    min-width: 0;
+    margin-top: 12px;
+    padding: 24px 20px 26px;
+    border-radius: 26px;
+    background: var(--card);
+    box-shadow: var(--shadow-card);
+  }
+  .wl form {
+    display: grid;
+    gap: 16px;
+  }
+  .wl__h {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .wl__body {
+    max-width: 44ch;
+    line-height: 1.5;
+    color: var(--body-2);
+  }
+  .wl .bubble {
+    --tail-ground: var(--card);
+  }
+  .composer--wl {
+    margin-top: 4px;
+  }
+
+  /* ───────── Legal pages ───────── */
+  .legal__inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 96px;
+  }
+  .draft-banner {
+    display: grid;
+    gap: 4px;
+    padding: 16px 18px;
+    border: 2px dashed var(--ink);
+    border-radius: 18px;
+    background: var(--card);
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  .draft-banner strong {
+    font-size: 19px;
+  }
+  .legal__h1 {
+    margin-top: 36px;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .legal__updated {
+    margin-top: 12px;
+    font: 500 13px/1.4 var(--font-mono-face);
+    color: var(--muted);
+  }
+  .legal__intro {
+    margin-top: 20px;
+    max-width: 62ch;
+    font-size: 19px;
+    line-height: 1.55;
+  }
+  .legal__sec {
+    margin-top: 40px;
+  }
+  .legal__sec h2 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .legal__sec p,
+  .legal__sec li {
+    max-width: 66ch;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .legal__sec p,
+  .legal__sec ul {
+    margin-top: 12px;
+  }
+  .legal__sec ul {
+    padding-left: 22px;
+  }
+  .legal__sec li {
+    list-style: disc;
+    margin-top: 6px;
+  }
+  .tbc {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 1px 10px;
+    border: 1.5px dashed var(--gap-line);
+    border-radius: 999px;
+    font: 600 13px/1.5 var(--font-mono-face);
+  }
+  .legal__back {
+    margin-top: 48px;
+  }
+
+  /* ───────── Wider screens ───────── */
+  @media (min-width: 640px) {
+    .launch {
+      padding: 28px 28px 22px;
+    }
+    .convo {
+      padding: 20px 22px 22px;
+    }
+    .limits__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sheet {
+      padding: 24px 26px 26px;
+    }
+    .wl {
+      padding: 28px 28px 30px;
+    }
+  }
+  @media (min-width: 1000px) {
+    .final__layout {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "text card"
+        "link card";
+      column-gap: 64px;
+      row-gap: 20px;
+      align-items: start;
+    }
+    .ask__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: 64px;
+      align-items: start;
+    }
+    .limits__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: 64px;
+      align-items: start;
+    }
+    .limits__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}

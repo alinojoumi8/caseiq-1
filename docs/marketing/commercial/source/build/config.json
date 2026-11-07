@@ -1,0 +1,72 @@
+{
+  "_readme": "To swap in another clip: change footage.path, edit footage.speedMap / flightSrc / landingSrc / payoff.pageRect for its beat times, then run: node build/run.mjs (from the commercial folder).",
+  "fps": 24,
+  "outName": "caseiq-10s-v4.mp4",
+  "qaDir": "qa_v4",
+  "footage": {
+    "path": "footage/finalA.mp4",
+    "useNativeAudio": true,
+    "nativeHighpassHz": 90,
+    "nativeCrossfade": 0.05,
+    "_speedMap": "Segments in source seconds, concatenated in order; each is retimed to outDuration (video: nearest-frame remap; audio: compressed segments keep their end-aligned part, 50 ms crossfades, no pitch shift). A segment with srcFrames plays exactly those source frame numbers (0-based, frame n = n/24 s); blend 'tmix3' averages the three source frames n-1,n,n+1 for motion blur, 'none' is a clean skip. Footage shorter than endCard is held on its last frame.",
+    "speedMap": [
+      { "srcStart": 0.0,   "srcEnd": 1.9,   "outDuration": 1.9 },
+      { "srcStart": 1.9,   "srcEnd": 2.8,   "outDuration": 0.3 },
+      { "srcStart": 2.8,   "srcEnd": 3.05,  "outDuration": 0.25 },
+      { "srcStart": 3.05,  "srcEnd": 4.0,   "outDuration": 0.6 },
+      { "srcStart": 4.0,   "srcEnd": 5.0,   "outDuration": 1.0 },
+      { "srcStart": 5.0,   "srcEnd": 5.583, "outDuration": 0.208333, "srcFrames": [120, 122, 127, 131, 133], "blend": "none" },
+      { "srcStart": 5.583, "srcEnd": 5.85,  "outDuration": 0.267 },
+      { "srcStart": 5.85,  "srcEnd": 6.45,  "outDuration": 0.2 },
+      { "srcStart": 6.45,  "srcEnd": 7.1,   "outDuration": 0.45 },
+      { "srcStart": 7.1,   "srcEnd": 8.04,  "outDuration": 0.94 }
+    ],
+    "flightSrc": 4.0,
+    "snapWhoosh": { "_note": "soft paper whoosh on the snap, cut from the native audio itself (tail of the lift whoosh), peak 4 dB under the native bed peak", "srcStart": 3.05, "dur": 0.3, "at": 4.1, "fadeIn": 0.07, "fadeOut": 0.12, "belowNativePeakDb": 4 },
+    "landingSrc": 7.35
+  },
+  "events": {
+    "_note": "Output-timeline seconds. landing is derived from footage.landingSrc; the quote card and scrim start cardAfterLanding later.",
+    "bubble1": -0.15,
+    "bubble2": 3.15,
+    "cardAfterLanding": 0.2,
+    "endCard": 7.1,
+    "wordmark": 7.25,
+    "price": 7.4,
+    "pill": 7.5
+  },
+  "camera": {
+    "_note": "Hook: opens on a 900x1600 window at (180,185) i.e. zoom 1.2 centred (630,985), eases out to the full frame by hook.dur. Push-in: 1.00 -> pushZoom from landing to endCard.",
+    "hook": { "zoom": 1.2, "cx": 630, "cy": 985, "dur": 1.2 },
+    "pushZoom": 1.03
+  },
+  "payoff": {
+    "_note": "Touched page rectangle in 1080x1920 frame pixels (scrim hole and the point the quote card springs out of).",
+    "pageRect": { "x": 376, "y": 1012, "w": 327, "h": 82 },
+    "scrimAlpha": 0.35,
+    "scrimFade": 0.2
+  },
+  "music": {
+    "partAEnd": 2.3,
+    "partAFade": 0.08,
+    "onsetInSource": 10.025,
+    "onsetAt": null,
+    "_onsetAtNote": "null = output time of footage.flightSrc through the speed map",
+    "fadeToSilenceBy": 9.95
+  },
+  "voice": {
+    "_note": "Cut points inside vo2.mp3 (seconds) and where each line is placed in the 10 s timeline.",
+    "lines": [
+      { "from": 0.0, "to": 1.85, "placeAt": 0.2 },
+      { "from": 2.1, "to": 4.3, "placeAt": 3.15 },
+      { "from": 4.5, "to": 5.84, "placeAt": 7.35 }
+    ],
+    "cutFade": 0.02,
+    "duckDb": -7,
+    "duckAttack": 0.04,
+    "duckRelease": 0.25,
+    "musicBelowVoiceLU": 9,
+    "nativeBelowMusicLU": 6
+  },
+  "master": { "I": -14, "TP": -1, "LRA": 11 }
+}

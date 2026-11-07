@@ -1,0 +1,606 @@
+/* World primitives: bubbles, tags, quote cards, chips, reply bar, rail, camera roll, attachment, cite, viewer.
+   Kept in the components layer so Tailwind utilities can still override them. */
+@layer components {
+  /* ───────── Bubble ───────── */
+  .bubble {
+    position: relative;
+    border-radius: var(--r-bubble);
+    background: var(--rx);
+    padding: 12px 18px;
+    --tail-bg: var(--rx);
+    --tail-ground: var(--ground);
+  }
+  .bubble--tail::before,
+  .bubble--tail::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+  }
+  .bubble--tail::before {
+    left: -9px;
+    width: 22px;
+    height: 20px;
+    background: var(--tail-bg);
+    border-bottom-right-radius: 18px 16px;
+  }
+  .bubble--tail::after {
+    left: -11px;
+    width: 11px;
+    height: 20px;
+    background: var(--tail-ground);
+    border-bottom-right-radius: 10px;
+  }
+  .bubble--sent {
+    --tail-bg: var(--tx);
+    background: var(--tx);
+    color: #fff;
+    /* White on this blue is 3.7:1, so sent text is always large and bold. */
+    font-size: 20px;
+    font-weight: 700;
+    padding: 11px 22px;
+  }
+  .bubble--sent.bubble--tail::before {
+    left: auto;
+    right: -9px;
+    border-radius: 0 0 0 18px / 0 0 16px 0;
+  }
+  .bubble--sent.bubble--tail::after {
+    left: auto;
+    right: -11px;
+    border-radius: 0 0 0 10px;
+  }
+  .bubble--yours {
+    background: var(--card);
+    border: 1px solid var(--hair);
+    color: var(--vio);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 19px;
+    padding: 10px 20px;
+  }
+  .bubble--gap {
+    background: transparent;
+    border: 1.5px dashed var(--gap-line);
+    border-radius: 22px;
+    padding: 11px 16px;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  /* ───────── PageTag (mono pill) ───────── */
+  .page-tag {
+    display: inline-block;
+    font: 600 13px/1.3 var(--font-mono-face);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .page-tag--pill {
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--tag-line);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .page-tag--muted {
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ───────── QuoteCard (screenshot card) ───────── */
+  .quote-card {
+    border-radius: var(--r-card);
+    background: var(--card);
+    box-shadow: var(--shadow-card);
+    padding: 12px 14px 14px;
+  }
+  .quote-card__ref {
+    font: 600 13px/1.4 var(--font-mono-face);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  .quote-text {
+    margin: 9px 0 0;
+    padding: 10px 14px;
+    background: var(--slate);
+    border-left: 3px solid var(--rule);
+    font: 400 19px/1.35 var(--font-serif);
+  }
+
+  /* ───────── Quick replies ───────── */
+  .qr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .qr__label {
+    margin-right: 10px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .chip {
+    min-height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+  .chip:hover {
+    background: #eceefa;
+  }
+  .chip:active {
+    transform: scale(0.97);
+  }
+  .chip[aria-checked="true"] {
+    background: var(--ind);
+    color: var(--on-ind);
+  }
+  @media (pointer: coarse) {
+    .chip {
+      min-height: 44px;
+    }
+  }
+
+  /* ───────── Reply bar ───────── */
+  .reply-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 70px;
+    padding: 8px 9px 8px 12px;
+    border-radius: 35px;
+    background: var(--card);
+    border: 1px solid #cfcfd6;
+    box-shadow: var(--shadow-bar);
+    color: inherit;
+    cursor: pointer;
+  }
+  .reply-bar__helper {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    color: var(--muted);
+    font-size: 17px;
+  }
+  .send {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 54px;
+    padding: 0 9px 0 28px;
+    border-radius: 27px;
+    border: 0;
+    background: var(--ind);
+    color: var(--on-ind);
+    font-size: 19px;
+    font-weight: 700;
+    box-shadow: var(--shadow-go);
+    transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+  }
+  .send:hover,
+  .reply-bar:hover .send {
+    box-shadow: 0 8px 18px rgba(36, 56, 168, 0.42);
+  }
+  .reply-bar:active .send,
+  .send:active {
+    transform: scale(0.98);
+  }
+  .send__arrow {
+    color: var(--ind);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+  }
+
+  /* ───────── Date separator (section heading) ───────── */
+  .date-sep {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 0 auto;
+    max-width: 880px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variation-settings: "wdth" 78;
+    font-size: clamp(2rem, 4.2vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .date-sep::before,
+  .date-sep::after {
+    content: "";
+    flex: 1;
+    min-width: 16px;
+    height: 1px;
+    background: var(--hair);
+  }
+
+  /* ───────── Camera roll ───────── */
+  .roll {
+    display: grid;
+    grid: repeat(3, 52px) / repeat(4, 52px);
+    gap: 4px;
+  }
+.roll i {
+    display: block;
+    border-radius: 8px;
+    border: 1px solid var(--hair);
+    /* A photo of an example document (public/roll). If it does not load, the tile is white with its hairline border. */
+    background: #fff center / cover no-repeat;
+  }
+  .roll i:nth-child(1) {
+    grid-area: span 2 / span 2;
+    background-image: url("/roll/tile-1.webp");
+  }
+  .roll i:nth-child(2) {
+    background-image: url("/roll/tile-2.webp");
+  }
+  .roll i:nth-child(3) {
+    background-image: url("/roll/tile-3.webp");
+  }
+  .roll i:nth-child(4) {
+    background-image: url("/roll/tile-4.webp");
+  }
+  .roll i:nth-child(5) {
+    background-image: url("/roll/tile-5.webp");
+  }
+  .roll i:nth-child(6) {
+    grid-column: span 2;
+    background-image: url("/roll/tile-6.webp");
+  }
+  .roll i:nth-child(7) {
+    background-image: url("/roll/tile-7.webp");
+  }
+  .roll i:nth-child(8) {
+    background-image: url("/roll/tile-8.webp");
+  }
+  .roll-cap {
+    margin-top: 6px;
+    font: 500 13px/1.4 var(--font-mono-face);
+    color: var(--muted);
+  }
+
+  /* ───────── Timeline rail ───────── */
+  .node {
+    flex: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 2px solid var(--ground);
+    box-sizing: border-box;
+  }
+  .node--dashed {
+    background: var(--ground);
+    border: 1.5px dashed var(--ink);
+  }
+  .node--gap {
+    background: var(--ground);
+    border: 1.5px dashed var(--ink);
+  }
+  .rail-label {
+    font: 500 13px/1.35 var(--font-mono-face);
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+  .rail-label b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .rail-label span {
+    display: block;
+  }
+
+  .tl {
+    position: relative;
+    display: grid;
+    gap: 0;
+  }
+  .tl-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 76px 28px minmax(0, 1fr);
+    column-gap: 8px;
+    padding-bottom: 20px;
+  }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: calc(76px + 8px + 14px);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--rail);
+  }
+  .tl-item:last-child::before {
+    bottom: 12px;
+  }
+  .tl-date {
+    padding-top: 2px;
+    text-align: right;
+  }
+  .tl-node {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+  }
+  .tl-body {
+    min-width: 0;
+  }
+  @media (max-width: 520px) {
+    .tl-item {
+      grid-template-columns: 56px 28px minmax(0, 1fr);
+    }
+    .tl-item::before {
+      left: calc(56px + 8px + 14px);
+    }
+  }
+
+  /* ───────── Attachment bubble ───────── */
+  .attach {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 100%;
+    padding: 12px 18px 12px 12px;
+    border-radius: var(--r-bubble);
+    background: var(--rx);
+    text-align: left;
+    border: 0;
+  }
+  button.attach,
+  a.attach {
+    cursor: pointer;
+    transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+  }
+  button.attach:hover,
+  a.attach:hover {
+    background: #dadae1;
+  }
+  button.attach:active,
+  a.attach:active {
+    transform: scale(0.99);
+  }
+  .attach__icon {
+    flex: none;
+    width: 44px;
+    height: 52px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid var(--hair);
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+  }
+  /* Indigo is for what can be pressed: only a button or link attachment has an indigo glyph. */
+  button.attach .attach__icon,
+  a.attach .attach__icon {
+    color: var(--ind);
+  }
+  .attach__name {
+    font-weight: 700;
+    font-size: 17px;
+    overflow-wrap: anywhere;
+  }
+  .attach__meta {
+    font: 500 13px/1.4 var(--font-mono-face);
+    color: var(--muted);
+  }
+
+  /* ───────── Cite chip + popover ───────── */
+  .cite {
+    position: relative;
+    display: inline-block;
+    vertical-align: baseline;
+  }
+  .cite__btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 26px;
+    padding: 0 10px 0 8px;
+    margin-inline-start: 6px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+    font: 700 13px/1 var(--font-body);
+    letter-spacing: 0.01em;
+    transition: background-color 160ms var(--ease-out);
+  }
+  .cite__btn::after {
+    content: "";
+    position: absolute;
+    inset: -9px -4px;
+  }
+  .cite__btn:hover,
+  .cite__btn[aria-expanded="true"] {
+    background: #eceefa;
+  }
+  .cite__pop {
+    position: fixed;
+    z-index: 70;
+    width: min(380px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    overflow: auto;
+    padding: 16px 18px 18px;
+    border-radius: var(--r-card);
+    background: var(--card);
+    box-shadow: var(--shadow-lift);
+    border: 1px solid var(--hair);
+    font-size: 15px;
+    line-height: 1.45;
+    text-align: left;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .cite__pop[data-sheet="true"] {
+    left: 8px !important;
+    right: 8px;
+    bottom: 8px;
+    top: auto !important;
+    width: auto;
+  }
+  .cite__title {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .cite__meta {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .cite__row {
+    margin-top: 12px;
+  }
+  .cite__k {
+    display: block;
+    font: 500 13px/1.3 var(--font-mono-face);
+    text-transform: none;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .cite__loc {
+    font: 600 13px/1.4 var(--font-mono-face);
+  }
+  .cite__go {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    min-height: 32px;
+    font-weight: 700;
+    color: var(--ind);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
+  }
+
+  /* ───────── Source viewer (dialog) ───────── */
+  .viewer {
+    width: min(560px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 22px;
+    background: var(--ground);
+    color: var(--ink);
+    box-shadow: var(--shadow-lift);
+    overflow: auto;
+  }
+  .viewer::backdrop {
+    background: rgba(17, 17, 17, 0.5);
+  }
+  .viewer__head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 14px 12px 22px;
+    background: var(--ground);
+    border-bottom: 1px solid var(--hair-2);
+  }
+  .viewer__title {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ind);
+    background: var(--card);
+    color: var(--ind);
+  }
+  .icon-btn:hover {
+    background: #eceefa;
+  }
+  .viewer__body {
+    padding: 20px 22px 24px;
+    display: grid;
+    gap: 14px;
+  }
+  .viewer__note {
+    display: flex;
+    justify-content: center;
+  }
+  .doc {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: var(--shadow-card);
+    padding: 28px 28px 22px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .doc__source {
+    font: 600 13px/1.4 var(--font-mono-face);
+    color: var(--muted);
+  }
+  .doc__bars {
+    display: grid;
+    gap: 9px;
+  }
+  .doc__bars i {
+    display: block;
+    height: 7px;
+    border-radius: 4px;
+    background: #dcdce1;
+  }
+  .doc__quote {
+    font: 400 21px/1.4 var(--font-serif);
+    color: var(--ink);
+  }
+  .doc__quote mark {
+    background: var(--slate);
+    color: inherit;
+    padding: 1px 5px;
+    border: 2.5px solid var(--ink);
+    border-radius: 5px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .doc__rows {
+    display: grid;
+    gap: 8px;
+  }
+  .doc__row {
+    display: grid;
+    grid-template-columns: 1fr 70px;
+    gap: 12px;
+  }
+  .doc__row i {
+    display: block;
+    height: 7px;
+    border-radius: 4px;
+    background: #dcdce1;
+  }
+  .doc__foot {
+    margin-top: auto;
+    padding-top: 10px;
+    text-align: center;
+    font: 600 13px/1.4 var(--font-mono-face);
+    color: var(--muted);
+  }
+}
